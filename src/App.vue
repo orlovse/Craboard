@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import { storeToRefs } from "pinia";
-import { useUserStore } from "./stores/user";
+import { useUserStore } from "@/stores/user";
 
 const userStore = useUserStore();
 const { isDarkTheme } = storeToRefs(userStore);
