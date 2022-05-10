@@ -10,13 +10,11 @@ getBoards();
 
 <template>
   <div class="board">
-    <div>
-      <div class="column" v-for="column of selectedBoard" :key="column.name">
-        <div>{{ column.name }}</div>
-        <div>
-          <div v-for="task of column.tasks" :key="task.id">
-            {{ task.name }}
-          </div>
+    <div class="column" v-for="column of selectedBoard" :key="column.name">
+      <div>{{ column.name }}</div>
+      <div>
+        <div v-for="task of column.tasks" :key="task.id" class="card">
+          {{ task.name }}
         </div>
       </div>
     </div>
@@ -24,11 +22,20 @@ getBoards();
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .board {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
+.board {
+  display: flex;
+  gap: 20px;
+}
+
+.column {
+  height: 100%;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.card {
+  border: 1px solid red;
+  padding: 20px;
+  margin: 10px;
 }
 </style>
