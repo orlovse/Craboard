@@ -7,19 +7,19 @@ const boardList = [
       {
         description: "",
         name: "first task",
-        id: 1,
+        id: "1",
         userAssigned: null,
       },
       {
         description: "",
         name: "second task",
-        id: 2,
+        id: "2",
         userAssigned: null,
       },
       {
         description: "",
         name: "and thrid",
-        id: 3,
+        id: "3",
         userAssigned: null,
       },
     ],
@@ -30,7 +30,7 @@ const boardList = [
       {
         description: "",
         name: "first task",
-        id: 4,
+        id: "4",
         userAssigned: null,
       },
     ],
@@ -41,17 +41,17 @@ const boardList = [
       {
         description: "",
         name: "first task",
-        id: 5,
+        id: "5",
         userAssigned: null,
       },
     ],
   },
 ];
 
-type Task = {
+export type Task = {
   description: string;
   name: string;
-  id: number;
+  id: string;
   userAssigned: null;
 };
 
@@ -64,6 +64,7 @@ export type BoardsState = {
   loading: false;
   boards:
     | {
+        boardId: string;
         boardName: string;
         boardContent: Board[];
       }[]
@@ -95,6 +96,7 @@ export const useBoardsStore = defineStore({
     getBoards() {
       this.boards = [
         {
+          boardId: "12345",
           boardName: "first",
           boardContent: boardList,
         },

@@ -1,10 +1,19 @@
 <script setup lang="ts">
 import { useBoardsStore } from "@/stores/boards";
+import { computed } from "@vue/reactivity";
+
+import { useRoute } from "vue-router";
 
 const boardStore = useBoardsStore();
+const route = useRoute();
 
 const { getBoardByName, getBoards } = boardStore;
 const selectedBoard = getBoardByName("first");
+
+const isTaskOpen = computed(() => {
+  return route.name === "task";
+});
+
 getBoards();
 </script>
 
@@ -18,10 +27,13 @@ getBoards();
         </div>
       </div>
     </div>
+    <div class="task-bg" v-if="isTaskOpen">
+      <router-view />
+    </div>
   </div>
 </template>
 
-<style>
+<style scoped>
 .board {
   display: flex;
   gap: 20px;
