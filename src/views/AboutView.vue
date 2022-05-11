@@ -8,8 +8,13 @@ const boardStore = useBoardsStore();
 const route = useRoute();
 const router = useRouter();
 
-const { getBoardByName, getBoards } = boardStore;
+const { createTask, getBoardByName, getBoards } = boardStore;
 const selectedBoard = getBoardByName("first");
+
+const addNewTask = (tasks: any, e: any) => {
+  createTask(tasks, e?.target?.value);
+  e.target.value = "";
+};
 
 const isTaskOpen = computed(() => {
   return route.name === "task";
@@ -37,8 +42,13 @@ getBoards();
           class="card"
           @click="openTaskModal(task.id)"
         >
-          {{ task.name }}
+          <input type="text" :value="task.name" />
         </div>
+        <input
+          type="text"
+          placeholder="+ add new task"
+          @keyup.enter="addNewTask(column.tasks, $event)"
+        />
       </div>
     </div>
     <div class="task-bg" v-if="isTaskOpen" @click.self="closeTaskModal">
@@ -63,5 +73,14 @@ getBoards();
   border: 1px solid red;
   padding: 20px;
   margin: 10px;
+}
+
+.task-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
 }
 </style>

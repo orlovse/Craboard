@@ -27,6 +27,7 @@ board?.some((column) => {
 <template>
   <div class="task-view">
     {{ selectedTask?.name }}
+    <textarea class="task-description" :value="selectedTask?.description" />
   </div>
 </template>
 
@@ -34,5 +35,9 @@ board?.some((column) => {
 .task-view {
   max-width: 700px;
   border: 1px solid blue;
+}
+
+.task-description {
+  background: transparent;
 }
 </style>

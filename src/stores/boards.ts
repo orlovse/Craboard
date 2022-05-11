@@ -5,7 +5,7 @@ const boardList = [
     name: "todo",
     tasks: [
       {
-        description: "",
+        description: "test description",
         name: "first task",
         id: "1",
         userAssigned: null,
@@ -107,6 +107,18 @@ export const useBoardsStore = defineStore({
       //     boardContent: boardList,
       //   },
       // ];
+    },
+    createTask(tasks: Task[], taskName: string) {
+      const id = Math.random().toString(16).slice(2);
+      tasks.push({
+        id,
+        name: taskName,
+        description: "",
+        userAssigned: null,
+      });
+    },
+    updateTask(tasks: Task[], task: Task) {
+      // task[key] = value;
     },
   },
 });
