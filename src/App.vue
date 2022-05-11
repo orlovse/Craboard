@@ -16,7 +16,7 @@ const { switchTheme } = userStore;
     <header>
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/board">Board</RouterLink>
       </nav>
       <button @click="switchTheme">Theme</button>
     </header>

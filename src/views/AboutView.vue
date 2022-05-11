@@ -2,10 +2,11 @@
 import { useBoardsStore } from "@/stores/boards";
 import { computed } from "@vue/reactivity";
 
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const boardStore = useBoardsStore();
 const route = useRoute();
+const router = useRouter();
 
 const { getBoardByName, getBoards } = boardStore;
 const selectedBoard = getBoardByName("first");
@@ -13,6 +14,14 @@ const selectedBoard = getBoardByName("first");
 const isTaskOpen = computed(() => {
   return route.name === "task";
 });
+
+const openTaskModal = (taskId: string) => {
+  router.push({ name: "task", params: { id: taskId } });
+};
+
+const closeTaskModal = () => {
+  router.push({ name: "board" });
+};
 
 getBoards();
 </script>
@@ -22,12 +31,17 @@ getBoards();
     <div class="column" v-for="column of selectedBoard" :key="column.name">
       <div>{{ column.name }}</div>
       <div>
-        <div v-for="task of column.tasks" :key="task.id" class="card">
+        <div
+          v-for="task of column.tasks"
+          :key="task.id"
+          class="card"
+          @click="openTaskModal(task.id)"
+        >
           {{ task.name }}
         </div>
       </div>
     </div>
-    <div class="task-bg" v-if="isTaskOpen">
+    <div class="task-bg" v-if="isTaskOpen" @click.self="closeTaskModal">
       <router-view />
     </div>
   </div>

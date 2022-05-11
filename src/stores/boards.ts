@@ -75,7 +75,13 @@ export const useBoardsStore = defineStore({
   id: "boards",
   state: () =>
     ({
-      boards: null,
+      boards: [
+        {
+          boardId: "12345",
+          boardName: "first",
+          boardContent: boardList,
+        },
+      ],
     } as BoardsState),
   getters: {
     getBoardByName: (state) => {
@@ -94,13 +100,13 @@ export const useBoardsStore = defineStore({
   },
   actions: {
     getBoards() {
-      this.boards = [
-        {
-          boardId: "12345",
-          boardName: "first",
-          boardContent: boardList,
-        },
-      ];
+      // this.boards = [
+      //   {
+      //     boardId: "12345",
+      //     boardName: "first",
+      //     boardContent: boardList,
+      //   },
+      // ];
     },
   },
 });
