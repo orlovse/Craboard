@@ -55,7 +55,7 @@ export type Task = {
   userAssigned: null;
 };
 
-type Board = {
+type Column = {
   name: string;
   tasks: Task[];
 };
@@ -66,7 +66,7 @@ export type BoardsState = {
     | {
         boardId: string;
         boardName: string;
-        boardContent: Board[];
+        boardContent: Column[];
       }[]
     | null;
 };
@@ -119,6 +119,22 @@ export const useBoardsStore = defineStore({
     },
     updateTask(tasks: Task[], task: Task) {
       // task[key] = value;
+    },
+    moveTask(
+      fromTasks: Task[],
+      toTasks: Task[],
+      fromTaskIndex: number,
+      toTaskIndex: number
+    ) {
+      const taskToMove = fromTasks.splice(fromTaskIndex, 1)[0];
+      toTasks.splice(toTaskIndex, 0, taskToMove);
+    },
+    moveColumn(fromColumnIndex: number, toColumnIndex: number) {
+      const columnList = this.getBoardByName("first");
+      const columnToMove = columnList?.splice(fromColumnIndex, 1)[0];
+      if (columnToMove) {
+        columnList?.splice(toColumnIndex, 0, columnToMove);
+      }
     },
   },
 });

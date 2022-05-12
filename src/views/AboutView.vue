@@ -8,7 +8,13 @@ const boardStore = useBoardsStore();
 const route = useRoute();
 const router = useRouter();
 
-const { createTask, getBoardByName, getBoards } = boardStore;
+const {
+  createTask,
+  getBoardByName,
+  getBoards,
+  moveTask: moveTaskAction,
+  moveColumn: moveColumnAction,
+} = boardStore;
 const selectedBoard = getBoardByName("first");
 
 const addNewTask = (tasks: any, e: any) => {
@@ -28,19 +34,85 @@ const closeTaskModal = () => {
   router.push({ name: "board" });
 };
 
+const pickupTask = (e: any, taskIndex: number, fromColumnIndex: number) => {
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.dropEffect = "move";
+  console.log("e", e);
+
+  e.dataTransfer.setData("from-task-index", taskIndex);
+  e.dataTransfer.setData("from-column-index", fromColumnIndex);
+  e.dataTransfer.setData("type", "task");
+};
+
+const pickupColumn = (e: any, fromColumnIndex: number) => {
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.dropEffect = "move";
+
+  e.dataTransfer.setData("from-column-index", fromColumnIndex);
+  e.dataTransfer.setData("type", "column");
+};
+
+const moveTask = (e: any, toTasks: any[], toTaskIndex: number) => {
+  const fromColumnIndex: number = e.dataTransfer.getData("from-column-index");
+  const fromTaskIndex: number = e.dataTransfer.getData("from-task-index");
+
+  const fromTasks =
+    (selectedBoard && selectedBoard[fromColumnIndex]?.tasks) || [];
+  moveTaskAction(fromTasks, toTasks, fromTaskIndex, toTaskIndex);
+};
+
+const moveColumn = (e: any, toColumnIndex: number) => {
+  const fromColumnIndex = e.dataTransfer.getData("from-column-index");
+  moveColumnAction(fromColumnIndex, toColumnIndex);
+};
+
+const moveTaskOrColumn = (
+  e: any,
+  toTasks: any[],
+  toColumnIndex: number,
+  toTaskIndex?: number
+) => {
+  const draggingElementType = e.dataTransfer.getData("type");
+  if (draggingElementType === "task") {
+    moveTask(
+      e,
+      toTasks,
+      toTaskIndex !== undefined ? toTaskIndex : toTasks.length
+    );
+  } else {
+    moveColumn(e, toColumnIndex);
+  }
+};
+
 getBoards();
 </script>
 
 <template>
   <div class="board">
-    <div class="column" v-for="column of selectedBoard" :key="column.name">
+    <div
+      class="column"
+      v-for="(column, columnIndex) of selectedBoard"
+      :key="column.name"
+      draggable="true"
+      @drop="moveTaskOrColumn($event, column.tasks, columnIndex)"
+      @dragover.prevent
+      @dragend.prevent
+      @dragstart.self="pickupColumn($event, columnIndex)"
+    >
       <div>{{ column.name }}</div>
       <div>
         <div
-          v-for="task of column.tasks"
+          v-for="(task, taskIndex) of column.tasks"
           :key="task.id"
           class="card"
           @click="openTaskModal(task.id)"
+          draggable="true"
+          @dragstart="pickupTask($event, taskIndex, columnIndex)"
+          @dragover.prevent
+          @dragend.prevent
+          @drop.stop="
+            moveTaskOrColumn($event, column.tasks, columnIndex, taskIndex)
+          "
         >
           <input type="text" :value="task.name" />
         </div>
