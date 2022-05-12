@@ -109,12 +109,20 @@ export const useBoardsStore = defineStore({
       // ];
     },
     createTask(tasks: Task[], taskName: string) {
+      //server should return id
       const id = Math.random().toString(16).slice(2);
       tasks.push({
         id,
         name: taskName,
         description: "",
         userAssigned: null,
+      });
+    },
+    createColumn(name: string) {
+      //server should return id and after that need to store new column
+      this.getBoardByName("first")?.push({
+        name,
+        tasks: [],
       });
     },
     updateTask(tasks: Task[], task: Task) {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useBoardsStore } from "@/stores/boards";
-import { computed } from "@vue/reactivity";
+import { computed, ref } from "@vue/reactivity";
 
 import { useRoute, useRouter } from "vue-router";
 
@@ -8,8 +8,11 @@ const boardStore = useBoardsStore();
 const route = useRoute();
 const router = useRouter();
 
+const newColumnName = ref("");
+
 const {
   createTask,
+  createColumn,
   getBoardByName,
   getBoards,
   moveTask: moveTaskAction,
@@ -20,6 +23,10 @@ const selectedBoard = getBoardByName("first");
 const addNewTask = (tasks: any, e: any) => {
   createTask(tasks, e?.target?.value);
   e.target.value = "";
+};
+
+const addNewColumn = () => {
+  createColumn(newColumnName.value);
 };
 
 const isTaskOpen = computed(() => {
@@ -122,6 +129,9 @@ getBoards();
           @keyup.enter="addNewTask(column.tasks, $event)"
         />
       </div>
+    </div>
+    <div class="column">
+      <input type="text" v-model="newColumnName" @keyup.enter="addNewColumn" />
     </div>
     <div class="task-bg" v-if="isTaskOpen" @click.self="closeTaskModal">
       <router-view />
