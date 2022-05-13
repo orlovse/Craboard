@@ -11,6 +11,8 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
+const emit = defineEmits(["dragEnter"]);
+
 const onDrag = (event: DragEvent) => {
   const dataTransfer = event.dataTransfer;
 
@@ -21,6 +23,10 @@ const onDrag = (event: DragEvent) => {
     dataTransfer.setData("payload", JSON.stringify(props.transferData));
   }
 };
+
+const onDragEnter = () => {
+  emit("dragEnter");
+};
 </script>
 
 <template>
@@ -28,7 +34,7 @@ const onDrag = (event: DragEvent) => {
     draggable="true"
     @dragstart.self="onDrag"
     @dragover.prevent
-    @dragenter.prevent
+    @dragenter="onDragEnter"
   >
     <slot></slot>
   </div>

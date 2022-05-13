@@ -60,5 +60,6 @@ const { moveTaskOrColumn } = useMoveTaskOrColumn({
   height: 100%;
   border: 1px solid black;
   padding: 10px;
+  transition: 1s;
 }
 </style>
