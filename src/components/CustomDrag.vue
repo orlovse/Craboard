@@ -17,7 +17,6 @@ const onDrag = (event: DragEvent) => {
   if (dataTransfer) {
     dataTransfer.effectAllowed = "move";
     dataTransfer.dropEffect = "move";
-    console.log("props", props.transferData);
 
     dataTransfer.setData("payload", JSON.stringify(props.transferData));
   }

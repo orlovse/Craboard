@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { useBoardsStore, type Column } from "@/stores/boards";
+import { useBoardsStore, type ColumnType } from "@/stores/boards";
 
 import ColumnTask from "./ColumnTask.vue";
 import CustomDrop from "./CustomDrop.vue";
-import CustomDrag, { type TransferDataType } from "./CustomDrag.vue";
+import CustomDrag from "./CustomDrag.vue";
+import { useMoveTaskOrColumn } from "@/composables/useMoveTaskOrColumn";
 
 interface IProps {
-  column: Column;
+  column: ColumnType;
   columnIndex: number;
 }
 
 const boardStore = useBoardsStore();
 
-const { createTask, moveColumn: moveColumnAction } = boardStore;
+const { createTask } = boardStore;
 
 const addNewTask = (e: any, tasks: any) => {
   createTask(tasks, e?.target?.value);
@@ -21,15 +22,14 @@ const addNewTask = (e: any, tasks: any) => {
 
 const props = defineProps<IProps>();
 
-const moveColumn = (transferData: TransferDataType) => {
-  const { fromColumnIndex } = transferData;
-
-  moveColumnAction(fromColumnIndex, props.columnIndex);
-};
+const { moveTaskOrColumn } = useMoveTaskOrColumn({
+  columnIndex: props.columnIndex,
+  column: props.column,
+});
 </script>
 
 <template>
-  <CustomDrop @drop="moveColumn">
+  <CustomDrop @drop="moveTaskOrColumn">
     <CustomDrag
       class="column"
       :transferData="{ type: 'column', fromColumnIndex: columnIndex }"

@@ -1,50 +1,35 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 
-import type { Column, Task } from "@/stores/boards";
-import { useBoardsStore } from "@/stores/boards";
+import type { ColumnType, TaskType } from "@/stores/boards";
 
-import CustomDrag, { type TransferDataType } from "./CustomDrag.vue";
+import CustomDrag from "./CustomDrag.vue";
 import CustomDrop from "./CustomDrop.vue";
+import { useMoveTaskOrColumn } from "@/composables/useMoveTaskOrColumn";
 
 interface IProps {
-  task: Task;
+  task: TaskType;
   taskIndex: number;
   columnIndex: number;
-  column: Column;
+  column: ColumnType;
 }
 
 const props = defineProps<IProps>();
 
 const router = useRouter();
 
-const boardStore = useBoardsStore();
-
-const { moveTask: moveTaskAction, getBoardByName } = boardStore;
-
-const selectedBoard = getBoardByName("first");
-
 const openTaskModal = (taskId: string) => {
-  router.push({ name: "task", params: { id: taskId } });
+  router.push({ name: "task", params: { taskId } });
 };
 
-const moveTask = (transferData: TransferDataType) => {
-  const { fromColumnIndex, fromTaskIndex } = transferData;
-
-  const fromTasks =
-    (selectedBoard && selectedBoard[fromColumnIndex]?.tasks) || [];
-
-  moveTaskAction(
-    fromTasks,
-    props.column?.tasks,
-    fromTaskIndex || 0,
-    props.taskIndex
-  );
-};
+const { moveTaskOrColumn } = useMoveTaskOrColumn({
+  column: props.column,
+  taskIndex: props.taskIndex || 0,
+});
 </script>
 
 <template>
-  <CustomDrop @drop="moveTask">
+  <CustomDrop @drop="moveTaskOrColumn">
     <CustomDrag
       class="taskCard"
       :transferData="{

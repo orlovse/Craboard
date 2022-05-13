@@ -1,3 +1,4 @@
+import router from "@/router";
 import { defineStore } from "pinia";
 
 const boardList = [
@@ -48,67 +49,76 @@ const boardList = [
   },
 ];
 
-export type Task = {
+export type TaskType = {
   description: string;
   name: string;
   id: string;
   userAssigned: null;
 };
 
-export type Column = {
+export type ColumnType = {
   name: string;
-  tasks: Task[];
+  tasks: TaskType[];
 };
 
-export type BoardsState = {
-  loading: false;
-  boards:
-    | {
-        boardId: string;
-        boardName: string;
-        boardContent: Column[];
-      }[]
-    | null;
+export type BoardType = {
+  boardName: string;
+  boardContent: ColumnType[];
+};
+
+export type BoardsHashType = {
+  [boardId: string]: BoardType;
+};
+
+export type BoardsStateType = {
+  loading: boolean;
+  boards: BoardsHashType | null;
 };
 
 export const useBoardsStore = defineStore({
   id: "boards",
   state: () =>
     ({
-      boards: [
-        {
-          boardId: "12345",
-          boardName: "first",
-          boardContent: boardList,
-        },
-      ],
-    } as BoardsState),
+      boards: null,
+      loading: false,
+    } as BoardsStateType),
   getters: {
-    getBoardByName: (state) => {
-      return (boardName: string) => {
+    getBoardById: (state) => {
+      return (boardId: string) => {
         const { boards } = state;
 
         if (boards) {
-          const selectedBoard = boards.find((board) => {
-            return board.boardName === boardName;
-          });
-
-          return selectedBoard?.boardContent;
+          return boards[boardId]?.boardContent;
         }
       };
     },
   },
   actions: {
-    getBoards() {
-      // this.boards = [
-      //   {
-      //     boardId: "12345",
-      //     boardName: "first",
-      //     boardContent: boardList,
-      //   },
-      // ];
+    getBoardsList() {
+      return [
+        { boadrId: "1111", boardName: "First Board" },
+        { boadrId: "2222", boardName: "Second Board" },
+        { boadrId: "3333", boardName: "Third Board" },
+      ];
     },
-    createTask(tasks: Task[], taskName: string) {
+    getBoard() {
+      this.loading = true;
+
+      const boardId = router.currentRoute.value.params.boardId as string;
+
+      setTimeout(() => {
+        this.boards = {
+          ...this.boards,
+          [boardId]: {
+            boardName: "First Board",
+            boardContent: boardList,
+          },
+        };
+
+        this.loading = false;
+      }, 1000);
+    },
+    createTask(tasks: TaskType[], taskName: string) {
       //server should return id
       const id = Math.random().toString(16).slice(2);
       tasks.push({
@@ -120,26 +130,32 @@ export const useBoardsStore = defineStore({
     },
     createColumn(name: string) {
       //server should return id and after that need to store new column
-      this.getBoardByName("first")?.push({
+      const boardId = router.currentRoute.value.params.boardId as string;
+
+      this.getBoardById(boardId)?.push({
         name,
         tasks: [],
       });
     },
-    updateTask(tasks: Task[], task: Task) {
+    updateTask(tasks: TaskType[], task: TaskType) {
       // task[key] = value;
     },
     moveTask(
-      fromTasks: Task[],
-      toTasks: Task[],
+      fromTasks: TaskType[],
+      toColumn: ColumnType,
       fromTaskIndex: number,
       toTaskIndex: number
     ) {
       const taskToMove = fromTasks.splice(fromTaskIndex, 1)[0];
-      toTasks.splice(toTaskIndex, 0, taskToMove);
+
+      toColumn.tasks.splice(toTaskIndex, 0, taskToMove);
     },
     moveColumn(fromColumnIndex: number, toColumnIndex: number) {
-      const columnList = this.getBoardByName("first");
+      const boardId = router.currentRoute.value.params.boardId as string;
+
+      const columnList = this.getBoardById(boardId);
       const columnToMove = columnList?.splice(fromColumnIndex, 1)[0];
+
       if (columnToMove) {
         columnList?.splice(toColumnIndex, 0, columnToMove);
       }

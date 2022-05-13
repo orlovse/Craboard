@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useBoardsStore } from "@/stores/boards";
 import { computed, ref } from "@vue/reactivity";
-
 import { useRoute, useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
 
+import { useBoardsStore } from "@/stores/boards";
 import BoardColumn from "@/components/BoardColumn.vue";
 
 const boardStore = useBoardsStore();
@@ -12,8 +12,19 @@ const router = useRouter();
 
 const newColumnName = ref("");
 
-const { createColumn, getBoardByName, getBoards } = boardStore;
-const selectedBoard = getBoardByName("first");
+const { createColumn, getBoardById, getBoard } = boardStore;
+
+getBoard();
+
+const { loading } = storeToRefs(boardStore);
+
+const boardId = computed(() => {
+  return route.params.boardId as string;
+});
+
+const selectedBoard = computed(() => {
+  return getBoardById(boardId.value);
+});
 
 const addNewColumn = () => {
   createColumn(newColumnName.value);
@@ -26,12 +37,11 @@ const isTaskOpen = computed(() => {
 const closeTaskModal = () => {
   router.push({ name: "board" });
 };
-
-getBoards();
 </script>
 
 <template>
-  <div class="board">
+  <div class="board" v-if="selectedBoard">
+    <div v-if="loading">Loading</div>
     <BoardColumn
       v-for="(column, columnIndex) of selectedBoard"
       :key="column.name"

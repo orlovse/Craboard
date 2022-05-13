@@ -1,19 +1,23 @@
 <script setup lang="ts">
-import { useBoardsStore, type Task } from "@/stores/boards";
+import { useBoardsStore, type TaskType } from "@/stores/boards";
 import { computed } from "@vue/reactivity";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
 const boardStore = useBoardsStore();
-const { getBoardByName } = boardStore;
+const { getBoardById } = boardStore;
 
-const board = getBoardByName("first");
-
-const taskId = computed(() => {
-  return route.params.id;
+const boardId = computed(() => {
+  return route.params.boardId as string;
 });
 
-let selectedTask: Task | null = null;
+const taskId = computed(() => {
+  return route.params.taskId;
+});
+
+const board = getBoardById(boardId.value);
+
+let selectedTask: TaskType | null = null;
 
 board?.some((column) => {
   column.tasks.some((task) => {

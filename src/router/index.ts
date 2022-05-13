@@ -20,12 +20,12 @@ const router = createRouter({
       component: () => import("../views/AboutView.vue"),
     },
     {
-      path: "/board",
+      path: "/board/:boardId",
       name: "board",
       component: AboutView,
       children: [
         {
-          path: "task/:id",
+          path: "task/:taskId",
           name: "task",
           component: TaskView,
         },
