@@ -60,7 +60,10 @@ const closeTaskModal = () => {
 <style scoped>
 .board {
   display: flex;
+  justify-content: center;
   gap: 20px;
+  width: 100vw;
+  overflow-x: auto;
 }
 
 .task-bg {
@@ -70,5 +73,8 @@ const closeTaskModal = () => {
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

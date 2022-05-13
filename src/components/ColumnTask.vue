@@ -56,6 +56,8 @@ const dragEnd = () => {
     @dragLeave="dragLeave"
   >
     <CustomDrag
+      class="taskCard"
+      :class="{ dragOver: isDragOver, drag: isDrag }"
       :transferData="{
         type: 'task',
         fromColumnIndex: columnIndex,
@@ -65,19 +67,22 @@ const dragEnd = () => {
       @dragstart="dragStart"
       @dragend="dragEnd"
     >
-      <div class="taskCard" :class="{ dragOver: isDragOver, drag: isDrag }">
-        <span> {{ task.name }}</span>
-        <p v-if="task.description">{{ task.description }}</p>
-      </div>
+      <span> {{ task.name }}</span>
+      <p v-if="task.description">{{ task.description }}</p>
     </CustomDrag>
   </CustomDrop>
 </template>
 
 <style scoped>
 .taskCard {
-  border: 1px solid red;
+  border-radius: 10px;
+  background: rgb(90, 90, 90);
+  box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.32);
+  -webkit-box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.32);
+  -moz-box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.32);
   padding: 20px;
   margin: 10px;
+  margin-bottom: 20px;
   transition: 0.3s;
 }
 

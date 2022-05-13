@@ -31,11 +31,11 @@ const { moveTaskOrColumn } = useMoveTaskOrColumn({
 <template>
   <CustomDrop @drop="moveTaskOrColumn">
     <CustomDrag
-      class="column"
+      class="boardColumnCard"
       :transferData="{ type: 'column', fromColumnIndex: columnIndex }"
     >
       <div>{{ column.name }}</div>
-      <div>
+      <TransitionGroup name="list" tag="div">
         <ColumnTask
           v-for="(task, taskIndex) of column.tasks"
           :key="task.id"
@@ -50,16 +50,37 @@ const { moveTaskOrColumn } = useMoveTaskOrColumn({
           placeholder="+ add new tasl"
           @keyup.enter="addNewTask($event, column.tasks)"
         />
-      </div>
+      </TransitionGroup>
     </CustomDrag>
   </CustomDrop>
 </template>
 
 <style scoped>
-.column {
-  height: 100%;
-  border: 1px solid black;
+.boardColumnCard {
+  background: rgba(255, 255, 255, 0.21);
+  border-radius: 10px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6.6px);
+  -webkit-backdrop-filter: blur(6.6px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   padding: 10px;
+  height: 100%;
   transition: 1s;
+}
+
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.list-leave-active {
+  position: absolute;
 }
 </style>
