@@ -1,6 +1,12 @@
 <script setup lang="ts">
+export type TransferDataType = {
+  type: string;
+  fromColumnIndex: number;
+  fromTaskIndex?: number;
+};
+
 interface IProps {
-  transferData: string;
+  transferData: TransferDataType;
 }
 
 const props = defineProps<IProps>();
@@ -11,6 +17,7 @@ const onDrag = (event: DragEvent) => {
   if (dataTransfer) {
     dataTransfer.effectAllowed = "move";
     dataTransfer.dropEffect = "move";
+    console.log("props", props.transferData);
 
     dataTransfer.setData("payload", JSON.stringify(props.transferData));
   }

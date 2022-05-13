@@ -55,7 +55,7 @@ export type Task = {
   userAssigned: null;
 };
 
-type Column = {
+export type Column = {
   name: string;
   tasks: Task[];
 };
