@@ -56,6 +56,8 @@ export type TaskType = {
   userAssigned: null;
 };
 
+export type TaskKeyType = keyof TaskType;
+
 export type ColumnType = {
   name: string;
   tasks: TaskType[];
@@ -94,14 +96,14 @@ export const useBoardsStore = defineStore({
     },
   },
   actions: {
-    getBoardsList() {
+    getBoardsListAction() {
       return [
         { boadrId: "1111", boardName: "First Board" },
         { boadrId: "2222", boardName: "Second Board" },
         { boadrId: "3333", boardName: "Third Board" },
       ];
     },
-    getBoard() {
+    getBoardAction() {
       this.loading = true;
 
       const boardId = router.currentRoute.value.params.boardId as string;
@@ -118,7 +120,7 @@ export const useBoardsStore = defineStore({
         this.loading = false;
       }, 1000);
     },
-    createTask(tasks: TaskType[], taskName: string) {
+    createTaskAction(tasks: TaskType[], taskName: string) {
       //server should return id
       const id = Math.random().toString(16).slice(2);
       tasks.push({
@@ -128,7 +130,7 @@ export const useBoardsStore = defineStore({
         userAssigned: null,
       });
     },
-    createColumn(name: string) {
+    createColumnAction(name: string) {
       //server should return id and after that need to store new column
       const boardId = router.currentRoute.value.params.boardId as string;
 
@@ -137,10 +139,15 @@ export const useBoardsStore = defineStore({
         tasks: [],
       });
     },
-    updateTask(tasks: TaskType[], task: TaskType) {
-      // task[key] = value;
+    updateTaskAction(task: TaskType, key: TaskKeyType, value: string) {
+      task[key] = value;
     },
-    moveTask(
+    removeTaskAction(taskId: string, taskColumn: ColumnType | null) {
+      taskColumn?.tasks.filter((task) => {
+        return task.id !== taskId;
+      });
+    },
+    moveTaskAction(
       fromTasks: TaskType[],
       toColumn: ColumnType,
       fromTaskIndex: number,
@@ -150,7 +157,7 @@ export const useBoardsStore = defineStore({
 
       toColumn.tasks.splice(toTaskIndex, 0, taskToMove);
     },
-    moveColumn(fromColumnIndex: number, toColumnIndex: number) {
+    moveColumnAction(fromColumnIndex: number, toColumnIndex: number) {
       const boardId = router.currentRoute.value.params.boardId as string;
 
       const columnList = this.getBoardById(boardId);

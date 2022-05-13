@@ -5,7 +5,7 @@ import { useUserStore } from "@/stores/user";
 
 const userStore = useUserStore();
 const { isDarkTheme } = storeToRefs(userStore);
-const { switchTheme } = userStore;
+const { switchThemeAction } = userStore;
 </script>
 
 <template>
@@ -18,7 +18,7 @@ const { switchTheme } = userStore;
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/board/123">Board</RouterLink>
       </nav>
-      <button @click="switchTheme">Theme</button>
+      <button @click="switchThemeAction">Theme</button>
     </header>
 
     <RouterView />

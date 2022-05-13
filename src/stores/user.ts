@@ -15,7 +15,7 @@ type UserType = {
 
 type UserStateType = {
   user: UserType | null;
-  isDarkTheme: boolean;
+  isLocalDarkTheme: boolean;
 };
 
 export const useUserStore = defineStore({
@@ -23,16 +23,16 @@ export const useUserStore = defineStore({
   state: () =>
     ({
       user: null,
-      isDarkTheme: true,
+      isLocalDarkTheme: true,
     } as UserStateType),
   getters: {
     isAuthenticated: (state) => !!state.user,
-    isDarkTheme: (state) => state.user?.isDarkTheme || state.isDarkTheme,
+    isDarkTheme: (state) => state.user?.isDarkTheme || state.isLocalDarkTheme,
     isAdmin: (state) => state.user?.role === UserRole.admin,
   },
   actions: {
-    switchTheme() {
-      this.isDarkTheme = !this.isDarkTheme;
+    switchThemeAction() {
+      this.isLocalDarkTheme = !this.isLocalDarkTheme;
     },
   },
 });

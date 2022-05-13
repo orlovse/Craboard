@@ -12,9 +12,9 @@ const router = useRouter();
 
 const newColumnName = ref("");
 
-const { createColumn, getBoardById, getBoard } = boardStore;
+const { createColumnAction, getBoardById, getBoardAction } = boardStore;
 
-getBoard();
+getBoardAction();
 
 const { loading } = storeToRefs(boardStore);
 
@@ -27,7 +27,7 @@ const selectedBoard = computed(() => {
 });
 
 const addNewColumn = () => {
-  createColumn(newColumnName.value);
+  createColumnAction(newColumnName.value);
 };
 
 const isTaskOpen = computed(() => {

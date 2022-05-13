@@ -13,10 +13,10 @@ interface IProps {
 
 const boardStore = useBoardsStore();
 
-const { createTask } = boardStore;
+const { createTaskAction } = boardStore;
 
 const addNewTask = (e: any, tasks: any) => {
-  createTask(tasks, e?.target?.value);
+  createTaskAction(tasks, e?.target?.value);
   e.target.value = "";
 };
 

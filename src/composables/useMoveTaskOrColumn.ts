@@ -16,11 +16,7 @@ export const useMoveTaskOrColumn = (props: UseMoveTaskOrColumnType) => {
   const boardStore = useBoardsStore();
   const route = useRoute();
 
-  const {
-    moveTask: moveTaskAction,
-    moveColumn: moveColumnAction,
-    getBoardById,
-  } = boardStore;
+  const { moveTaskAction, moveColumnAction, getBoardById } = boardStore;
 
   const boardId = computed(() => {
     return route.params.boardId as string;
