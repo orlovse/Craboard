@@ -70,6 +70,7 @@ export type TaskChecklistType = {
 };
 
 export type CheckItemType = {
+  id: string;
   isChecked: boolean;
   name: string;
   usersAssigned: null;

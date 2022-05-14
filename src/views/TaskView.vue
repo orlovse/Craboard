@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import {
   useBoardsStore,
+  type CheckItemType,
   type ColumnType,
   type TaskKeyType,
   type TaskType,
 } from "@/stores/boards";
 import { computed } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
-import CustomTextarea from "../components/CustomTextarea.vue";
+import CustomTextarea from "@/components/CustomTextarea.vue";
+import ChecklistCard from "@/components/ChecklistCard.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -55,6 +57,31 @@ const updateTask = (event: KeyboardEvent, key: TaskKeyType) => {
 const closeModal = () => {
   router.go(-1);
 };
+
+const addCheckbox = () => {
+  if (selectedTask) {
+    selectedTask.checklist = {
+      checklistName: "default name",
+      list: [],
+    };
+  }
+};
+
+const updateChecklistName = (value: string) => {
+  const checklist = selectedTask?.checklist;
+
+  if (checklist) {
+    checklist.checklistName = value;
+  }
+};
+
+const updateListItems = (newItem: CheckItemType) => {
+  const checklist = selectedTask?.checklist;
+
+  if (checklist) {
+    checklist.list.push(newItem);
+  }
+};
 </script>
 
 <template>
@@ -62,7 +89,15 @@ const closeModal = () => {
     <button @click="closeModal">Close</button>
     <CustomTextarea v-model="selectedTask.name" />
     <CustomTextarea v-model="selectedTask.description" />
-    <button>Add checklist</button>
+    <button @click="addCheckbox" :disabled="Boolean(selectedTask.checklist)">
+      Add checklist
+    </button>
+    <ChecklistCard
+      v-if="selectedTask.checklist"
+      :checklist="selectedTask.checklist"
+      @updateChecklistName="updateChecklistName"
+      @updateListItems="updateListItems"
+    />
     <button @click="deleteTask">Remove task</button>
   </div>
 </template>

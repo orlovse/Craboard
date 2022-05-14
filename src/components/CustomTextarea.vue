@@ -32,4 +32,7 @@ const setFocused = (event: KeyboardEvent | FocusEvent, newValue: boolean) => {
   />
 </template>
 
-<style scoped></style>
+<style scoped>
+.custom-textarea {
+}
+</style>
