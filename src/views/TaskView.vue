@@ -39,7 +39,7 @@ board?.some((column) => {
 });
 
 const deleteTask = () => {
-  selectedTask = null;
+  removeTaskAction(taskId.value, selectedColumn);
 };
 
 const updateTask = (event: KeyboardEvent, key: TaskKeyType) => {

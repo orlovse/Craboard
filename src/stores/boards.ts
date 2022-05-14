@@ -143,9 +143,12 @@ export const useBoardsStore = defineStore({
       task[key] = value;
     },
     removeTaskAction(taskId: string, taskColumn: ColumnType | null) {
-      taskColumn?.tasks.filter((task) => {
-        return task.id !== taskId;
-      });
+      if (taskColumn) {
+        router.go(-1);
+        taskColumn.tasks = taskColumn.tasks.filter((task) => {
+          return task.id !== taskId;
+        });
+      }
     },
     moveTaskAction(
       fromTasks: TaskType[],

@@ -9,6 +9,7 @@ import BoardColumn from "@/components/BoardColumn.vue";
 const boardStore = useBoardsStore();
 const route = useRoute();
 const router = useRouter();
+console.log("route", route.query);
 
 const newColumnName = ref("");
 
