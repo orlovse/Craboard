@@ -44,13 +44,12 @@ const { moveTaskOrColumn } = useMoveTaskOrColumn({
           :columnIndex="columnIndex"
           :column="column"
         />
-
-        <input
-          type="text"
-          placeholder="+ add new tasl"
-          @keyup.enter="addNewTask($event, column.tasks)"
-        />
       </TransitionGroup>
+      <input
+        type="text"
+        placeholder="+ add new tasl"
+        @keyup.enter="addNewTask($event, column.tasks)"
+      />
     </CustomDrag>
   </CustomDrop>
 </template>
