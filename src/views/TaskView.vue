@@ -7,6 +7,7 @@ import {
 } from "@/stores/boards";
 import { computed } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
+import CustomTextarea from "../components/CustomTextarea.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -57,18 +58,11 @@ const closeModal = () => {
 </script>
 
 <template>
-  <div class="task-view">
+  <div class="task-view" v-if="selectedTask">
     <button @click="closeModal">Close</button>
-    <textarea
-      class="task-description"
-      :value="selectedTask?.name"
-      @keyup.enter="updateTask($event, 'name')"
-    />
-    <textarea
-      class="task-description"
-      :value="selectedTask?.description"
-      @keyup.enter="updateTask($event, 'description')"
-    />
+    <CustomTextarea v-model="selectedTask.name" />
+    <CustomTextarea v-model="selectedTask.description" />
+    <button>Add checklist</button>
     <button @click="deleteTask">Remove task</button>
   </div>
 </template>
