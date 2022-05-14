@@ -87,7 +87,9 @@ const setIsChecked = () => {
       width: 2px;
       height: 2px;
       border-radius: 2px;
-      // box-shadow: 0 -18px 0 $main, 12px -12px 0 $main, 18px 0 0 $main, 12px 12px 0 $main, 0 18px 0 $main, -12px 12px 0 $main, -18px 0 0 $main, -12px -12px 0 $main
+      box-shadow: 0 -18px 0 green, 12px -12px 0 green, 18px 0 0 green,
+        12px 12px 0 green, 0 18px 0 green, -12px 12px 0 green, -18px 0 0 green,
+        -12px -12px 0 green;
       transform: scale(0);
     }
   }

@@ -30,7 +30,7 @@ const addNewItem = () => {
       :model-value="checklist.checklistName"
       @update:model-value="updateName"
     />
-    <ul v-if="checklist.list">
+    <TransitionGroup name="list" tag="ul" v-if="checklist.list">
       <li
         v-for="listItem of checklist.list"
         :key="listItem.id"
@@ -42,12 +42,28 @@ const addNewItem = () => {
           :label="listItem.name"
         />
       </li>
-    </ul>
+    </TransitionGroup>
     <button @click="addNewItem">Add new item</button>
   </div>
 </template>
 
 <style scoped lang="scss">
 .checklist-card {
+}
+
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.list-leave-active {
+  position: absolute;
 }
 </style>
