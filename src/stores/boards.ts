@@ -10,18 +10,27 @@ const boardList = [
         name: "first task",
         id: "1",
         userAssigned: null,
+        createdDate: null,
+        changedDate: null,
+        checklist: null,
       },
       {
         description: "",
         name: "second task",
         id: "2",
         userAssigned: null,
+        createdDate: null,
+        changedDate: null,
+        checklist: null,
       },
       {
         description: "",
         name: "and thrid",
         id: "3",
         userAssigned: null,
+        createdDate: null,
+        changedDate: null,
+        checklist: null,
       },
     ],
   },
@@ -33,6 +42,9 @@ const boardList = [
         name: "first task",
         id: "4",
         userAssigned: null,
+        createdDate: null,
+        changedDate: null,
+        checklist: null,
       },
     ],
   },
@@ -44,16 +56,33 @@ const boardList = [
         name: "first task",
         id: "5",
         userAssigned: null,
+        createdDate: null,
+        changedDate: null,
+        checklist: null,
       },
     ],
   },
 ];
+
+export type TaskChecklistType = {
+  checklistName: string;
+  list: CheckItemType[];
+};
+
+export type CheckItemType = {
+  isChecked: boolean;
+  name: string;
+  usersAssigned: null;
+};
 
 export type TaskType = {
   description: string;
   name: string;
   id: string;
   userAssigned: null;
+  createdDate: string | null;
+  changedDate: string | null;
+  checklist: TaskChecklistType | null;
 };
 
 export type TaskKeyType = keyof TaskType;
@@ -128,6 +157,9 @@ export const useBoardsStore = defineStore({
         name: taskName,
         description: "",
         userAssigned: null,
+        createdDate: new Date().toDateString(),
+        changedDate: null,
+        checklist: null,
       });
     },
     createColumnAction(name: string) {
