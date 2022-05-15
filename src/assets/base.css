@@ -7,7 +7,7 @@
   --color-primary: #0060df;;
   --color-secondary: #dbdbdb;
   --color-elements: #e1e7f1;
-  --color-background: #e1e7f1;
+  --color-background-main: #e1e7f1;
   --color-background-skeleton: linear-gradient(
     90deg,
     hsl(210, 15%, 88%),
@@ -26,7 +26,7 @@
   --color-primary: #0060df;
   --color-secondary: #1e2022;
   --color-elements: #292c2d;
-  --color-background: #292c2d;
+  --color-background-main: #292c2d;
   --color-background-skeleton: linear-gradient(
     90deg,
     hsl(0, 1%, 27%),
@@ -63,7 +63,7 @@ body {
 
 .theme-dark, .theme-light {
   color: var(--color-text);
-  background: var(--color-background);
+  background: var(--color-background-main);
 }
 
 ul {

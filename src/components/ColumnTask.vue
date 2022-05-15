@@ -77,7 +77,7 @@ const dragEnd = () => {
 <style scoped>
 .taskCard {
   border-radius: 10px;
-  background: rgb(90, 90, 90);
+  background: var(--color-elements);
   box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.32);
   -webkit-box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.32);
   -moz-box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.32);
