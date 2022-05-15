@@ -10,6 +10,7 @@ import { computed } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
 import CustomTextarea from "@/components/CustomTextarea.vue";
 import ChecklistCard from "@/components/ChecklistCard.vue";
+import CustomButton from "@/components/CustomButton.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -86,9 +87,16 @@ const updateListItems = (newItem: CheckItemType) => {
 
 <template>
   <div class="task-view" v-if="selectedTask">
-    <button @click="closeModal">Close</button>
-    <CustomTextarea v-model="selectedTask.name" />
-    <CustomTextarea v-model="selectedTask.description" />
+    <CustomButton
+      :isCloseButton="true"
+      @click="closeModal"
+      class="close-button"
+    />
+    <CustomTextarea v-model="selectedTask.name" placeholder="Title" />
+    <CustomTextarea
+      v-model="selectedTask.description"
+      placeholder="Description"
+    />
     <button @click="addCheckbox" :disabled="Boolean(selectedTask.checklist)">
       Add checklist
     </button>
@@ -104,16 +112,22 @@ const updateListItems = (newItem: CheckItemType) => {
 
 <style scoped>
 .task-view {
-  max-width: 700px;
-  border: 1px solid blue;
+  width: 700px;
   height: 80%;
-  background: white;
+  background: var(--color-background-main);
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 40px;
+  position: relative;
 }
 
 .task-description {
   background: transparent;
+}
+
+.close-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
 </style>

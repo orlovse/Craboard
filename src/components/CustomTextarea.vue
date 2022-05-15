@@ -3,6 +3,8 @@ import { ref } from "@vue/reactivity";
 
 interface IProps {
   modelValue: string;
+
+  placeholder?: string;
 }
 
 defineProps<IProps>();
@@ -26,6 +28,7 @@ const setFocused = (event: KeyboardEvent | FocusEvent, newValue: boolean) => {
   <textarea
     class="custom-textarea"
     :value="modelValue"
+    :placeholder="placeholder"
     @keyup.enter="setFocused($event, false)"
     @focusin="setFocused($event, true)"
     @focusout="setFocused($event, false)"
@@ -34,12 +37,15 @@ const setFocused = (event: KeyboardEvent | FocusEvent, newValue: boolean) => {
 
 <style scoped lang="scss">
 .custom-textarea {
-  border: none;
+  border: 1px solid transparent;
   outline: none;
   resize: none;
+  background-color: transparent;
+  color: var(--color-text);
 
   &:focus {
-    border: 1px solid blue;
+    border-color: var(--color-primary);
+    background-color: var(--color-elements);
     resize: vertical;
   }
 }
