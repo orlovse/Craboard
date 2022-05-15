@@ -5,6 +5,7 @@ import { storeToRefs } from "pinia";
 
 import { useBoardsStore } from "@/stores/boards";
 import BoardColumn from "@/components/BoardColumn.vue";
+import CustomSkeleton from "../components/CustomSkeleton.vue";
 
 const boardStore = useBoardsStore();
 const route = useRoute();
@@ -17,7 +18,7 @@ const { createColumnAction, getBoardById, getBoardAction } = boardStore;
 
 getBoardAction();
 
-const { loading } = storeToRefs(boardStore);
+const { boardLoading } = storeToRefs(boardStore);
 
 const boardId = computed(() => {
   return route.params.boardId as string;
@@ -41,17 +42,30 @@ const closeTaskModal = () => {
 </script>
 
 <template>
-  <div class="board">
-    <!-- <div v-if="loading">Loading</div> -->
-    <BoardColumn
-      v-for="(column, columnIndex) of selectedBoard"
-      :key="column.name"
-      :column="column"
-      :columnIndex="columnIndex"
-    />
-    <div class="column">
-      <input type="text" v-model="newColumnName" @keyup.enter="addNewColumn" />
+  <div class="board-view">
+    <div v-if="boardLoading" class="loading-container">
+      <CustomSkeleton
+        class="skeleton-wrapper"
+        v-for="index in 4"
+        :key="index"
+      />
     </div>
+    <div class="board-container" v-else>
+      <BoardColumn
+        v-for="(column, columnIndex) of selectedBoard"
+        :key="column.name"
+        :column="column"
+        :columnIndex="columnIndex"
+      />
+      <div class="column">
+        <input
+          type="text"
+          v-model="newColumnName"
+          @keyup.enter="addNewColumn"
+        />
+      </div>
+    </div>
+
     <div class="task-bg" v-if="isTaskOpen" @click.self="closeTaskModal">
       <router-view />
     </div>
@@ -60,11 +74,25 @@ const closeTaskModal = () => {
 
 <style scoped>
 .board {
+  width: 100vw;
+  overflow-x: auto;
+}
+
+.loading-container {
+  height: 60vh;
+  display: flex;
+  gap: 20px;
+}
+
+.board-container {
   display: flex;
   justify-content: center;
   gap: 20px;
-  width: 100vw;
-  overflow-x: auto;
+}
+.skeleton-wrapper {
+  width: 280px;
+  height: 100%;
+  border-radius: var(--border-radius-card);
 }
 
 .task-bg {

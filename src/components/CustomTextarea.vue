@@ -32,7 +32,15 @@ const setFocused = (event: KeyboardEvent | FocusEvent, newValue: boolean) => {
   />
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .custom-textarea {
+  border: none;
+  outline: none;
+  resize: none;
+
+  &:focus {
+    border: 1px solid blue;
+    resize: vertical;
+  }
 }
 </style>
