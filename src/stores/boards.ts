@@ -50,6 +50,7 @@ export type BoardsHashType = {
 
 export type BoardsStateType = {
   loading: boolean;
+  boardLoading: boolean;
   boards: BoardsHashType;
   boardsList: BoardsListType;
 };
@@ -63,6 +64,7 @@ export const useBoardsStore = defineStore({
       boards: {},
       boardsList: [],
       loading: false,
+      boardLoading: false,
     } as BoardsStateType),
   getters: {
     getBoardById: (state) => {
@@ -90,17 +92,17 @@ export const useBoardsStore = defineStore({
         });
     },
     getBoardAction() {
-      this.loading = true;
+      this.boardLoading = true;
 
       const boardId = router.currentRoute.value.params.boardId as string;
 
       getBoard(boardId)
         .then((response) => {
           this.boards[boardId] = response;
-          this.loading = false;
+          this.boardLoading = false;
         })
         .catch((error) => {
-          this.loading = false;
+          this.boardLoading = false;
         });
     },
     createTaskAction(tasks: TaskType[], taskName: string) {

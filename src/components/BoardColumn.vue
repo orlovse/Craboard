@@ -68,7 +68,7 @@ const computedMoveTaskOrColumn = computed(() => {
 .boardColumnCard {
   width: 280px;
   background: rgba(255, 255, 255, 0.21);
-  border-radius: 10px;
+  border-radius: var(--border-radius-card);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(6.6px);
   -webkit-backdrop-filter: blur(6.6px);

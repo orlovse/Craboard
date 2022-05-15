@@ -1,9 +1,19 @@
+:root {
+  --border-radius-card: 10px;
+}
+
 
 .theme-light {
   --color-primary: #0060df;;
   --color-secondary: #dbdbdb;
   --color-elements: #e1e7f1;
   --color-background: #e1e7f1;
+  --color-background-skeleton: linear-gradient(
+    90deg,
+    hsl(210, 15%, 88%),
+    hsl(210, 15%, 95%),
+    hsl(210, 15%, 88%)
+  );
   --color-text: rgb(15, 15, 15);
   --color-shadow: 1px 19px 42px -5px rgb(112, 112, 112);
   --color-shadow-active: 1px 5px 20px 2px rgb(112, 112, 112);
@@ -17,6 +27,12 @@
   --color-secondary: #1e2022;
   --color-elements: #292c2d;
   --color-background: #292c2d;
+  --color-background-skeleton: linear-gradient(
+    90deg,
+    hsl(0, 1%, 27%),
+    hsl(0, 1%, 35%),
+    hsl(0, 1%, 28%)
+  );
   --color-text: rgb(226, 226, 226);
   --color-shadow: 1px 19px 42px -5px rgba(0, 0, 0, 1);
   --color-shadow-active: 1px 5px 20px 2px rgba(0, 0, 0, 1);
