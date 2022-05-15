@@ -27,7 +27,7 @@ export const useMoveTaskOrColumn = (props: UseMoveTaskOrColumnType) => {
   const moveTaskOrColumn = (transferData: TransferDataType) => {
     const { type, fromColumnIndex, fromTaskIndex } = transferData;
 
-    if (type === "column" && columnIndex) {
+    if (type === "column" && typeof columnIndex === "number") {
       moveColumnAction(fromColumnIndex, columnIndex);
     }
 
@@ -39,5 +39,5 @@ export const useMoveTaskOrColumn = (props: UseMoveTaskOrColumnType) => {
     }
   };
 
-  return { moveTaskOrColumn };
+  return moveTaskOrColumn;
 };

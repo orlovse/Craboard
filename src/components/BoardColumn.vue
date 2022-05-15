@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { computed } from "@vue/reactivity";
 import { useBoardsStore, type ColumnType } from "@/stores/boards";
+import { useMoveTaskOrColumn } from "@/composables/useMoveTaskOrColumn";
 
 import ColumnTask from "./ColumnTask.vue";
 import CustomDrop from "./CustomDrop.vue";
 import CustomDrag from "./CustomDrag.vue";
-import { useMoveTaskOrColumn } from "@/composables/useMoveTaskOrColumn";
 
 interface IProps {
   column: ColumnType;
@@ -22,14 +23,16 @@ const addNewTask = (e: any, tasks: any) => {
 
 const props = defineProps<IProps>();
 
-const { moveTaskOrColumn } = useMoveTaskOrColumn({
-  columnIndex: props.columnIndex,
-  column: props.column,
+const computedMoveTaskOrColumn = computed(() => {
+  return useMoveTaskOrColumn({
+    columnIndex: props.columnIndex,
+    column: props.column,
+  });
 });
 </script>
 
 <template>
-  <CustomDrop @drop="moveTaskOrColumn">
+  <CustomDrop @drop="computedMoveTaskOrColumn">
     <CustomDrag
       class="boardColumnCard"
       :transferData="{ type: 'column', fromColumnIndex: columnIndex }"

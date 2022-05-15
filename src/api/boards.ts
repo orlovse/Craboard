@@ -83,5 +83,5 @@ export const changeDashboardData = (boardId: string) => {
     setTimeout(() => {
       resolve();
     }, 100);
-  })
-}
+  });
+};

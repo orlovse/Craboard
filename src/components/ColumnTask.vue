@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-
+import { computed, ref } from "@vue/reactivity";
 import type { ColumnType, TaskType } from "@/stores/boards";
 
 import CustomDrag from "./CustomDrag.vue";
 import CustomDrop from "./CustomDrop.vue";
 import { useMoveTaskOrColumn } from "@/composables/useMoveTaskOrColumn";
-import { ref } from "vue";
 
 interface IProps {
   task: TaskType;
@@ -27,9 +26,11 @@ const openTaskModal = (taskId: string) => {
   router.push({ name: "task", params: { taskId } });
 };
 
-const { moveTaskOrColumn } = useMoveTaskOrColumn({
-  column: props.column,
-  taskIndex: props.taskIndex || 0,
+const computedMoveTaskOrColumn = computed(() => {
+  return useMoveTaskOrColumn({
+    column: props.column,
+    taskIndex: props.taskIndex || 0,
+  });
 });
 
 const dragOver = () => {
@@ -51,7 +52,7 @@ const dragEnd = () => {
 
 <template>
   <CustomDrop
-    @drop="moveTaskOrColumn"
+    @drop="computedMoveTaskOrColumn"
     @dragOver="dragOver"
     @dragLeave="dragLeave"
   >
