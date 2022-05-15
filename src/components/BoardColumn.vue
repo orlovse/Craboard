@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { computed } from "@vue/reactivity";
+import { computed, ref } from "@vue/reactivity";
 import { useBoardsStore, type ColumnType } from "@/stores/boards";
 import { useMoveTaskOrColumn } from "@/composables/useMoveTaskOrColumn";
+import { InputTypes } from "@/types";
 
 import ColumnTask from "./ColumnTask.vue";
 import CustomDrop from "./CustomDrop.vue";
 import CustomDrag from "./CustomDrag.vue";
+import CustomInput from "./CustomInput.vue";
 
 interface IProps {
   column: ColumnType;
@@ -16,9 +18,11 @@ const boardStore = useBoardsStore();
 
 const { createTaskAction } = boardStore;
 
-const addNewTask = (e: any, tasks: any) => {
-  createTaskAction(tasks, e?.target?.value);
-  e.target.value = "";
+const inputValue = ref("");
+
+const createNewTask = () => {
+  createTaskAction(props.column.tasks, inputValue.value);
+  inputValue.value = "";
 };
 
 const props = defineProps<IProps>();
@@ -48,10 +52,13 @@ const computedMoveTaskOrColumn = computed(() => {
           :column="column"
         />
       </TransitionGroup>
-      <input
-        type="text"
-        placeholder="+ add new tasl"
-        @keyup.enter="addNewTask($event, column.tasks)"
+      <CustomInput
+        id="new_task"
+        :inputType="InputTypes.withButton"
+        placeholder="Add new task"
+        v-model="inputValue"
+        @onButtonClick="createNewTask"
+        @keyup.enter="createNewTask"
       />
     </CustomDrag>
   </CustomDrop>
@@ -59,6 +66,7 @@ const computedMoveTaskOrColumn = computed(() => {
 
 <style scoped>
 .boardColumnCard {
+  width: 280px;
   background: rgba(255, 255, 255, 0.21);
   border-radius: 10px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
