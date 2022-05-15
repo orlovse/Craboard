@@ -2,6 +2,8 @@
 import type { TaskChecklistType } from "@/stores/boards";
 import CustomTextarea from "./CustomTextarea.vue";
 import CustomCheckbox from "./CustomCheckbox.vue";
+import ProgressBar from "./ProgressBar.vue";
+import { computed } from "@vue/reactivity";
 
 interface IProps {
   checklist: TaskChecklistType;
@@ -22,6 +24,16 @@ const addNewItem = () => {
     usersAssigned: null,
   });
 };
+
+const complitedTasksCount = computed(() => {
+  return props.checklist.list.reduce((acc, checkitem) => {
+    if (checkitem.isChecked) {
+      acc++;
+    }
+
+    return acc;
+  }, 0);
+});
 </script>
 
 <template>
@@ -29,6 +41,10 @@ const addNewItem = () => {
     <CustomTextarea
       :model-value="checklist.checklistName"
       @update:model-value="updateName"
+    />
+    <ProgressBar
+      :totalCount="checklist.list.length"
+      :currentValue="complitedTasksCount"
     />
     <TransitionGroup name="list" tag="ul" v-if="checklist.list">
       <li

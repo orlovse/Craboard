@@ -1,4 +1,4 @@
-import { computed } from "vue";
+import { computed } from "@vue/reactivity";
 import { useRoute } from "vue-router";
 
 import type { TransferDataType } from "@/components/CustomDrag.vue";
