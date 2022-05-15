@@ -42,7 +42,7 @@ const closeTaskModal = () => {
 
 <template>
   <div class="board">
-    <div v-if="loading">Loading</div>
+    <!-- <div v-if="loading">Loading</div> -->
     <BoardColumn
       v-for="(column, columnIndex) of selectedBoard"
       :key="column.name"

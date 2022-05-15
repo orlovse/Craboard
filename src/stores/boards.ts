@@ -1,68 +1,13 @@
+import {
+  createColumn,
+  createTask,
+  getBoard,
+  getBoardsList,
+  removeTask,
+  updateTask,
+} from "@/api/boards";
 import router from "@/router";
 import { defineStore } from "pinia";
-
-const boardList = [
-  {
-    name: "todo",
-    tasks: [
-      {
-        description: "test description",
-        name: "first task",
-        id: "1",
-        userAssigned: null,
-        createdDate: null,
-        changedDate: null,
-        checklist: null,
-      },
-      {
-        description: "",
-        name: "second task",
-        id: "2",
-        userAssigned: null,
-        createdDate: null,
-        changedDate: null,
-        checklist: null,
-      },
-      {
-        description: "",
-        name: "and thrid",
-        id: "3",
-        userAssigned: null,
-        createdDate: null,
-        changedDate: null,
-        checklist: null,
-      },
-    ],
-  },
-  {
-    name: "in-progress",
-    tasks: [
-      {
-        description: "",
-        name: "first task",
-        id: "4",
-        userAssigned: null,
-        createdDate: null,
-        changedDate: null,
-        checklist: null,
-      },
-    ],
-  },
-  {
-    name: "done",
-    tasks: [
-      {
-        description: "",
-        name: "first task",
-        id: "5",
-        userAssigned: null,
-        createdDate: null,
-        changedDate: null,
-        checklist: null,
-      },
-    ],
-  },
-];
 
 export type TaskChecklistType = {
   checklistName: string;
@@ -94,6 +39,7 @@ export type ColumnType = {
 };
 
 export type BoardType = {
+  boardId: string;
   boardName: string;
   boardContent: ColumnType[];
 };
@@ -104,14 +50,18 @@ export type BoardsHashType = {
 
 export type BoardsStateType = {
   loading: boolean;
-  boards: BoardsHashType | null;
+  boards: BoardsHashType;
+  boardsList: BoardsListType;
 };
+
+export type BoardsListType = { boardId: string; boardName: string }[];
 
 export const useBoardsStore = defineStore({
   id: "boards",
   state: () =>
     ({
-      boards: null,
+      boards: {},
+      boardsList: [],
       loading: false,
     } as BoardsStateType),
   getters: {
@@ -127,60 +77,87 @@ export const useBoardsStore = defineStore({
   },
   actions: {
     getBoardsListAction() {
-      return [
-        { boadrId: "1111", boardName: "First Board" },
-        { boadrId: "2222", boardName: "Second Board" },
-        { boadrId: "3333", boardName: "Third Board" },
-      ];
+      this.loading = true;
+
+      getBoardsList()
+        .then((response) => {
+          this.boardsList = response;
+          this.loading = false;
+        })
+        .catch((error) => {
+          this.loading = false;
+          console.error(error);
+        });
     },
     getBoardAction() {
       this.loading = true;
 
       const boardId = router.currentRoute.value.params.boardId as string;
 
-      setTimeout(() => {
-        this.boards = {
-          ...this.boards,
-          [boardId]: {
-            boardName: "First Board",
-            boardContent: boardList,
-          },
-        };
-
-        this.loading = false;
-      }, 1000);
+      getBoard(boardId)
+        .then((response) => {
+          this.boards[boardId] = response;
+          this.loading = false;
+        })
+        .catch((error) => {
+          this.loading = false;
+        });
     },
     createTaskAction(tasks: TaskType[], taskName: string) {
-      //server should return id
-      const id = Math.random().toString(16).slice(2);
-      tasks.push({
-        id,
-        name: taskName,
-        description: "",
-        userAssigned: null,
-        createdDate: new Date().toDateString(),
-        changedDate: null,
-        checklist: null,
-      });
+      this.loading = true;
+      createTask("1", "2", { name: taskName, description: "" })
+        .then((response) => {
+          this.loading = false;
+          tasks.push(response);
+        })
+        .catch((error) => {
+          this.loading = false;
+        });
     },
     createColumnAction(name: string) {
-      //server should return id and after that need to store new column
+      this.loading = true;
+
       const boardId = router.currentRoute.value.params.boardId as string;
 
-      this.getBoardById(boardId)?.push({
-        name,
-        tasks: [],
-      });
+      createColumn(boardId, name)
+        .then((response) => {
+          this.loading = false;
+
+          this.getBoardById(boardId)?.push({
+            name,
+            tasks: [],
+          });
+        })
+        .catch((error) => {
+          this.loading = false;
+        });
     },
     updateTaskAction(task: TaskType, key: TaskKeyType, value: string) {
-      task[key] = value;
+      this.loading = true;
+      const boardId = router.currentRoute.value.params.boardId as string;
+      updateTask(boardId, "2", task)
+        .then((response) => {
+          this.loading = false;
+          task[key] = value;
+        })
+        .catch((error) => {
+          this.loading = false;
+        });
     },
     removeTaskAction(taskId: string, taskColumn: ColumnType | null) {
       if (taskColumn) {
-        router.go(-1);
-        taskColumn.tasks = taskColumn.tasks.filter((task) => {
-          return task.id !== taskId;
-        });
+        this.loading = true;
+        removeTask("1", "2", taskId)
+          .then(() => {
+            this.loading = false;
+            router.go(-1);
+            taskColumn.tasks = taskColumn.tasks.filter((task) => {
+              return task.id !== taskId;
+            });
+          })
+          .catch((error) => {
+            this.loading = false;
+          });
       }
     },
     moveTaskAction(
