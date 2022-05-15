@@ -41,7 +41,7 @@ const computedMoveTaskOrColumn = computed(() => {
       class="boardColumnCard"
       :transferData="{ type: 'column', fromColumnIndex: columnIndex }"
     >
-      <div>{{ column.name }}</div>
+      <div>{{ column.name }} ({{ column.tasks.length }})</div>
       <TransitionGroup name="list" tag="div">
         <ColumnTask
           v-for="(task, taskIndex) of column.tasks"
