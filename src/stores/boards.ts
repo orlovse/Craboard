@@ -141,7 +141,7 @@ export const useBoardsStore = defineStore({
           this.loading = false;
         });
     },
-    updateTaskAction(task: TaskType, key: TaskKeyType, value: string) {
+    updateTaskAction(task: any, key: TaskKeyType, value: string) {
       this.loading = true;
       const boardId = router.currentRoute.value.params.boardId as string;
       updateTask(boardId, "2", task)
