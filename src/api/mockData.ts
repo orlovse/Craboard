@@ -46,6 +46,20 @@ export const boardColumnList = [
     ],
   },
   {
+    name: "testing",
+    tasks: [
+      {
+        description: "",
+        name: "test task",
+        id: "7",
+        userAssigned: null,
+        createdDate: null,
+        changedDate: null,
+        checklist: null,
+      },
+    ],
+  },
+  {
     name: "done",
     tasks: [
       {

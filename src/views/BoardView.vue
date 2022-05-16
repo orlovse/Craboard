@@ -49,7 +49,7 @@ const closeTaskModal = () => {
     <div v-if="boardLoading" class="loading-container">
       <CustomSkeleton
         class="skeleton-wrapper"
-        v-for="index in 3"
+        v-for="index in 4"
         :key="index"
       />
     </div>
@@ -90,13 +90,11 @@ const closeTaskModal = () => {
 .loading-container {
   height: 50vh;
   display: flex;
-  justify-content: center;
   gap: 20px;
 }
 
 .board-container {
   display: flex;
-  justify-content: center;
   gap: 20px;
 }
 .skeleton-wrapper {
