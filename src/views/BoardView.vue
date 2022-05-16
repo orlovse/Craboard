@@ -18,7 +18,7 @@ const { createColumnAction, getBoardById, getBoardAction } = boardStore;
 
 getBoardAction();
 
-const { boardLoading } = storeToRefs(boardStore);
+const { boardLoading, boardImage } = storeToRefs(boardStore);
 
 const boardId = computed(() => {
   return route.params.boardId as string;
@@ -42,7 +42,10 @@ const closeTaskModal = () => {
 </script>
 
 <template>
-  <div class="board-view">
+  <div
+    class="board-view"
+    :style="{ 'background-image': `url('${boardImage}')` }"
+  >
     <div v-if="boardLoading" class="loading-container">
       <CustomSkeleton
         class="skeleton-wrapper"
@@ -75,9 +78,13 @@ const closeTaskModal = () => {
 </template>
 
 <style scoped>
-.board {
+.board-view {
+  height: calc(100vh - 50px);
+  background-repeat: no-repeat;
+  background-size: cover;
   width: 100vw;
   overflow-x: auto;
+  padding: 20px;
 }
 
 .loading-container {

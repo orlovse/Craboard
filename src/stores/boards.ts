@@ -53,6 +53,7 @@ export type BoardsStateType = {
   boardLoading: boolean;
   boards: BoardsHashType;
   boardsList: BoardsListType;
+  boardImage: string;
 };
 
 export type BoardsListType = { boardId: string; boardName: string }[];
@@ -65,6 +66,7 @@ export const useBoardsStore = defineStore({
       boardsList: [],
       loading: false,
       boardLoading: false,
+      boardImage: "",
     } as BoardsStateType),
   getters: {
     getBoardById: (state) => {
@@ -78,6 +80,9 @@ export const useBoardsStore = defineStore({
     },
   },
   actions: {
+    setBoardImage(imageLink: string) {
+      this.boardImage = imageLink;
+    },
     getBoardsListAction() {
       this.loading = true;
 

@@ -13,7 +13,7 @@ const { switchThemeAction } = userStore;
     :class="isDarkTheme ? 'theme-dark' : 'theme-light'"
     class="main-container"
   >
-    <header>
+    <header class="header">
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/board/123">Board</RouterLink>
@@ -27,8 +27,12 @@ const { switchThemeAction } = userStore;
 
 <style>
 @import "@/assets/base.css";
+.header {
+  height: 50px;
+}
 
 .main-container {
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
 }
 </style>
