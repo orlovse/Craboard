@@ -46,10 +46,10 @@ watch(isClicked, (value) => {
   padding: 0;
   position: relative;
   border-radius: var(--border-radius-card);
+  color: var(--color);
 }
 
 .text {
-  background: azure;
   display: block;
   width: 100%;
   height: 100%;
@@ -60,7 +60,7 @@ watch(isClicked, (value) => {
   justify-content: center;
   align-items: center;
   transition: 0.5s;
-  color: var(--color-text-opposite);
+  color: white;
   font-size: 18px;
 }
 

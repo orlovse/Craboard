@@ -88,6 +88,7 @@ button {
 }
 
 a {
+  color: var(--color-text);
   text-decoration: none;
   cursor: pointer;
   margin: 20px;
