@@ -2,10 +2,10 @@
 import { RouterLink, RouterView } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/user";
+import ThemeToggle from "./components/ThemeToggle.vue";
 
 const userStore = useUserStore();
 const { isDarkTheme } = storeToRefs(userStore);
-const { switchThemeAction } = userStore;
 </script>
 
 <template>
@@ -18,7 +18,7 @@ const { switchThemeAction } = userStore;
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/board/123">Board</RouterLink>
       </nav>
-      <button @click="switchThemeAction">Theme</button>
+      <ThemeToggle />
     </header>
 
     <RouterView />
@@ -29,6 +29,10 @@ const { switchThemeAction } = userStore;
 @import "@/assets/base.css";
 .header {
   height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
 }
 
 .main-container {
