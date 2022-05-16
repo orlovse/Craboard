@@ -2,7 +2,6 @@
 import { computed, ref } from "@vue/reactivity";
 import { useBoardsStore, type ColumnType } from "@/stores/boards";
 import { useMoveTaskOrColumn } from "@/composables/useMoveTaskOrColumn";
-import { InputTypes } from "@/types";
 
 import ColumnTask from "./ColumnTask.vue";
 import CustomDrop from "./CustomDrop.vue";
@@ -53,8 +52,7 @@ const computedMoveTaskOrColumn = computed(() => {
         />
       </TransitionGroup>
       <CustomInput
-        id="new_task"
-        :inputType="InputTypes.withButton"
+        :isShowButton="true"
         placeholder="Add new task"
         v-model="inputValue"
         @onButtonClick="createNewTask"

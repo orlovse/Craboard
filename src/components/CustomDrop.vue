@@ -12,11 +12,11 @@ const onDrop = (event: DragEvent) => {
   }
 };
 
-const onDragOver = (event: DragEvent) => {
+const onDragOver = () => {
   emit("dragOver");
 };
 
-const onDragLeave = (event: DragEvent) => {
+const onDragLeave = () => {
   emit("dragLeave");
 };
 </script>

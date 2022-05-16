@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import type { InputTypes } from "@/types";
-
 interface IProps {
-  id: string;
-
-  inputType?: InputTypes;
+  isShowButton?: boolean;
   label?: string;
   modelValue?: string;
   placeholder?: string;
@@ -36,7 +32,7 @@ const onInput = (event: Event) => {
     />
     <button
       class="input-button"
-      v-if="inputType === 'withButton'"
+      v-if="isShowButton"
       @click="emit('onButtonClick', modelValue)"
     >
       <i class="fas fa-paper-plane"></i>
@@ -55,7 +51,7 @@ const onInput = (event: Event) => {
   width: 100%;
   border-radius: 40px;
   overflow: hidden;
-  background-color: var(--color-background);
+  background-color: var(--color-background-main);
   border: 1px solid #349bf052;
   padding: 5px 16px;
   outline: none;

@@ -46,7 +46,7 @@ const closeTaskModal = () => {
     <div v-if="boardLoading" class="loading-container">
       <CustomSkeleton
         class="skeleton-wrapper"
-        v-for="index in 4"
+        v-for="index in 3"
         :key="index"
       />
     </div>
@@ -57,13 +57,13 @@ const closeTaskModal = () => {
         :column="column"
         :columnIndex="columnIndex"
       />
-      <div class="column">
+      <!-- <div class="column">
         <input
           type="text"
           v-model="newColumnName"
           @keyup.enter="addNewColumn"
         />
-      </div>
+      </div> -->
     </div>
 
     <div class="task-bg" v-if="isTaskOpen" @click.self="closeTaskModal">
@@ -79,8 +79,9 @@ const closeTaskModal = () => {
 }
 
 .loading-container {
-  height: 60vh;
+  height: 50vh;
   display: flex;
+  justify-content: center;
   gap: 20px;
 }
 

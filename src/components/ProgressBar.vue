@@ -20,13 +20,16 @@ const percentage = computed(() => {
 <template>
   <div class="progress-bar">
     <div class="progress-value" :style="{ width: `${percentage}%` }">
-      <span>{{ percentage }}%</span>
+      <span :class="{ 'start-position': percentage < 10 }"
+        >{{ percentage }}%</span
+      >
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .progress-bar {
+  position: relative;
   padding: 2px;
   border-radius: 30px;
   background: rgba(0, 0, 0, 0.25);
@@ -48,5 +51,10 @@ const percentage = computed(() => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.start-position {
+  position: absolute;
+  left: 10px;
 }
 </style>

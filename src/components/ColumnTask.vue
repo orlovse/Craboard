@@ -77,10 +77,11 @@ const dragEnd = () => {
 <style scoped>
 .taskCard {
   border-radius: 10px;
-  background: rgb(90, 90, 90);
-  box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.32);
-  -webkit-box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.32);
-  -moz-box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.32);
+  background: var(--color-elements);
+  border: 1px solid var(--color-elements);
+  box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.15);
   padding: 20px;
   margin: 10px;
   margin-bottom: 20px;
@@ -88,8 +89,8 @@ const dragEnd = () => {
 }
 
 .dragOver {
-  border-color: green;
-  transform: translateY(-50%);
+  border: 1px solid var(--color-primary);
+  transform: translateY(-10%);
 }
 
 .drag {
@@ -97,6 +98,6 @@ const dragEnd = () => {
 }
 
 .taskCard:hover {
-  transform: translateY(-5%);
+  transform: translateY(-2%);
 }
 </style>
