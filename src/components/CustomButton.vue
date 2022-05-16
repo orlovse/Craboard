@@ -19,12 +19,9 @@ defineProps<IProps>();
 
 <style scoped lang="scss">
 .custom-button {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  display: inline-block;
-  border: none;
-  text-decoration: none;
-  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  border: var(--border-radius-card);
 }
 
 .icon-button {
