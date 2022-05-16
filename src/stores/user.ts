@@ -23,7 +23,7 @@ export const useUserStore = defineStore({
   state: () =>
     ({
       user: null,
-      isLocalDarkTheme: true,
+      isLocalDarkTheme: false,
     } as UserStateType),
   getters: {
     isAuthenticated: (state) => !!state.user,

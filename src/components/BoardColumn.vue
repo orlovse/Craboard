@@ -41,7 +41,7 @@ const computedMoveTaskOrColumn = computed(() => {
       :transferData="{ type: 'column', fromColumnIndex: columnIndex }"
     >
       <div>{{ column.name }} ({{ column.tasks.length }})</div>
-      <TransitionGroup name="list" tag="div">
+      <TransitionGroup name="tasks" tag="div">
         <ColumnTask
           v-for="(task, taskIndex) of column.tasks"
           :key="task.id"
@@ -76,19 +76,19 @@ const computedMoveTaskOrColumn = computed(() => {
   transition: 1s;
 }
 
-.list-move,
-.list-enter-active,
-.list-leave-active {
+.tasks-move,
+.tasks-enter-active,
+.tasks-leave-active {
   transition: all 0.5s ease;
 }
 
-.list-enter-from,
-.list-leave-to {
+.tasks-enter-from,
+.tasks-leave-to {
   opacity: 0;
   transform: translateX(30px);
 }
 
-.list-leave-active {
+.tasks-leave-active {
   position: absolute;
 }
 </style>

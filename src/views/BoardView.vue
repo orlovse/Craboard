@@ -66,9 +66,11 @@ const closeTaskModal = () => {
       </div> -->
     </div>
 
-    <div class="task-bg" v-if="isTaskOpen" @click.self="closeTaskModal">
-      <router-view />
-    </div>
+    <Transition name="fade" mode="out-in">
+      <div class="task-bg" v-if="isTaskOpen" @click.self="closeTaskModal">
+        <router-view />
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -106,5 +108,15 @@ const closeTaskModal = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
