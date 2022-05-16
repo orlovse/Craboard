@@ -81,6 +81,8 @@ export const useBoardsStore = defineStore({
   },
   actions: {
     setBoardImage(imageLink: string) {
+      console.log("imageLink", imageLink);
+
       this.boardImage = imageLink;
     },
     getBoardsListAction() {

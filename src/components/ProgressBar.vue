@@ -45,12 +45,13 @@ const percentage = computed(() => {
     rgba(255, 255, 255, 0.3),
     rgba(255, 255, 255, 0.05)
   );
-  background-color: #ef476f;
+  background-color: var(--color-primary);
   transition: 0.4s linear;
   transition-property: width, background-color;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: white;
 }
 
 .start-position {

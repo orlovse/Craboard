@@ -31,9 +31,9 @@ watch(isClicked, (value) => {
 
 <template>
   <button class="button-with-confirm" @click="onClick" @keyup.enter="onClick">
-    <span class="text second-text">{{ secondText }}</span>
-    <span class="text first-text" :class="{ clicked: isClicked }">{{
-      firstText
+    <span class="text first-text">{{ firstText }}</span>
+    <span class="text second-text" :class="{ 'clicked-second': isClicked }">{{
+      secondText
     }}</span>
   </button>
 </template>
@@ -47,6 +47,10 @@ watch(isClicked, (value) => {
   position: relative;
   border-radius: var(--border-radius-card);
   color: var(--color);
+
+  &:hover .second-text:not(.clicked-second) {
+    transform: translateY(85%);
+  }
 }
 
 .text {
@@ -59,13 +63,9 @@ watch(isClicked, (value) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: 0.5s;
+  transition: transform 0.5s;
   color: white;
   font-size: 18px;
-}
-
-.clicked {
-  transform: translateY(-90%);
 }
 
 .first-text {
@@ -73,6 +73,11 @@ watch(isClicked, (value) => {
 }
 
 .second-text {
+  transform: translateY(100%);
   background-color: var(--color-primary);
+}
+
+.clicked-second {
+  transform: translateY(5%);
 }
 </style>
