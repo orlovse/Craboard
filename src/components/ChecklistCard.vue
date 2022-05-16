@@ -43,6 +43,7 @@ const complitedTasksCount = computed(() => {
       @update:model-value="updateName"
     />
     <ProgressBar
+      class="propgress-bar"
       :totalCount="checklist.list.length"
       :currentValue="complitedTasksCount"
     />
@@ -65,6 +66,10 @@ const complitedTasksCount = computed(() => {
 
 <style scoped lang="scss">
 .checklist-card {
+}
+
+.propgress-bar {
+  margin-bottom: 20px;
 }
 
 .list-move,

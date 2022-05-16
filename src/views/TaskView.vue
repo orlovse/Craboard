@@ -11,6 +11,7 @@ import { useRoute, useRouter } from "vue-router";
 import CustomTextarea from "@/components/CustomTextarea.vue";
 import ChecklistCard from "@/components/ChecklistCard.vue";
 import CustomButton from "@/components/CustomButton.vue";
+import ButtonWithConfirm from "../components/ButtonWithConfirm.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -106,7 +107,12 @@ const updateListItems = (newItem: CheckItemType) => {
       @updateChecklistName="updateChecklistName"
       @updateListItems="updateListItems"
     />
-    <button @click="deleteTask">Remove task</button>
+    <ButtonWithConfirm
+      class="delete-button"
+      firstText="Delete"
+      secondText="Confirm?"
+      @onConfirm="deleteTask"
+    />
   </div>
 </template>
 
@@ -119,6 +125,7 @@ const updateListItems = (newItem: CheckItemType) => {
   flex-direction: column;
   padding: 40px;
   position: relative;
+  border-radius: var(--border-radius-card);
 }
 
 .task-description {
@@ -129,5 +136,11 @@ const updateListItems = (newItem: CheckItemType) => {
   position: absolute;
   right: 10px;
   top: 10px;
+}
+
+.delete-button {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
 }
 </style>
