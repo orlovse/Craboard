@@ -1,6 +1,6 @@
 # craboard
 
-Ефылы ищфквб нщг сфт еуые ше щт https://craboard.netlify.app/
+Tasks board, you can test it https://craboard.netlify.app/
 
 ## Recommended IDE Setup
 
