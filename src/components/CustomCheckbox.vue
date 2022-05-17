@@ -62,7 +62,7 @@ const setIsChecked = () => {
 
       polyline {
         stroke-width: 2;
-        stroke: #18cda6;
+        stroke: var(--color-primary);
       }
     }
 
@@ -87,9 +87,11 @@ const setIsChecked = () => {
       width: 2px;
       height: 2px;
       border-radius: 2px;
-      box-shadow: 0 -18px 0 green, 12px -12px 0 green, 18px 0 0 green,
-        12px 12px 0 green, 0 18px 0 green, -12px 12px 0 green, -18px 0 0 green,
-        -12px -12px 0 green;
+      box-shadow: 0 -18px 0 var(--color-primary),
+        12px -12px 0 var(--color-primary), 18px 0 0 var(--color-primary),
+        12px 12px 0 var(--color-primary), 0 18px 0 var(--color-primary),
+        -12px 12px 0 var(--color-primary), -18px 0 0 var(--color-primary),
+        -12px -12px 0 var(--color-primary);
       transform: scale(0);
     }
   }

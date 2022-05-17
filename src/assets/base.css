@@ -18,13 +18,12 @@
   --color-text-opposite: rgb(226, 226, 226);
   --color-shadow: 1px 19px 42px -5px rgb(112, 112, 112);
   --color-shadow-active: 1px 5px 20px 2px rgb(112, 112, 112);
-  --color-my-message: #ffffff;
   --color-error: rgb(242, 107, 107);
-  --color-backgroun: lightslategray;
+  --color-border: #5f6668;
 }
 
 .theme-dark {
-  --color-primary: #0060df;
+  --color-primary: #4592f7;
   --color-secondary: #1e2022;
   --color-elements: #2d3133;
   --color-background-main: #292c2d;
@@ -38,9 +37,8 @@
   --color-text-opposite: rgb(15, 15, 15);
   --color-shadow: 1px 19px 42px -5px rgba(0, 0, 0, 1);
   --color-shadow-active: 1px 5px 20px 2px rgba(0, 0, 0, 1);
-  --color-my-message: #5f6668;
   --color-error: rgb(204, 50, 50);
-  --color-backgroun: rgb(46, 46, 46);
+  --color-border: #b1bdc1;
 }
 
 *,
@@ -85,4 +83,35 @@ button {
   cursor: pointer;
 	color: inherit;
 	padding: 0;
+}
+
+a {
+  font-weight: 500;
+  color: var(--color-text);
+  text-decoration: none;
+  cursor: pointer;
+  padding: 5px;
+  margin: 0 10px;
+  position: relative;
+}
+
+a::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-error);
+  transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+a:hover::before {
+  left: 0;
+  right: auto;
+  width: 100%;
+}
+
+.router-link-exact-active {
+  color: var(--color-primary);
 }
