@@ -1,6 +1,6 @@
 # craboard
 
-This template should help get you started developing with Vue 3 in Vite.
+Ефылы ищфквб нщг сфт еуые ше щт https://craboard.netlify.app/
 
 ## Recommended IDE Setup
 
