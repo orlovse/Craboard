@@ -41,8 +41,8 @@ const updateValue = (event: Event) => {
     <p v-if="filename">{{ filename }}</p>
     <div v-else>
       <p>
-        <span class="link-text">Choose a file</span>
-        or drag it here
+        <span class="link-text">Choose a file </span>
+        <span class="drag-text">or drag it here</span>
       </p>
     </div>
     <input
@@ -68,6 +68,10 @@ const updateValue = (event: Event) => {
 
   &.drag {
     border-color: var(--color-primary);
+
+    .drag-text {
+      color: var(--color-primary);
+    }
   }
 
   &:hover .link-text {
