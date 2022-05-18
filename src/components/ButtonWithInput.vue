@@ -7,6 +7,8 @@ import CustomInput from "./CustomInput.vue";
 interface IProps {
   buttonText: string;
   modelValue: string;
+
+  placeholder?: string;
 }
 
 const props = defineProps<IProps>();
@@ -33,6 +35,7 @@ const switchInput = () => {
     <CustomButton class="button" :text="buttonText" @click="switchInput" />
     <CustomInput
       :isBlurOnEnter="true"
+      :placeholder="placeholder"
       v-model="inputValue"
       @keypress.enter="switchInput"
       class="input"
@@ -64,12 +67,12 @@ const switchInput = () => {
 .input {
   width: 120px;
   z-index: 1;
-  transition: 1s;
+  transition: 0.5s;
   position: absolute;
   right: 0;
 }
 
 .show-input {
-  width: 500px;
+  width: 300px;
 }
 </style>

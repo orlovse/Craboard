@@ -109,6 +109,7 @@ const updateListItems = (newItem: CheckItemType) => {
     />
     <ButtonWithInput
       buttonText="Add checklist"
+      placeholder="Checklist name"
       v-model="newChecklistName"
       @keypress.enter="addChecklist"
     />
