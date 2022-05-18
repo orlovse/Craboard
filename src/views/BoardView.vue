@@ -98,7 +98,7 @@ const closeTaskModal = () => {
   gap: 20px;
 }
 .skeleton-wrapper {
-  width: 280px;
+  min-width: 280px;
   height: 100%;
   border-radius: var(--border-radius-card);
 }
@@ -109,6 +109,7 @@ const closeTaskModal = () => {
   left: 0;
   width: 100vw;
   height: 100vh;
+  overflow: auto;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;

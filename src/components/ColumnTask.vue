@@ -76,6 +76,7 @@ const dragEnd = () => {
 
 <style scoped>
 .taskCard {
+  cursor: pointer;
   border-radius: 10px;
   background: var(--color-elements);
   border: 1px solid var(--color-elements);
@@ -83,8 +84,7 @@ const dragEnd = () => {
   -webkit-box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.15);
   -moz-box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.15);
   padding: 20px;
-  margin: 10px;
-  margin-bottom: 20px;
+  margin: 20px 0;
   transition: 0.3s;
 }
 

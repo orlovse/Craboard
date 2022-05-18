@@ -6,12 +6,13 @@ import {
   type TaskKeyType,
   type TaskType,
 } from "@/stores/boards";
-import { computed } from "@vue/reactivity";
+import { computed, ref } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
 import CustomTextarea from "@/components/CustomTextarea.vue";
 import ChecklistCard from "@/components/ChecklistCard.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import ButtonWithConfirm from "../components/ButtonWithConfirm.vue";
+import ButtonWithInput from "../components/ButtonWithInput.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -60,10 +61,12 @@ const closeModal = () => {
   router.go(-1);
 };
 
-const addCheckbox = () => {
+const newChecklistName = ref("");
+
+const addChecklist = () => {
   if (selectedTask) {
     selectedTask.checklist = {
-      checklistName: "default name",
+      checklistName: newChecklistName.value,
       list: [],
     };
   }
@@ -93,14 +96,22 @@ const updateListItems = (newItem: CheckItemType) => {
       @click="closeModal"
       class="close-button"
     />
-    <CustomTextarea v-model="selectedTask.name" placeholder="Title" />
     <CustomTextarea
-      v-model="selectedTask.description"
-      placeholder="Description"
+      :isTitle="true"
+      class="title"
+      placeholder="Title"
+      v-model="selectedTask.name"
     />
-    <button @click="addCheckbox" :disabled="Boolean(selectedTask.checklist)">
-      Add checklist
-    </button>
+    <CustomTextarea
+      class="description"
+      placeholder="Description"
+      v-model="selectedTask.description"
+    />
+    <ButtonWithInput
+      buttonText="Add checklist"
+      v-model="newChecklistName"
+      @keypress.enter="addChecklist"
+    />
     <ChecklistCard
       v-if="selectedTask.checklist"
       :checklist="selectedTask.checklist"
@@ -120,6 +131,7 @@ const updateListItems = (newItem: CheckItemType) => {
 .task-view {
   width: 700px;
   height: 80%;
+  overflow: auto;
   background: var(--color-background-main);
   display: flex;
   flex-direction: column;
@@ -142,5 +154,19 @@ const updateListItems = (newItem: CheckItemType) => {
   position: absolute;
   right: 10px;
   bottom: 10px;
+}
+
+.title {
+  overflow: hidden;
+  overflow-wrap: break-word;
+  min-height: 56px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.description {
+  min-height: 80px;
+  overflow: hidden;
+  overflow-wrap: break-word;
 }
 </style>
