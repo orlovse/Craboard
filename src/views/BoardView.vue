@@ -99,6 +99,7 @@ const closeTaskModal = () => {
 }
 .skeleton-wrapper {
   min-width: 280px;
+  width: 280px;
   height: 100%;
   border-radius: var(--border-radius-card);
 }
