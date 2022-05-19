@@ -46,7 +46,6 @@ const switchInput = () => {
 
 <style scoped lang="scss">
 .button-with-input {
-  overflow: hidden;
   position: relative;
   display: flex;
   justify-content: end;

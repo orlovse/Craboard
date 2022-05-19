@@ -69,6 +69,7 @@ const complitedTasksCount = computed(() => {
     </TransitionGroup>
     <CustomInput
       :isShowButton="true"
+      class="add-input"
       placeholder="Add new item"
       v-model="newItemName"
       @onButtonClick="addNewItem"
@@ -78,6 +79,11 @@ const complitedTasksCount = computed(() => {
 
 <style scoped lang="scss">
 .checklist-card {
+  padding: 5px;
+}
+
+.add-input {
+  width: 200px;
 }
 
 .propgress-bar {

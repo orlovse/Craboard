@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import CustomTextarea from "./CustomTextarea.vue";
+
 interface IProps {
   modelValue: boolean;
   label: string;
@@ -14,7 +16,7 @@ const setIsChecked = () => {
 </script>
 
 <template>
-  <div for="todo" class="checkbox" @click="setIsChecked">
+  <div for="todo" class="checkbox">
     <input
       type="checkbox"
       id="todo"
@@ -22,11 +24,12 @@ const setIsChecked = () => {
       :class="{ checked: modelValue }"
       :value="modelValue"
     />
-    <div for="todo" class="cbx">
+    <div for="todo" class="cbx" @click="setIsChecked">
       <svg width="14px" height="12px" viewBox="0 0 14 12">
         <polyline points="1 7.6 5 11 13 1"></polyline>
       </svg>
     </div>
+    <!-- <CustomTextarea :isTitle="true" v-model="" /> -->
     <div for="todo" class="cbx-lbl">{{ label }}</div>
   </div>
 </template>
@@ -36,7 +39,6 @@ const setIsChecked = () => {
   display: flex;
   align-items: center;
   align-self: center;
-  user-select: none;
   margin-bottom: 15px;
   //no-flicker Safari
   transform: translateZ(0);

@@ -96,35 +96,41 @@ const updateListItems = (newItem: CheckItemType) => {
       @click="closeModal"
       class="close-button"
     />
-    <CustomTextarea
-      :isTitle="true"
-      class="title"
-      placeholder="Title"
-      v-model="selectedTask.name"
-    />
-    <CustomTextarea
-      class="description"
-      placeholder="Description"
-      v-model="selectedTask.description"
-    />
-    <ButtonWithInput
-      buttonText="Add checklist"
-      placeholder="Checklist name"
-      v-model="newChecklistName"
-      @keypress.enter="addChecklist"
-    />
-    <ChecklistCard
-      v-if="selectedTask.checklist"
-      :checklist="selectedTask.checklist"
-      @updateChecklistName="updateChecklistName"
-      @updateListItems="updateListItems"
-    />
-    <ButtonWithConfirm
-      class="delete-button"
-      firstText="Delete"
-      secondText="Confirm?"
-      @onConfirm="deleteTask"
-    />
+    <div class="flex first-column">
+      <CustomTextarea
+        :isTitle="true"
+        class="title"
+        placeholder="Title"
+        v-model="selectedTask.name"
+      />
+      <CustomTextarea
+        class="description"
+        placeholder="Description"
+        v-model="selectedTask.description"
+      />
+      <ChecklistCard
+        v-if="selectedTask.checklist"
+        :checklist="selectedTask.checklist"
+        @updateChecklistName="updateChecklistName"
+        @updateListItems="updateListItems"
+      />
+    </div>
+    <div class="flex second-column">
+      <div class="flex">
+        <ButtonWithInput
+          buttonText="Add checklist"
+          placeholder="Checklist name"
+          v-model="newChecklistName"
+          @keypress.enter="addChecklist"
+        />
+      </div>
+      <ButtonWithConfirm
+        class="delete-button"
+        firstText="Delete"
+        secondText="Confirm?"
+        @onConfirm="deleteTask"
+      />
+    </div>
   </div>
 </template>
 
@@ -135,7 +141,8 @@ const updateListItems = (newItem: CheckItemType) => {
   overflow: auto;
   background: var(--color-background-main);
   display: flex;
-  flex-direction: column;
+  gap: 40px;
+  justify-content: space-between;
   padding: 40px;
   position: relative;
   border-radius: var(--border-radius-card);
@@ -152,9 +159,9 @@ const updateListItems = (newItem: CheckItemType) => {
 }
 
 .delete-button {
-  position: absolute;
+  /* position: absolute;
   right: 10px;
-  bottom: 10px;
+  bottom: 10px; */
 }
 
 .title {
@@ -169,5 +176,23 @@ const updateListItems = (newItem: CheckItemType) => {
   min-height: 80px;
   overflow: hidden;
   overflow-wrap: break-word;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.first-column {
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.second-column {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 </style>
