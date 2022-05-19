@@ -6,12 +6,13 @@ import {
   type TaskKeyType,
   type TaskType,
 } from "@/stores/boards";
-import { computed } from "@vue/reactivity";
+import { computed, ref } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
 import CustomTextarea from "@/components/CustomTextarea.vue";
 import ChecklistCard from "@/components/ChecklistCard.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import ButtonWithConfirm from "../components/ButtonWithConfirm.vue";
+import ButtonWithInput from "../components/ButtonWithInput.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -60,10 +61,12 @@ const closeModal = () => {
   router.go(-1);
 };
 
-const addCheckbox = () => {
+const newChecklistName = ref("");
+
+const addChecklist = () => {
   if (selectedTask) {
     selectedTask.checklist = {
-      checklistName: "default name",
+      checklistName: newChecklistName.value,
       list: [],
     };
   }
@@ -93,26 +96,41 @@ const updateListItems = (newItem: CheckItemType) => {
       @click="closeModal"
       class="close-button"
     />
-    <CustomTextarea v-model="selectedTask.name" placeholder="Title" />
-    <CustomTextarea
-      v-model="selectedTask.description"
-      placeholder="Description"
-    />
-    <button @click="addCheckbox" :disabled="Boolean(selectedTask.checklist)">
-      Add checklist
-    </button>
-    <ChecklistCard
-      v-if="selectedTask.checklist"
-      :checklist="selectedTask.checklist"
-      @updateChecklistName="updateChecklistName"
-      @updateListItems="updateListItems"
-    />
-    <ButtonWithConfirm
-      class="delete-button"
-      firstText="Delete"
-      secondText="Confirm?"
-      @onConfirm="deleteTask"
-    />
+    <div class="flex first-column">
+      <CustomTextarea
+        :isTitle="true"
+        class="title"
+        placeholder="Title"
+        v-model="selectedTask.name"
+      />
+      <CustomTextarea
+        class="description"
+        placeholder="Description"
+        v-model="selectedTask.description"
+      />
+      <ChecklistCard
+        v-if="selectedTask.checklist"
+        :checklist="selectedTask.checklist"
+        @updateChecklistName="updateChecklistName"
+        @updateListItems="updateListItems"
+      />
+    </div>
+    <div class="flex second-column">
+      <div class="flex">
+        <ButtonWithInput
+          buttonText="Add checklist"
+          placeholder="Checklist name"
+          v-model="newChecklistName"
+          @keypress.enter="addChecklist"
+        />
+      </div>
+      <ButtonWithConfirm
+        class="delete-button"
+        firstText="Delete"
+        secondText="Confirm?"
+        @onConfirm="deleteTask"
+      />
+    </div>
   </div>
 </template>
 
@@ -120,9 +138,11 @@ const updateListItems = (newItem: CheckItemType) => {
 .task-view {
   width: 700px;
   height: 80%;
+  overflow: auto;
   background: var(--color-background-main);
   display: flex;
-  flex-direction: column;
+  gap: 40px;
+  justify-content: space-between;
   padding: 40px;
   position: relative;
   border-radius: var(--border-radius-card);
@@ -139,8 +159,40 @@ const updateListItems = (newItem: CheckItemType) => {
 }
 
 .delete-button {
-  position: absolute;
+  /* position: absolute;
   right: 10px;
-  bottom: 10px;
+  bottom: 10px; */
+}
+
+.title {
+  overflow: hidden;
+  overflow-wrap: break-word;
+  min-height: 56px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.description {
+  min-height: 80px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.first-column {
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.second-column {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 </style>

@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { ref } from "@vue/reactivity";
-
 interface IProps {
   modelValue: string;
 
+  isTitle?: boolean;
   placeholder?: string;
 }
 
-defineProps<IProps>();
+const props = defineProps<IProps>();
 const emit = defineEmits(["update:modelValue"]);
 
-const isFocused = ref(false);
+const setValue = (event: KeyboardEvent | FocusEvent, newValue: boolean) => {
+  const target = event.target as HTMLTextAreaElement;
 
-const setFocused = (event: KeyboardEvent | FocusEvent, newValue: boolean) => {
-  isFocused.value = newValue;
+  if (props.isTitle) {
+    target.blur();
+  }
 
   if (!newValue) {
-    const target = event?.target as HTMLTextAreaElement;
     const value = target?.value;
 
     emit("update:modelValue", value);
@@ -29,9 +29,8 @@ const setFocused = (event: KeyboardEvent | FocusEvent, newValue: boolean) => {
     class="custom-textarea"
     :value="modelValue"
     :placeholder="placeholder"
-    @keyup.enter="setFocused($event, false)"
-    @focusin="setFocused($event, true)"
-    @focusout="setFocused($event, false)"
+    @keypress.prevent.enter="setValue($event, false)"
+    @focusout="setValue($event, false)"
   />
 </template>
 

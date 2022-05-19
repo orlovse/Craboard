@@ -45,7 +45,7 @@ watch(isClicked, (value) => {
   overflow: hidden;
   padding: 0;
   position: relative;
-  border-radius: var(--border-radius-card);
+  border-radius: 50px;
   color: var(--color);
 
   &:hover .second-text:not(.clicked-second) {

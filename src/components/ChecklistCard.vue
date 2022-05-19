@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { computed, ref } from "@vue/reactivity";
+
 import type { TaskChecklistType } from "@/stores/boards";
-import CustomTextarea from "./CustomTextarea.vue";
+
 import CustomCheckbox from "./CustomCheckbox.vue";
+import CustomInput from "./CustomInput.vue";
+import CustomTextarea from "./CustomTextarea.vue";
 import ProgressBar from "./ProgressBar.vue";
-import { computed } from "@vue/reactivity";
 
 interface IProps {
   checklist: TaskChecklistType;
@@ -16,13 +19,17 @@ const updateName = (value: string) => {
   emit("updateChecklistName", value);
 };
 
+const newItemName = ref("");
+
 const addNewItem = () => {
   emit("updateListItems", {
     id: new Date().getTime().toString(),
     isChecked: false,
-    name: new Date().getTime().toString(),
+    name: newItemName.value,
     usersAssigned: null,
   });
+
+  newItemName.value = "";
 };
 
 const complitedTasksCount = computed(() => {
@@ -60,12 +67,23 @@ const complitedTasksCount = computed(() => {
         />
       </li>
     </TransitionGroup>
-    <button @click="addNewItem">Add new item</button>
+    <CustomInput
+      :isShowButton="true"
+      class="add-input"
+      placeholder="Add new item"
+      v-model="newItemName"
+      @onButtonClick="addNewItem"
+    />
   </div>
 </template>
 
 <style scoped lang="scss">
 .checklist-card {
+  padding: 5px;
+}
+
+.add-input {
+  width: 200px;
 }
 
 .propgress-bar {

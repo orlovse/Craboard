@@ -1,6 +1,7 @@
 <script setup lang="ts">
 interface IProps {
   isShowButton?: boolean;
+  isBlurOnEnter?: boolean;
   label?: string;
   modelValue?: string;
   placeholder?: string;
@@ -9,7 +10,7 @@ interface IProps {
 
 const emit = defineEmits(["update:modelValue", "onButtonClick"]);
 
-withDefaults(defineProps<IProps>(), {
+const props = withDefaults(defineProps<IProps>(), {
   type: "text",
 });
 
@@ -18,6 +19,15 @@ const onInput = (event: Event) => {
   const value = target?.value;
 
   emit("update:modelValue", value);
+};
+
+const handleEnter = (event: KeyboardEvent) => {
+  const target = event.target as HTMLInputElement;
+  if (props.isBlurOnEnter) {
+    target.blur();
+  }
+
+  emit("onButtonClick", target.value);
 };
 </script>
 
@@ -29,6 +39,7 @@ const onInput = (event: Event) => {
       :placeholder="placeholder"
       :value="modelValue"
       @input="onInput"
+      @keypress.enter="handleEnter"
     />
     <button
       class="input-button"

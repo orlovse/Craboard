@@ -6,11 +6,11 @@ import { storeToRefs } from "pinia";
 import { useBoardsStore } from "@/stores/boards";
 import BoardColumn from "@/components/BoardColumn.vue";
 import CustomSkeleton from "../components/CustomSkeleton.vue";
+import CustomInput from "../components/CustomInput.vue";
 
 const boardStore = useBoardsStore();
 const route = useRoute();
 const router = useRouter();
-console.log("route", route.query);
 
 const newColumnName = ref("");
 
@@ -30,6 +30,7 @@ const selectedBoard = computed(() => {
 
 const addNewColumn = () => {
   createColumnAction(newColumnName.value);
+  newColumnName.value = "";
 };
 
 const isTaskOpen = computed(() => {
@@ -60,13 +61,15 @@ const closeTaskModal = () => {
         :column="column"
         :columnIndex="columnIndex"
       />
-      <!-- <div class="column">
-        <input
+      <div class="column">
+        <CustomInput
           type="text"
+          placeholder="Add new column"
+          class="column-input"
           v-model="newColumnName"
           @keyup.enter="addNewColumn"
         />
-      </div> -->
+      </div>
     </div>
 
     <Transition name="fade" mode="out-in">
@@ -98,6 +101,7 @@ const closeTaskModal = () => {
   gap: 20px;
 }
 .skeleton-wrapper {
+  min-width: 280px;
   width: 280px;
   height: 100%;
   border-radius: var(--border-radius-card);
@@ -109,10 +113,15 @@ const closeTaskModal = () => {
   left: 0;
   width: 100vw;
   height: 100vh;
+  overflow: auto;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.column-input {
+  width: 150px;
 }
 
 .fade-enter-active,

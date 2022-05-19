@@ -56,7 +56,6 @@ const computedMoveTaskOrColumn = computed(() => {
         placeholder="Add new task"
         v-model="inputValue"
         @onButtonClick="createNewTask"
-        @keyup.enter="createNewTask"
       />
     </CustomDrag>
   </CustomDrop>
@@ -71,7 +70,7 @@ const computedMoveTaskOrColumn = computed(() => {
   backdrop-filter: blur(6.6px);
   -webkit-backdrop-filter: blur(6.6px);
   border: 1px solid rgba(255, 255, 255, 0.22);
-  padding: 10px;
+  padding: 15px;
   height: 100%;
   transition: 1s;
 }
