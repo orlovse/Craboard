@@ -40,12 +40,19 @@ const isTaskOpen = computed(() => {
 const closeTaskModal = () => {
   router.push({ name: "board" });
 };
+
+const horizontalScroll = (event: WheelEvent) => {
+  const element = event.target as HTMLDivElement;
+
+  element.scrollLeft += event.deltaY;
+};
 </script>
 
 <template>
   <div
     class="board-view"
     :style="{ 'background-image': `url('${boardImage}')` }"
+    @wheel.passive="horizontalScroll"
   >
     <div v-if="boardLoading" class="loading-container">
       <CustomSkeleton
@@ -71,13 +78,14 @@ const closeTaskModal = () => {
         />
       </div>
     </div>
-
+  </div>
+  <router-view v-slot="{ Component }">
     <Transition name="fade" mode="out-in">
       <div class="task-bg" v-if="isTaskOpen" @click.self="closeTaskModal">
-        <router-view />
+        <component :is="Component" />
       </div>
     </Transition>
-  </div>
+  </router-view>
 </template>
 
 <style scoped>
