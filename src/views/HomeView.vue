@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useBoardsStore } from "@/stores/boards";
-import { ref } from "@vue/reactivity";
-import UploadImage from "../components/UploadImage.vue";
+import UploadImage from "@/components/UploadImage.vue";
 
 const boardStory = useBoardsStore();
 

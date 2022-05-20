@@ -5,8 +5,8 @@ import { storeToRefs } from "pinia";
 
 import { useBoardsStore } from "@/stores/boards";
 import BoardColumn from "@/components/BoardColumn.vue";
-import CustomSkeleton from "../components/CustomSkeleton.vue";
-import CustomInput from "../components/CustomInput.vue";
+import CustomInput from "@/components/CustomInput.vue";
+import CustomSkeleton from "@/components/CustomSkeleton.vue";
 
 const boardStore = useBoardsStore();
 const route = useRoute();
@@ -63,18 +63,18 @@ const horizontalScroll = (event: WheelEvent) => {
     </div>
     <div class="board-container" v-else>
       <BoardColumn
-        v-for="(column, columnIndex) of selectedBoard"
-        :key="column.name"
         :column="column"
         :columnIndex="columnIndex"
+        :key="column.name"
+        v-for="(column, columnIndex) of selectedBoard"
       />
       <div class="column">
         <CustomInput
-          type="text"
-          placeholder="Add new column"
-          class="column-input"
-          v-model="newColumnName"
           @keyup.enter="addNewColumn"
+          class="column-input"
+          placeholder="Add new column"
+          type="text"
+          v-model="newColumnName"
         />
       </div>
     </div>
@@ -90,18 +90,18 @@ const horizontalScroll = (event: WheelEvent) => {
 
 <style scoped>
 .board-view {
-  height: calc(100vh - 50px);
   background-repeat: no-repeat;
   background-size: cover;
-  width: 100vw;
+  height: calc(100vh - 50px);
   overflow-x: auto;
   padding: 20px;
+  width: 100vw;
 }
 
 .loading-container {
-  height: 50vh;
   display: flex;
   gap: 20px;
+  height: 50vh;
 }
 
 .board-container {
@@ -109,23 +109,23 @@ const horizontalScroll = (event: WheelEvent) => {
   gap: 20px;
 }
 .skeleton-wrapper {
+  border-radius: var(--border-radius-card);
+  height: 100%;
   min-width: 280px;
   width: 280px;
-  height: 100%;
-  border-radius: var(--border-radius-card);
 }
 
 .task-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: auto;
+  align-items: center;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
+  height: 100vh;
   justify-content: center;
-  align-items: center;
+  left: 0;
+  overflow: auto;
+  position: absolute;
+  top: 0;
+  width: 100vw;
 }
 
 .column-input {
