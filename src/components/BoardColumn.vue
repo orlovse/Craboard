@@ -4,8 +4,8 @@ import { useBoardsStore, type ColumnType } from "@/stores/boards";
 import { useMoveTaskOrColumn } from "@/composables/useMoveTaskOrColumn";
 
 import ColumnTask from "./ColumnTask.vue";
-import CustomDrop from "./CustomDrop.vue";
 import CustomDrag from "./CustomDrag.vue";
+import CustomDrop from "./CustomDrop.vue";
 import CustomInput from "./CustomInput.vue";
 
 interface IProps {
@@ -43,19 +43,19 @@ const computedMoveTaskOrColumn = computed(() => {
       <div>{{ column.name }} ({{ column.tasks.length }})</div>
       <TransitionGroup name="tasks" tag="div">
         <ColumnTask
-          v-for="(task, taskIndex) of column.tasks"
+          :column="column"
+          :columnIndex="columnIndex"
           :key="task.id"
           :task="task"
           :taskIndex="taskIndex"
-          :columnIndex="columnIndex"
-          :column="column"
+          v-for="(task, taskIndex) of column.tasks"
         />
       </TransitionGroup>
       <CustomInput
         :isShowButton="true"
+        @onButtonClick="createNewTask"
         placeholder="Add new task"
         v-model="inputValue"
-        @onButtonClick="createNewTask"
       />
     </CustomDrag>
   </CustomDrop>
@@ -63,16 +63,16 @@ const computedMoveTaskOrColumn = computed(() => {
 
 <style scoped>
 .boardColumnCard {
-  width: 280px;
+  -webkit-backdrop-filter: blur(6.6px);
+  backdrop-filter: blur(6.6px);
   background: rgba(255, 255, 255, 0.21);
   border-radius: var(--border-radius-card);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(6.6px);
-  -webkit-backdrop-filter: blur(6.6px);
   border: 1px solid rgba(255, 255, 255, 0.22);
-  padding: 15px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   height: 100%;
+  padding: 15px;
   transition: 1s;
+  width: 280px;
 }
 
 .tasks-move,

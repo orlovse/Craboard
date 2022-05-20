@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
 import { watch } from "vue";
+
 import CustomButton from "./CustomButton.vue";
 import CustomInput from "./CustomInput.vue";
 
@@ -34,41 +35,41 @@ const switchInput = () => {
   <div class="button-with-input">
     <CustomButton class="button" :text="buttonText" @click="switchInput" />
     <CustomInput
+      :class="{ 'show-input': isShowInput }"
       :isBlurOnEnter="true"
       :placeholder="placeholder"
-      v-model="inputValue"
       @keypress.enter="switchInput"
       class="input"
-      :class="{ 'show-input': isShowInput }"
+      v-model="inputValue"
     />
   </div>
 </template>
 
 <style scoped lang="scss">
 .button-with-input {
-  position: relative;
-  display: flex;
-  justify-content: end;
-  border-radius: 50px;
-  height: 50px;
   align-items: center;
+  border-radius: 50px;
+  display: flex;
+  height: 50px;
+  justify-content: end;
+  position: relative;
 }
 
 .button {
-  z-index: 2;
-  width: 120px;
   background-color: var(--color-primary);
-  height: 40px;
   border-radius: 50px;
   color: var(--color-text-opposite);
+  height: 40px;
+  width: 120px;
+  z-index: 2;
 }
 
 .input {
-  width: 120px;
-  z-index: 1;
-  transition: 0.5s;
   position: absolute;
   right: 0;
+  transition: 0.5s;
+  width: 120px;
+  z-index: 1;
 }
 
 .show-input {

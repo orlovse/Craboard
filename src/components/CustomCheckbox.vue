@@ -18,11 +18,11 @@ const setIsChecked = () => {
 <template>
   <div for="todo" class="checkbox">
     <input
-      type="checkbox"
-      id="todo"
-      class="checkbox-input hidden"
       :class="{ checked: modelValue }"
       :value="modelValue"
+      class="checkbox-input hidden"
+      id="todo"
+      type="checkbox"
     />
     <div for="todo" class="cbx" @click="setIsChecked">
       <svg width="14px" height="12px" viewBox="0 0 14 12">
@@ -36,31 +36,30 @@ const setIsChecked = () => {
 
 <style scoped lang="scss">
 .checkbox {
-  display: flex;
   align-items: center;
   align-self: center;
+  display: flex;
   margin-bottom: 15px;
-  //no-flicker Safari
   transform: translateZ(0);
 
   .cbx {
-    position: relative;
-    top: 1px;
+    border-radius: 3px;
+    border: 1px solid #c8ccd4;
+    cursor: pointer;
     display: inline-block;
-    width: 14px;
     height: 14px;
     margin-inline-end: 10px;
-    border: 1px solid #c8ccd4;
-    border-radius: 3px;
-    cursor: pointer;
+    position: relative;
+    top: 1px;
+    width: 14px;
 
     svg {
-      position: relative;
-      top: -5px;
-      transform: scale(0);
       fill: none;
+      position: relative;
       stroke-linecap: round;
       stroke-linejoin: round;
+      top: -5px;
+      transform: scale(0);
 
       polyline {
         stroke-width: 2;
@@ -69,48 +68,47 @@ const setIsChecked = () => {
     }
 
     &:before {
+      border-radius: 100%;
       content: "";
-      position: absolute;
-      top: 50%;
+      height: 20px;
       left: 50%;
       margin: -10px 0 0 -10px;
-      width: 20px;
-      height: 20px;
-      border-radius: 100%;
-      // background: $main
+      position: absolute;
+      top: 50%;
       transform: scale(0);
+      width: 20px;
     }
 
     &:after {
-      content: "";
-      position: absolute;
-      top: 5px;
-      left: 5px;
-      width: 2px;
-      height: 2px;
       border-radius: 2px;
       box-shadow: 0 -18px 0 var(--color-primary),
         12px -12px 0 var(--color-primary), 18px 0 0 var(--color-primary),
         12px 12px 0 var(--color-primary), 0 18px 0 var(--color-primary),
         -12px 12px 0 var(--color-primary), -18px 0 0 var(--color-primary),
         -12px -12px 0 var(--color-primary);
+      content: "";
+      height: 2px;
+      left: 5px;
+      position: absolute;
+      top: 5px;
       transform: scale(0);
+      width: 2px;
     }
   }
 
   .cbx-lbl {
-    position: relative;
     cursor: pointer;
+    position: relative;
     transition: color 0.3s ease;
 
     &:after {
+      background: #9098a9;
       content: "";
+      height: 1px;
+      left: 0;
       position: absolute;
       top: 50%;
-      left: 0;
       width: 0;
-      height: 1px;
-      background: #9098a9;
     }
   }
 
@@ -120,6 +118,7 @@ const setIsChecked = () => {
     &.checked {
       + .cbx {
         border-color: transparent;
+
         svg {
           transform: scale(1);
           transition: all 0.4s ease;

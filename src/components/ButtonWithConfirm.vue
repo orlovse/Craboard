@@ -40,13 +40,13 @@ watch(isClicked, (value) => {
 
 <style scoped lang="scss">
 .button-with-confirm {
-  width: 100px;
+  border-radius: 50px;
+  color: var(--color);
   height: 40px;
   overflow: hidden;
   padding: 0;
   position: relative;
-  border-radius: 50px;
-  color: var(--color);
+  width: 100px;
 
   &:hover .second-text:not(.clicked-second) {
     transform: translateY(85%);
@@ -54,18 +54,18 @@ watch(isClicked, (value) => {
 }
 
 .text {
+  align-items: center;
+  color: white;
   display: block;
-  width: 100%;
+  display: flex;
+  font-size: 18px;
   height: 100%;
+  justify-content: center;
+  left: 0;
   position: absolute;
   top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   transition: transform 0.5s;
-  color: white;
-  font-size: 18px;
+  width: 100%;
 }
 
 .first-text {

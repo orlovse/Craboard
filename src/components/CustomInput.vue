@@ -34,12 +34,12 @@ const handleEnter = (event: KeyboardEvent) => {
 <template>
   <div class="input-wrapper">
     <input
-      class="custom-input"
-      :type="type"
       :placeholder="placeholder"
+      :type="type"
       :value="modelValue"
       @input="onInput"
       @keypress.enter="handleEnter"
+      class="custom-input"
     />
     <button
       class="input-button"
@@ -57,16 +57,16 @@ const handleEnter = (event: KeyboardEvent) => {
 }
 
 .custom-input {
+  background-color: var(--color-background-main);
+  border-radius: 40px;
+  border: 1px solid #349bf052;
   color: var(--color-text);
   height: 40px;
-  width: 100%;
-  border-radius: 40px;
-  overflow: hidden;
-  background-color: var(--color-background-main);
-  border: 1px solid #349bf052;
-  padding: 5px 16px;
   outline: none;
+  overflow: hidden;
+  padding: 5px 16px;
   transition: 0.5s;
+  width: 100%;
 
   &:focus {
     border: 1px solid #349af0;
@@ -75,16 +75,16 @@ const handleEnter = (event: KeyboardEvent) => {
 }
 
 .input-button {
+  background-color: #1e90ff;
+  border-radius: 100%;
+  border: 0;
+  cursor: pointer;
+  height: 32px;
   position: absolute;
   right: 4px;
   top: 4px;
-  cursor: pointer;
-  border: 0;
-  height: 32px;
-  width: 32px;
-  border-radius: 100%;
-  background-color: #1e90ff;
   transition: 0.3s;
+  width: 32px;
 
   &:hover {
     background-color: #0fb9b1;

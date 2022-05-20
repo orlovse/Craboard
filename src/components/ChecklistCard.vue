@@ -50,29 +50,29 @@ const complitedTasksCount = computed(() => {
       @update:model-value="updateName"
     />
     <ProgressBar
-      class="propgress-bar"
-      :totalCount="checklist.list.length"
       :currentValue="complitedTasksCount"
+      :totalCount="checklist.list.length"
+      class="propgress-bar"
     />
     <TransitionGroup name="list" tag="ul" v-if="checklist.list">
       <li
-        v-for="listItem of checklist.list"
         :key="listItem.id"
         class="list-item"
+        v-for="listItem of checklist.list"
       >
         <CustomCheckbox
           :key="listItem.id"
-          v-model="listItem.isChecked"
           :label="listItem.name"
+          v-model="listItem.isChecked"
         />
       </li>
     </TransitionGroup>
     <CustomInput
       :isShowButton="true"
+      @onButtonClick="addNewItem"
       class="add-input"
       placeholder="Add new item"
       v-model="newItemName"
-      @onButtonClick="addNewItem"
     />
   </div>
 </template>

@@ -26,25 +26,26 @@ const setValue = (event: KeyboardEvent | FocusEvent, newValue: boolean) => {
 
 <template>
   <textarea
-    class="custom-textarea"
-    :value="modelValue"
     :placeholder="placeholder"
-    @keypress.prevent.enter="setValue($event, false)"
+    :value="modelValue"
     @focusout="setValue($event, false)"
+    @keypress.prevent.enter="setValue($event, false)"
+    class="custom-textarea"
   />
 </template>
 
 <style scoped lang="scss">
 .custom-textarea {
+  background-color: transparent;
   border: 1px solid transparent;
+  color: var(--color-text);
+  font-family: inherit;
   outline: none;
   resize: none;
-  background-color: transparent;
-  color: var(--color-text);
 
   &:focus {
-    border-color: var(--color-primary);
     background-color: var(--color-elements);
+    border-color: var(--color-primary);
     resize: vertical;
   }
 }

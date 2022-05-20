@@ -6,11 +6,11 @@
 
 <style scoped lang="scss">
 .skeleton {
-  width: 100%;
-  height: 100%;
-  background: var(--color-background-skeleton);
-  background-size: 200%;
   animation: loader 1s infinite reverse;
+  background-size: 200%;
+  background: var(--color-background-skeleton);
+  height: 100%;
+  width: 100%;
 }
 
 @keyframes loader {
