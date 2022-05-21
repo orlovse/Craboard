@@ -1,5 +1,6 @@
 <script setup lang="ts">
 interface IProps {
+  isDefault?: boolean;
   isIconButton?: boolean;
   isCloseButton?: boolean;
   text?: string;
@@ -11,9 +12,15 @@ defineProps<IProps>();
 <template>
   <button
     class="custom-button"
-    :class="{ 'icon-button': isIconButton, 'close-button': isCloseButton }"
+    :class="{
+      'default-button': isDefault,
+      'icon-button': isIconButton,
+      'close-button': isCloseButton,
+    }"
   >
-    {{ text }}
+    <!-- <div class="button-background"></div> -->
+    <span class="button-text first"> {{ text }}</span>
+    <span class="button-text second"> {{ text }}</span>
   </button>
 </template>
 
@@ -22,6 +29,40 @@ defineProps<IProps>();
   border: var(--border-radius-card);
   height: 100%;
   width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  .button-text {
+    display: inline-block;
+    transition: 0.3s;
+    transform: translateY(50%);
+  }
+
+  .second {
+    display: none;
+  }
+}
+
+.default-button {
+  transition: 0.5s;
+  border-radius: 50px;
+  background-color: var(--color-primary);
+  color: white;
+
+  .second {
+    display: block;
+    transform: translateY(200%);
+  }
+
+  &:hover {
+    .first {
+      transform: translateY(-200%);
+    }
+
+    .second {
+      transform: translateY(-50%);
+    }
+  }
 }
 
 .icon-button {
@@ -52,6 +93,7 @@ defineProps<IProps>();
     transform: rotate(-45deg);
     width: 24px;
   }
+
   &:before {
     background-color: var(--color-error);
     content: "";

@@ -121,7 +121,9 @@ const updateListItems = (newItem: CheckItemType) => {
       <div class="flex">
         <ButtonWithInput
           @keypress.enter="addChecklist"
+          @addChecklist="addChecklist"
           buttonText="Add checklist"
+          confirmButtontext="Confirm?"
           placeholder="Checklist name"
           v-model="newChecklistName"
         />

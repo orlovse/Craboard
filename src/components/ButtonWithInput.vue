@@ -7,13 +7,14 @@ import CustomInput from "./CustomInput.vue";
 
 interface IProps {
   buttonText: string;
+  confirmButtontext: string;
   modelValue: string;
 
   placeholder?: string;
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "addChecklist"]);
 
 const inputValue = ref(props.modelValue);
 
@@ -29,11 +30,32 @@ const switchInput = () => {
   isShowInput.value = !isShowInput.value;
   inputValue.value = "";
 };
+
+const switchAndSend = () => {
+  if (isShowInput.value) {
+    emit("update:modelValue", inputValue.value);
+    emit("addChecklist");
+  }
+
+  switchInput();
+};
 </script>
 
 <template>
   <div class="button-with-input">
-    <CustomButton class="button" :text="buttonText" @click="switchInput" />
+    <CustomButton
+      class="button"
+      :isDefault="true"
+      :text="isShowInput ? confirmButtontext : buttonText"
+      @click="switchAndSend"
+    />
+    <CustomButton
+      :class="{ 'show-confirm-button': isShowInput }"
+      class="confirm-button"
+      :isDefault="true"
+      text="X"
+      @click="switchInput"
+    />
     <CustomInput
       :class="{ 'show-input': isShowInput }"
       :isBlurOnEnter="true"
@@ -56,12 +78,20 @@ const switchInput = () => {
 }
 
 .button {
-  background-color: var(--color-primary);
-  border-radius: 50px;
-  color: var(--color-text-opposite);
   height: 40px;
   width: 120px;
   z-index: 2;
+}
+
+.confirm-button {
+  height: 40px;
+  width: 48px;
+  position: absolute;
+  right: 20px;
+  z-index: 1;
+  border-radius: 0 50px 50px 0;
+  background-color: var(--color-error);
+  padding-inline-start: 10px;
 }
 
 .input {
@@ -69,7 +99,10 @@ const switchInput = () => {
   right: 0;
   transition: 0.5s;
   width: 120px;
-  z-index: 1;
+}
+
+.show-confirm-button {
+  right: -30px;
 }
 
 .show-input {
