@@ -1,25 +1,44 @@
 <script setup lang="ts">
+import { watch } from "vue";
+import { ref } from "@vue/reactivity";
+
 import CustomTextarea from "./CustomTextarea.vue";
+import type { CheckItemType } from "@/stores/boards";
 
 interface IProps {
-  modelValue: boolean;
-  label: string;
+  listItem: CheckItemType;
 }
 
 const props = defineProps<IProps>();
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["remove"]);
+
+const itemText = ref(props.listItem.name);
+
+const isEdit = ref(false);
+
+watch(itemText, (newValue) => {
+  const listItem = props.listItem;
+  listItem.name = newValue;
+
+  switchEdit();
+});
 
 const setIsChecked = () => {
-  emit("update:modelValue", !props.modelValue);
+  const listItem = props.listItem;
+  listItem.isChecked = !listItem.isChecked;
+};
+
+const switchEdit = () => {
+  isEdit.value = !isEdit.value;
 };
 </script>
 
 <template>
   <div for="todo" class="checkbox">
     <input
-      :class="{ checked: modelValue }"
-      :value="modelValue"
+      :class="{ checked: props.listItem.isChecked }"
+      :value="props.listItem.isChecked"
       class="checkbox-input hidden"
       id="todo"
       type="checkbox"
@@ -29,17 +48,36 @@ const setIsChecked = () => {
         <polyline points="1 7.6 5 11 13 1"></polyline>
       </svg>
     </div>
-    <!-- <CustomTextarea :isTitle="true" v-model="" /> -->
-    <div for="todo" class="cbx-lbl">{{ label }}</div>
+    <div for="todo" class="cbx-lbl" v-if="!isEdit" @click="switchEdit">
+      {{ itemText }}
+    </div>
+    <CustomTextarea v-else :isTitle="true" v-model="itemText" for="todo" />
+    <button @click="emit('remove')" class="remove">X</button>
   </div>
 </template>
 
 <style scoped lang="scss">
+.checkbox:hover {
+  background-color: var(--color-elements);
+  .remove {
+    opacity: 1;
+  }
+}
+.remove {
+  opacity: 0;
+  cursor: pointer;
+  border: 1px solid red;
+  color: red;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  margin-inline-start: auto;
+}
 .checkbox {
   align-items: center;
   align-self: center;
   display: flex;
-  margin-bottom: 15px;
+  padding: 8px;
   transform: translateZ(0);
 
   .cbx {

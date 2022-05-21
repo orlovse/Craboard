@@ -74,6 +74,12 @@ const addChecklist = () => {
   }
 };
 
+const removeChecklist = () => {
+  if (selectedTask) {
+    selectedTask.checklist = null;
+  }
+};
+
 const updateChecklistName = (value: string) => {
   const checklist = selectedTask?.checklist;
 
@@ -112,6 +118,7 @@ const updateListItems = (newItem: CheckItemType) => {
       />
       <ChecklistCard
         :checklist="selectedTask.checklist"
+        @removeChecklist="removeChecklist"
         @updateChecklistName="updateChecklistName"
         @updateListItems="updateListItems"
         v-if="selectedTask.checklist"
@@ -122,6 +129,7 @@ const updateListItems = (newItem: CheckItemType) => {
         <ButtonWithInput
           @keypress.enter="addChecklist"
           @addChecklist="addChecklist"
+          :isDisabled="!!selectedTask.checklist"
           buttonText="Add checklist"
           confirmButtontext="Confirm?"
           placeholder="Checklist name"

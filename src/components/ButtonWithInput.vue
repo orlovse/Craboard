@@ -8,6 +8,7 @@ import CustomInput from "./CustomInput.vue";
 interface IProps {
   buttonText: string;
   confirmButtontext: string;
+  isDisabled: boolean;
   modelValue: string;
 
   placeholder?: string;
@@ -44,17 +45,18 @@ const switchAndSend = () => {
 <template>
   <div class="button-with-input">
     <CustomButton
-      class="button"
       :isDefault="true"
+      :isDisabled="isDisabled"
       :text="isShowInput ? confirmButtontext : buttonText"
       @click="switchAndSend"
+      class="button"
     />
     <CustomButton
       :class="{ 'show-confirm-button': isShowInput }"
-      class="confirm-button"
       :isDefault="true"
-      text="X"
       @click="switchInput"
+      class="confirm-button"
+      text="X"
     />
     <CustomInput
       :class="{ 'show-input': isShowInput }"

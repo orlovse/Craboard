@@ -1,5 +1,6 @@
 <script setup lang="ts">
 interface IProps {
+  isDisabled?: boolean;
   isDefault?: boolean;
   isIconButton?: boolean;
   isCloseButton?: boolean;
@@ -13,10 +14,12 @@ defineProps<IProps>();
   <button
     class="custom-button"
     :class="{
-      'default-button': isDefault,
-      'icon-button': isIconButton,
       'close-button': isCloseButton,
+      'default-button': isDefault,
+      'disabled-button': isDisabled,
+      'icon-button': isIconButton,
     }"
+    :disabled="isDisabled"
   >
     <!-- <div class="button-background"></div> -->
     <span class="button-text first"> {{ text }}</span>
@@ -41,6 +44,14 @@ defineProps<IProps>();
   .second {
     display: none;
   }
+
+  &.disabled-button {
+    background-color: grey;
+
+    &:hover {
+      cursor: default;
+    }
+  }
 }
 
 .default-button {
@@ -54,7 +65,7 @@ defineProps<IProps>();
     transform: translateY(200%);
   }
 
-  &:hover {
+  &:hover:not(.disabled-button) {
     .first {
       transform: translateY(-200%);
     }
