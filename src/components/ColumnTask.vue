@@ -52,9 +52,9 @@ const dragEnd = () => {
 
 <template>
   <CustomDrop
-    @drop="computedMoveTaskOrColumn"
-    @dragOver="dragOver"
     @dragLeave="dragLeave"
+    @dragOver="dragOver"
+    @drop="computedMoveTaskOrColumn"
   >
     <CustomDrag
       class="taskCard"
@@ -76,15 +76,15 @@ const dragEnd = () => {
 
 <style scoped>
 .taskCard {
-  cursor: pointer;
-  border-radius: 10px;
+  -moz-box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.15);
   background: var(--color-elements);
+  border-radius: 10px;
   border: 1px solid var(--color-elements);
   box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.15);
-  -webkit-box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: -1px 19px 18px -11px rgba(0, 0, 0, 0.15);
-  padding: 20px;
+  cursor: pointer;
   margin: 20px 0;
+  padding: 20px;
   transition: 0.3s;
 }
 

@@ -57,14 +57,14 @@ const updateValue = (event: Event) => {
 
 <style scoped lang="scss">
 .upload-area {
-  position: relative;
-  margin: 0 auto;
-  border: 2px dashed var(--color-border);
+  align-items: center;
   border-radius: 10px;
-  padding: 20px;
+  border: 2px dashed var(--color-border);
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
 
   &.drag {
     border-color: var(--color-primary);
@@ -80,12 +80,12 @@ const updateValue = (event: Event) => {
 
   .file {
     cursor: pointer;
-    position: absolute;
+    height: 100%;
     left: 0;
+    opacity: 0;
+    position: absolute;
     top: 0;
     width: 100%;
-    height: 100%;
-    opacity: 0;
   }
 }
 </style>

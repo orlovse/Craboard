@@ -25,21 +25,22 @@ $dayBtn: #eec328;
 
     & + div {
       border-radius: 50%;
-      width: 36px;
+      box-shadow: inset 16px -16px 0 0 var(--color-primary);
       height: 36px;
       position: relative;
-      box-shadow: inset 16px -16px 0 0 var(--color-primary);
       transform: scale(1) rotate(-2deg);
       transition: box-shadow 0.5s ease 0s, transform 0.4s ease 0.1s;
+      width: 36px;
+
       &:before {
-        content: "";
-        width: inherit;
-        height: inherit;
         border-radius: inherit;
-        position: absolute;
+        content: "";
+        height: inherit;
         left: 0;
+        position: absolute;
         top: 0;
         transition: background 0.3s ease;
+        width: inherit;
       }
       &:after {
         content: "";
@@ -61,10 +62,12 @@ $dayBtn: #eec328;
       box-shadow: inset 32px -32px 0 0 var(--color-primary);
       transform: scale(0.5) rotate(0deg);
       transition: transform 0.3s ease 0.1s, box-shadow 0.2s ease 0s;
+
       &:before {
         background: $dayBtn;
         transition: background 0.3s ease 0.1s;
       }
+
       &:after {
         transform: scale(1.5);
         transition: transform 0.5s ease 0.15s;

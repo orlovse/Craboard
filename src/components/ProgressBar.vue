@@ -29,33 +29,33 @@ const percentage = computed(() => {
 
 <style scoped lang="scss">
 .progress-bar {
-  position: relative;
-  padding: 2px;
-  border-radius: 30px;
   background: rgba(0, 0, 0, 0.25);
+  border-radius: 30px;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25),
     0 1px rgba(255, 255, 255, 0.08);
+  padding: 2px;
+  position: relative;
 }
 
 .progress-value {
-  height: 18px;
-  border-radius: 30px;
+  align-items: center;
+  background-color: var(--color-primary);
   background-image: linear-gradient(
     to bottom,
     rgba(255, 255, 255, 0.3),
     rgba(255, 255, 255, 0.05)
   );
-  background-color: var(--color-primary);
-  transition: 0.4s linear;
-  transition-property: width, background-color;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border-radius: 30px;
   color: white;
+  display: flex;
+  height: 18px;
+  justify-content: center;
+  transition-property: width, background-color;
+  transition: 0.4s linear;
 }
 
 .start-position {
-  position: absolute;
   left: 10px;
+  position: absolute;
 }
 </style>

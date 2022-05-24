@@ -31,10 +31,10 @@ const onDragEnter = () => {
 
 <template>
   <div
-    draggable="true"
-    @dragstart.self="onDrag"
-    @dragover.prevent
     @dragenter="onDragEnter"
+    @dragover.prevent
+    @dragstart.self="onDrag"
+    draggable="true"
   >
     <slot></slot>
   </div>

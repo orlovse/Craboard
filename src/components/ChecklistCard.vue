@@ -13,7 +13,11 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits(["updateChecklistName", "updateListItems"]);
+const emit = defineEmits([
+  "removeChecklist",
+  "updateChecklistName",
+  "updateListItems",
+]);
 
 const updateName = (value: string) => {
   emit("updateChecklistName", value);
@@ -41,49 +45,72 @@ const complitedTasksCount = computed(() => {
     return acc;
   }, 0);
 });
+
+const removeListItem = (index: number) => {
+  const list = props.checklist.list;
+  list.splice(index, 1);
+};
 </script>
 
 <template>
   <div class="checklist-card">
-    <CustomTextarea
-      :model-value="checklist.checklistName"
-      @update:model-value="updateName"
-    />
+    <div class="title-container">
+      <CustomTextarea
+        placeholder="Checkbox name"
+        :model-value="checklist.checklistName"
+        @update:model-value="updateName"
+      />
+      <button @click="emit('removeChecklist')" class="remove">X</button>
+    </div>
+
     <ProgressBar
-      class="propgress-bar"
-      :totalCount="checklist.list.length"
       :currentValue="complitedTasksCount"
+      :totalCount="checklist.list.length"
+      class="propgress-bar"
     />
     <TransitionGroup name="list" tag="ul" v-if="checklist.list">
       <li
-        v-for="listItem of checklist.list"
         :key="listItem.id"
         class="list-item"
+        v-for="(listItem, index) of checklist.list"
       >
         <CustomCheckbox
           :key="listItem.id"
-          v-model="listItem.isChecked"
-          :label="listItem.name"
+          :listItem="listItem"
+          @remove="removeListItem(index)"
         />
       </li>
     </TransitionGroup>
     <CustomInput
       :isShowButton="true"
+      @onButtonClick="addNewItem"
       class="add-input"
       placeholder="Add new item"
       v-model="newItemName"
-      @onButtonClick="addNewItem"
     />
   </div>
 </template>
 
 <style scoped lang="scss">
+.title-container {
+  display: flex;
+}
+.remove {
+  cursor: pointer;
+  border: 1px solid red;
+  color: red;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  margin-inline-start: auto;
+}
 .checklist-card {
   padding: 5px;
 }
 
 .add-input {
   width: 200px;
+  margin-top: 10px;
 }
 
 .propgress-bar {

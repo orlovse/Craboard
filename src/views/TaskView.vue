@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { computed, ref } from "@vue/reactivity";
+import { useRoute, useRouter } from "vue-router";
+
 import {
   useBoardsStore,
   type CheckItemType,
@@ -6,13 +9,12 @@ import {
   type TaskKeyType,
   type TaskType,
 } from "@/stores/boards";
-import { computed, ref } from "@vue/reactivity";
-import { useRoute, useRouter } from "vue-router";
-import CustomTextarea from "@/components/CustomTextarea.vue";
+
+import ButtonWithConfirm from "@/components/ButtonWithConfirm.vue";
+import ButtonWithInput from "@/components/ButtonWithInput.vue";
 import ChecklistCard from "@/components/ChecklistCard.vue";
 import CustomButton from "@/components/CustomButton.vue";
-import ButtonWithConfirm from "../components/ButtonWithConfirm.vue";
-import ButtonWithInput from "../components/ButtonWithInput.vue";
+import CustomTextarea from "@/components/CustomTextarea.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -72,6 +74,12 @@ const addChecklist = () => {
   }
 };
 
+const removeChecklist = () => {
+  if (selectedTask) {
+    selectedTask.checklist = null;
+  }
+};
+
 const updateChecklistName = (value: string) => {
   const checklist = selectedTask?.checklist;
 
@@ -109,26 +117,30 @@ const updateListItems = (newItem: CheckItemType) => {
         v-model="selectedTask.description"
       />
       <ChecklistCard
-        v-if="selectedTask.checklist"
         :checklist="selectedTask.checklist"
+        @removeChecklist="removeChecklist"
         @updateChecklistName="updateChecklistName"
         @updateListItems="updateListItems"
+        v-if="selectedTask.checklist"
       />
     </div>
     <div class="flex second-column">
       <div class="flex">
         <ButtonWithInput
+          @keypress.enter="addChecklist"
+          @addChecklist="addChecklist"
+          :isDisabled="!!selectedTask.checklist"
           buttonText="Add checklist"
+          confirmButtontext="Confirm?"
           placeholder="Checklist name"
           v-model="newChecklistName"
-          @keypress.enter="addChecklist"
         />
       </div>
       <ButtonWithConfirm
+        @onConfirm="deleteTask"
         class="delete-button"
         firstText="Delete"
         secondText="Confirm?"
-        @onConfirm="deleteTask"
       />
     </div>
   </div>
@@ -136,16 +148,16 @@ const updateListItems = (newItem: CheckItemType) => {
 
 <style scoped>
 .task-view {
-  width: 700px;
-  height: 80%;
-  overflow: auto;
   background: var(--color-background-main);
+  border-radius: var(--border-radius-card);
   display: flex;
   gap: 40px;
+  height: 80%;
   justify-content: space-between;
+  overflow: auto;
   padding: 40px;
   position: relative;
-  border-radius: var(--border-radius-card);
+  width: 700px;
 }
 
 .task-description {
@@ -165,17 +177,17 @@ const updateListItems = (newItem: CheckItemType) => {
 }
 
 .title {
-  overflow: hidden;
-  overflow-wrap: break-word;
-  min-height: 56px;
   font-size: 20px;
   font-weight: 600;
+  min-height: 56px;
+  overflow-wrap: break-word;
+  overflow: hidden;
 }
 
 .description {
   min-height: 80px;
-  overflow: hidden;
   overflow-wrap: break-word;
+  overflow: hidden;
 }
 
 .flex {
@@ -184,15 +196,16 @@ const updateListItems = (newItem: CheckItemType) => {
 }
 
 .first-column {
-  width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
+  width: 100%;
 }
 
 .second-column {
-  padding-top: 20px;
+  align-items: end;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding-top: 20px;
 }
 </style>
