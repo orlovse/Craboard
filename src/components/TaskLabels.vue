@@ -49,7 +49,11 @@ const selectedLables = computed(() => {
 
 <template>
   <div>
-    <div v-for="selectedLabel in selectedLables" :key="selectedLabel.id">
+    <div
+      v-for="selectedLabel in selectedLables"
+      :key="selectedLabel.id"
+      :style="{ borderTop: `2px solid ${selectedLabel.color}` }"
+    >
       {{ selectedLabel.name }}
     </div>
     <button @click="toggleModal">add label</button>
@@ -60,12 +64,12 @@ const selectedLables = computed(() => {
       @click="toggleModal"
       class="close-button"
     />
-    <div v-for="label in labelsList" :key="label.id">
+    <div v-for="label in labelsList" :key="label.id" class="label-item">
+      <CustomCheckbox v-model="label.isSelected" />
       <input type="color" v-model="label.color" />
       <span @click="label.isSelected = !label.isSelected">{{
         label.name
       }}</span>
-      <CustomCheckbox v-model="label.isSelected" />
     </div>
     <input v-model="newLabelname" />
     <button @click="addNewLabel">Add new label</button>
@@ -83,6 +87,12 @@ const selectedLables = computed(() => {
   background: var(--color-background-main);
   z-index: 5;
   padding: 40px 15px;
+}
+
+.label-item {
+  display: flex;
+  gap: 10px;
+      align-items: center;
 }
 
 .close-button {

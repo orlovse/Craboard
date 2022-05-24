@@ -43,7 +43,6 @@ const setIsChecked = () => {
     cursor: pointer;
     display: inline-block;
     height: 14px;
-    margin-inline-end: 10px;
     position: relative;
     top: 1px;
     width: 14px;
