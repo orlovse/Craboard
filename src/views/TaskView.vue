@@ -15,6 +15,7 @@ import ButtonWithInput from "@/components/ButtonWithInput.vue";
 import ChecklistCard from "@/components/ChecklistCard.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomTextarea from "@/components/CustomTextarea.vue";
+import TaskLabels from "@/components/TaskLabels.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -116,6 +117,7 @@ const updateListItems = (newItem: CheckItemType) => {
         placeholder="Description"
         v-model="selectedTask.description"
       />
+      <TaskLabels />
       <ChecklistCard
         :checklist="selectedTask.checklist"
         @removeChecklist="removeChecklist"
