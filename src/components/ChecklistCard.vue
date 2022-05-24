@@ -3,6 +3,7 @@ import { computed, ref } from "@vue/reactivity";
 
 import type { TaskChecklistType } from "@/stores/boards";
 
+import CustomButton from "./CustomButton.vue";
 import CustomCheckbox from "./CustomCheckbox.vue";
 import CustomInput from "./CustomInput.vue";
 import CustomTextarea from "./CustomTextarea.vue";
@@ -60,7 +61,11 @@ const removeListItem = (index: number) => {
         :model-value="checklist.checklistName"
         @update:model-value="updateName"
       />
-      <button @click="emit('removeChecklist')" class="remove">X</button>
+      <CustomButton
+        :isCloseButton="true"
+        @click="emit('removeChecklist')"
+        class="remove-button"
+      />
     </div>
 
     <ProgressBar
@@ -95,13 +100,7 @@ const removeListItem = (index: number) => {
 .title-container {
   display: flex;
 }
-.remove {
-  cursor: pointer;
-  border: 1px solid red;
-  color: red;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
+.remove-button {
   margin-inline-start: auto;
 }
 .checklist-card {

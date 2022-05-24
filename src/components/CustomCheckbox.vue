@@ -3,6 +3,7 @@ import { watch } from "vue";
 import { ref } from "@vue/reactivity";
 
 import CustomTextarea from "./CustomTextarea.vue";
+import CustomButton from "./CustomButton.vue";
 import type { CheckItemType } from "@/stores/boards";
 
 interface IProps {
@@ -52,25 +53,23 @@ const switchEdit = () => {
       {{ itemText }}
     </div>
     <CustomTextarea v-else :isTitle="true" v-model="itemText" for="todo" />
-    <button @click="emit('remove')" class="remove">X</button>
+    <CustomButton
+      :isCloseButton="true"
+      @click="emit('remove')"
+      class="remove-button"
+    />
   </div>
 </template>
 
 <style scoped lang="scss">
 .checkbox:hover {
   background-color: var(--color-elements);
-  .remove {
+  .remove-button {
     opacity: 1;
   }
 }
-.remove {
+.remove-button {
   opacity: 0;
-  cursor: pointer;
-  border: 1px solid red;
-  color: red;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
   margin-inline-start: auto;
 }
 .checkbox {
