@@ -1,22 +1,45 @@
 <script setup lang="ts">
+import { watch } from "vue";
+import { ref } from "@vue/reactivity";
+
+import CustomTextarea from "./CustomTextarea.vue";
+import CustomButton from "./CustomButton.vue";
+import type { CheckItemType } from "@/stores/boards";
+
 interface IProps {
-  modelValue?: boolean;
+  listItem: CheckItemType;
 }
 
 const props = defineProps<IProps>();
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["remove"]);
+
+const itemText = ref(props.listItem.name);
+
+const isEdit = ref(false);
+
+watch(itemText, (newValue) => {
+  const listItem = props.listItem;
+  listItem.name = newValue;
+
+  switchEdit();
+});
 
 const setIsChecked = () => {
-  emit("update:modelValue", !props.modelValue);
+  const listItem = props.listItem;
+  listItem.isChecked = !listItem.isChecked;
+};
+
+const switchEdit = () => {
+  isEdit.value = !isEdit.value;
 };
 </script>
 
 <template>
   <div for="todo" class="checkbox">
     <input
-      :class="{ checked: modelValue }"
-      :value="modelValue"
+      :class="{ checked: props.listItem.isChecked }"
+      :value="props.listItem.isChecked"
       class="checkbox-input hidden"
       id="todo"
       type="checkbox"
@@ -26,10 +49,29 @@ const setIsChecked = () => {
         <polyline points="1 7.6 5 11 13 1"></polyline>
       </svg>
     </div>
+    <div for="todo" class="cbx-lbl" v-if="!isEdit" @click="switchEdit">
+      {{ itemText }}
+    </div>
+    <CustomTextarea v-else :isTitle="true" v-model="itemText" for="todo" />
+    <CustomButton
+      :isCloseButton="true"
+      @click="emit('remove')"
+      class="remove-button"
+    />
   </div>
 </template>
 
 <style scoped lang="scss">
+.checkbox:hover {
+  background-color: var(--color-elements);
+  .remove-button {
+    opacity: 1;
+  }
+}
+.remove-button {
+  opacity: 0;
+  margin-inline-start: auto;
+}
 .checkbox {
   align-items: center;
   align-self: center;
@@ -91,6 +133,22 @@ const setIsChecked = () => {
     }
   }
 
+  .cbx-lbl {
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+
+    &:after {
+      background: #9098a9;
+      content: "";
+      height: 1px;
+      left: 0;
+      position: absolute;
+      top: 50%;
+      width: 0;
+    }
+  }
+
   .checkbox-input {
     display: none;
 
@@ -114,6 +172,14 @@ const setIsChecked = () => {
           transform: scale(1);
           opacity: 0;
           transition: all 0.6s ease;
+        }
+      }
+
+      ~ .cbx-lbl {
+        color: #9098a9;
+        &:after {
+          width: 100%;
+          transition: all 0.4s ease;
         }
       }
     }

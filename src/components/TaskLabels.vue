@@ -2,6 +2,7 @@
 import { computed, ref, reactive } from "@vue/reactivity";
 
 import CustomButton from "./CustomButton.vue";
+import CustomCheckbox from "./CustomCheckbox.vue";
 const labelsList = reactive([
   {
     id: "1",
@@ -64,6 +65,7 @@ const selectedLables = computed(() => {
       <span @click="label.isSelected = !label.isSelected">{{
         label.name
       }}</span>
+      <CustomCheckbox v-model="label.isSelected" />
     </div>
     <input v-model="newLabelname" />
     <button @click="addNewLabel">Add new label</button>
@@ -77,6 +79,15 @@ const selectedLables = computed(() => {
   height: 500px;
   border: 1px solid black;
   bottom: 20px;
+  right: 20px;
+  background: var(--color-background-main);
+  z-index: 5;
+  padding: 40px 15px;
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
   right: 20px;
 }
 </style>

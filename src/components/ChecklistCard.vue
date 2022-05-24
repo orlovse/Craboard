@@ -4,7 +4,7 @@ import { computed, ref } from "@vue/reactivity";
 import type { TaskChecklistType } from "@/stores/boards";
 
 import CustomButton from "./CustomButton.vue";
-import CustomCheckbox from "./CustomCheckbox.vue";
+import ChecklistItem from "./ChecklistItem.vue";
 import CustomInput from "./CustomInput.vue";
 import CustomTextarea from "./CustomTextarea.vue";
 import ProgressBar from "./ProgressBar.vue";
@@ -79,7 +79,7 @@ const removeListItem = (index: number) => {
         class="list-item"
         v-for="(listItem, index) of checklist.list"
       >
-        <CustomCheckbox
+        <ChecklistItem
           :key="listItem.id"
           :listItem="listItem"
           @remove="removeListItem(index)"
