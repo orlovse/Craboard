@@ -117,7 +117,6 @@ const updateListItems = (newItem: CheckItemType) => {
         placeholder="Description"
         v-model="selectedTask.description"
       />
-      <TaskLabels />
       <ChecklistCard
         :checklist="selectedTask.checklist"
         @removeChecklist="removeChecklist"
@@ -128,6 +127,7 @@ const updateListItems = (newItem: CheckItemType) => {
     </div>
     <div class="flex second-column">
       <div class="flex">
+        <TaskLabels />
         <ButtonWithInput
           @keypress.enter="addChecklist"
           @addChecklist="addChecklist"
@@ -148,7 +148,7 @@ const updateListItems = (newItem: CheckItemType) => {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .task-view {
   background: var(--color-background-main);
   border-radius: var(--border-radius-card);

@@ -3,6 +3,8 @@ import { computed, ref, reactive } from "@vue/reactivity";
 
 import CustomButton from "./CustomButton.vue";
 import CustomCheckbox from "./CustomCheckbox.vue";
+import CustomInput from "./CustomInput.vue";
+
 const labelsList = reactive([
   {
     id: "1",
@@ -49,14 +51,14 @@ const selectedLables = computed(() => {
 
 <template>
   <div>
-    <div
+    <!-- <div
       v-for="selectedLabel in selectedLables"
       :key="selectedLabel.id"
       :style="{ borderTop: `2px solid ${selectedLabel.color}` }"
     >
       {{ selectedLabel.name }}
-    </div>
-    <button @click="toggleModal">add label</button>
+    </div> -->
+    <CustomButton @click="toggleModal" text="Add label" :isDefault="true" />
   </div>
   <div class="label-modal" v-if="isModalOpen">
     <CustomButton
@@ -71,8 +73,12 @@ const selectedLables = computed(() => {
         label.name
       }}</span>
     </div>
-    <input v-model="newLabelname" />
-    <button @click="addNewLabel">Add new label</button>
+    <CustomInput
+      :isShowButton="true"
+      @onButtonClick="addNewLabel"
+      placeholder="Add new label"
+      v-model="newLabelname"
+    />
   </div>
 </template>
 
@@ -92,7 +98,7 @@ const selectedLables = computed(() => {
 .label-item {
   display: flex;
   gap: 10px;
-      align-items: center;
+  align-items: center;
 }
 
 .close-button {
