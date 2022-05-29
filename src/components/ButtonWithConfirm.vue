@@ -64,7 +64,7 @@ watch(isClicked, (value) => {
   left: 0;
   position: absolute;
   top: 0;
-  transition: transform 0.5s;
+  transition: transform 0.2s;
   width: 100%;
 }
 

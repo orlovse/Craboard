@@ -80,3 +80,24 @@ export const boardsList = [
   { boardId: "2222", boardName: "Second Board" },
   { boardId: "3333", boardName: "Third Board" },
 ];
+
+export const labelsList = [
+  {
+    id: "1",
+    name: "label1",
+    color: "#ff0000",
+    isSelected: false,
+  },
+  {
+    id: "2",
+    name: "label2",
+    color: "#00ff00",
+    isSelected: false,
+  },
+  {
+    id: "3",
+    name: "label3",
+    color: "#0000ff",
+    isSelected: false,
+  },
+];

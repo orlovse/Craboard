@@ -10,6 +10,7 @@ import {
   type TaskType,
 } from "@/stores/boards";
 
+import AddLabels from "@/components/AddLabels.vue";
 import ButtonWithConfirm from "@/components/ButtonWithConfirm.vue";
 import ButtonWithInput from "@/components/ButtonWithInput.vue";
 import ChecklistCard from "@/components/ChecklistCard.vue";
@@ -112,6 +113,7 @@ const updateListItems = (newItem: CheckItemType) => {
         placeholder="Title"
         v-model="selectedTask.name"
       />
+      <TaskLabels />
       <CustomTextarea
         class="description"
         placeholder="Description"
@@ -127,7 +129,7 @@ const updateListItems = (newItem: CheckItemType) => {
     </div>
     <div class="flex second-column">
       <div class="flex">
-        <TaskLabels />
+        <AddLabels />
         <ButtonWithInput
           @keypress.enter="addChecklist"
           @addChecklist="addChecklist"
