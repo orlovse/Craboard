@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useBoardsStore } from "@/stores/boards";
 import { ref } from "@vue/reactivity";
-import { computed } from "vue";
+import { computed, watch } from "vue";
 
 import CustomButton from "./CustomButton.vue";
 import CustomCheckbox from "./CustomCheckbox.vue";
@@ -11,6 +11,24 @@ const { labels, addLabelAction } = useBoardsStore();
 
 const isModalOpen = ref(false);
 const newLabelname = ref("");
+const isAllLabelsChecked = computed({
+  get() {
+    return labels.every((label) => {
+      return label.isSelected;
+    });
+  },
+  set(newValue: boolean) {
+    if (newValue) {
+      labels.map((label) => {
+        label.isSelected = true;
+      });
+    } else {
+      labels.map((label) => {
+        label.isSelected = false;
+      });
+    }
+  },
+});
 
 const toggleModal = () => {
   isModalOpen.value = !isModalOpen.value;
@@ -42,6 +60,8 @@ const buttonText = computed(() => {
       @click="toggleModal"
       class="close-button"
     />
+    <CustomCheckbox v-model="isAllLabelsChecked" />
+    <span>All</span>
     <div v-for="label in labels" :key="label.id" class="label-item">
       <CustomCheckbox v-model="label.isSelected" />
       <input type="color" v-model="label.color" />
