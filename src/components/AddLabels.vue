@@ -75,16 +75,18 @@ const buttonText = computed(() => {
       @click.stop="toggleModal"
       class="close-button"
     />
-    <div class="label-item">
+    <div class="label-item__left">
       <CustomCheckbox v-model="isAllLabelsChecked" />
       <span>All</span>
     </div>
     <div v-for="label in labels" :key="label.id" class="label-item">
-      <CustomCheckbox v-model="label.isSelected" />
-      <input type="color" v-model="label.color" />
-      <span @click="label.isSelected = !label.isSelected">{{
-        label.name
-      }}</span>
+      <div class="label-item__left">
+        <CustomCheckbox v-model="label.isSelected" />
+        <input type="color" v-model="label.color" />
+        <span @click="label.isSelected = !label.isSelected">{{
+          label.name
+        }}</span>
+      </div>
       <ButtonWithConfirm
         @onConfirm="removeLabelAction(label.id)"
         class="delete-button"
@@ -118,13 +120,19 @@ const buttonText = computed(() => {
   right: 20px;
   background: var(--color-background-main);
   z-index: 5;
-  padding: 40px 15px;
+  padding: 60px 15px 20px;
   overflow: auto;
 }
 
 .label-item {
   display: flex;
   gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.label-item__left {
+  display: flex;
   align-items: center;
 }
 

@@ -56,6 +56,7 @@ watch(isClicked, (value) => {
   width: 100px;
 
   &.button-icon {
+    min-width: 25px;
     width: 25px;
     height: 25px;
 
