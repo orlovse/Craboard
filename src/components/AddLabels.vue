@@ -40,6 +40,12 @@ const toggleModal = () => {
   isModalOpen.value = !isModalOpen.value;
 };
 
+const closeModal = () => {
+  if (isModalOpen.value) {
+    isModalOpen.value = false;
+  }
+};
+
 const addNewLabel = () => {
   addLabelAction({
     id: `${labels.value.length + 1}`,
@@ -57,13 +63,16 @@ const buttonText = computed(() => {
 </script>
 
 <template>
-  <div>
-    <CustomButton @click="toggleModal" :text="buttonText" :isDefault="true" />
-  </div>
-  <div class="label-modal" v-if="isModalOpen">
+  <CustomButton
+    @click.stop="toggleModal"
+    :text="buttonText"
+    :isDefault="true"
+    class="add-labels-button"
+  />
+  <div class="label-modal" v-if="isModalOpen" v-click-outside="closeModal">
     <CustomButton
       :isCloseButton="true"
-      @click="toggleModal"
+      @click.stop="toggleModal"
       class="close-button"
     />
     <div class="label-item">
@@ -95,6 +104,10 @@ const buttonText = computed(() => {
 </template>
 
 <style scoped lang="scss">
+.add-labels-button {
+  margin-bottom: 15px;
+}
+
 .label-modal {
   box-shadow: var(--color-shadow);
   position: absolute;

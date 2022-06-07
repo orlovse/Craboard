@@ -32,6 +32,13 @@ const switchInput = () => {
   inputValue.value = "";
 };
 
+const closeInput = () => {
+  if (isShowInput.value) {
+    isShowInput.value = false;
+    inputValue.value = "";
+  }
+};
+
 const switchAndSend = () => {
   if (isShowInput.value) {
     emit("update:modelValue", inputValue.value);
@@ -48,13 +55,13 @@ const switchAndSend = () => {
       :isDefault="true"
       :isDisabled="isDisabled"
       :text="isShowInput ? confirmButtontext : buttonText"
-      @click="switchAndSend"
+      @click.stop="switchAndSend"
       class="button"
     />
     <CustomButton
       :class="{ 'show-confirm-button': isShowInput }"
       :isDefault="true"
-      @click="switchInput"
+      @click.stop="switchInput"
       class="confirm-button"
       text="X"
     />
@@ -64,6 +71,7 @@ const switchAndSend = () => {
       :placeholder="placeholder"
       @keypress.enter="switchInput"
       class="input"
+      v-click-outside="closeInput"
       v-model="inputValue"
     />
   </div>

@@ -35,7 +35,7 @@ watch(isClicked, (value) => {
   <button
     class="button-with-confirm"
     :class="{ 'button-icon': isIcon }"
-    @click="onClick"
+    @click.stop="onClick"
     @keyup.enter="onClick"
   >
     <span class="text first-text">{{ firstText }}</span>
