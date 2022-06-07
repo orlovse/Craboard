@@ -60,8 +60,10 @@ const buttonText = computed(() => {
       @click="toggleModal"
       class="close-button"
     />
-    <CustomCheckbox v-model="isAllLabelsChecked" />
-    <span>All</span>
+    <div class="label-item">
+      <CustomCheckbox v-model="isAllLabelsChecked" />
+      <span>All</span>
+    </div>
     <div v-for="label in labels" :key="label.id" class="label-item">
       <CustomCheckbox v-model="label.isSelected" />
       <input type="color" v-model="label.color" />
@@ -72,6 +74,7 @@ const buttonText = computed(() => {
     <CustomInput
       :isShowButton="true"
       @onButtonClick="addNewLabel"
+      class="input-container"
       placeholder="Add new label"
       v-model="newLabelname"
     />
@@ -80,11 +83,12 @@ const buttonText = computed(() => {
 
 <style scoped lang="scss">
 .label-modal {
+  box-shadow: var(--color-shadow);
   position: absolute;
   width: 300px;
-  height: 500px;
-  border: 1px solid black;
-  bottom: 20px;
+  border: 1px solid var(--color-text-opposite);
+  border-radius: var(--border-radius-card);
+  top: 100px;
   right: 20px;
   background: var(--color-background-main);
   z-index: 5;
@@ -96,6 +100,10 @@ const buttonText = computed(() => {
   display: flex;
   gap: 10px;
   align-items: center;
+}
+
+.input-container {
+  margin-top: 30px;
 }
 
 .close-button {
