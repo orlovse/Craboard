@@ -46,7 +46,7 @@ const handleEnter = (event: KeyboardEvent) => {
       v-if="isShowButton"
       @click="emit('onButtonClick', modelValue)"
     >
-      <i class="fas fa-paper-plane"></i>
+      <span class="button-icon">+</span>
     </button>
   </div>
 </template>
@@ -75,6 +75,9 @@ const handleEnter = (event: KeyboardEvent) => {
 }
 
 .input-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: #1e90ff;
   border-radius: 100%;
   border: 0;
@@ -90,8 +93,9 @@ const handleEnter = (event: KeyboardEvent) => {
     background-color: #0fb9b1;
   }
 
-  i {
-    color: #fefefe;
+  .button-icon {
+    color: var(--color-text-opposite);
+    font-size: 30px;
   }
 }
 </style>

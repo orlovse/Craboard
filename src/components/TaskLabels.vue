@@ -1,109 +1,91 @@
 <script setup lang="ts">
-import { computed, ref, reactive } from "@vue/reactivity";
+import { useBoardsStore, type LabelType } from "@/stores/boards";
+import { computed } from "@vue/reactivity";
+import { storeToRefs } from "pinia";
 
-import CustomButton from "./CustomButton.vue";
-import CustomCheckbox from "./CustomCheckbox.vue";
-import CustomInput from "./CustomInput.vue";
+const boardStore = useBoardsStore();
+const { selectedLabels } = storeToRefs(boardStore);
 
-const labelsList = reactive([
-  {
-    id: "1",
-    name: "label1",
-    color: "#ff0000",
-    isSelected: false,
-  },
-  {
-    id: "2",
-    name: "label2",
-    color: "#00ff00",
-    isSelected: false,
-  },
-  {
-    id: "3",
-    name: "label3",
-    color: "#0000ff",
-    isSelected: false,
-  },
-]);
-
-const isModalOpen = ref(false);
-const newLabelname = ref("");
-
-const toggleModal = () => {
-  isModalOpen.value = !isModalOpen.value;
-};
-
-const addNewLabel = () => {
-  labelsList.push({
-    id: `${labelsList.length + 1}`,
-    name: newLabelname.value,
-    color: "#ff0000",
-    isSelected: false,
-  });
-
-  newLabelname.value = "";
-};
-
-const selectedLables = computed(() => {
-  return labelsList.filter((label) => label.isSelected);
+const isShowLabels = computed(() => {
+  return selectedLabels.value.length;
 });
+
+const onLabelClick = (label: LabelType) => {
+  label.isSelected = !label.isSelected;
+};
 </script>
 
 <template>
-  <div>
-    <!-- <div
-      v-for="selectedLabel in selectedLables"
-      :key="selectedLabel.id"
-      :style="{ borderTop: `2px solid ${selectedLabel.color}` }"
-    >
-      {{ selectedLabel.name }}
-    </div> -->
-    <CustomButton @click="toggleModal" text="Add label" :isDefault="true" />
-  </div>
-  <div class="label-modal" v-if="isModalOpen">
-    <CustomButton
-      :isCloseButton="true"
-      @click="toggleModal"
-      class="close-button"
-    />
-    <div v-for="label in labelsList" :key="label.id" class="label-item">
-      <CustomCheckbox v-model="label.isSelected" />
-      <input type="color" v-model="label.color" />
-      <span @click="label.isSelected = !label.isSelected">{{
-        label.name
-      }}</span>
-    </div>
-    <CustomInput
-      :isShowButton="true"
-      @onButtonClick="addNewLabel"
-      placeholder="Add new label"
-      v-model="newLabelname"
-    />
+  <div v-if="isShowLabels" class="task-labels">
+    <span>Selected labels:</span>
+    <TransitionGroup name="labels" tag="div" class="label-wrapper">
+      <div
+        v-for="label in selectedLabels"
+        @click="onLabelClick(label)"
+        :key="label.id"
+        :style="{ borderTop: `2px solid ${label.color}` }"
+        class="label-item"
+      >
+        <span class="label-text"> {{ label.name }}</span>
+        <span class="remove-text">remove?</span>
+      </div>
+    </TransitionGroup>
   </div>
 </template>
 
 <style scoped lang="scss">
-.label-modal {
-  position: absolute;
-  width: 300px;
-  height: 500px;
-  border: 1px solid black;
-  bottom: 20px;
-  right: 20px;
-  background: var(--color-background-main);
-  z-index: 5;
-  padding: 40px 15px;
+.task-labels {
+}
+
+.label-wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .label-item {
+  position: relative;
   display: flex;
-  gap: 10px;
-  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  margin: 10px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: 0.2s;
+  min-width: 60px;
+
+  &:hover {
+    .label-text {
+      transform: translateY(-100%);
+    }
+
+    .remove-text {
+      transform: translate(-50%, 0);
+    }
+  }
 }
 
-.close-button {
+.label-text {
+  display: inline-block;
+  transition: 0.2s;
+}
+
+.remove-text {
+  display: inline-block;
+  transform: translate(-50%, 100%);
   position: absolute;
-  top: 20px;
-  right: 20px;
+  transition: 0.2s;
+  left: 50%;
+  top: 0;
+}
+
+.labels-enter-active,
+.labels-leave-active {
+  transition: all 0.5s ease;
+}
+.labels-enter-from,
+.labels-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>

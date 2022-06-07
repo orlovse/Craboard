@@ -5,6 +5,8 @@ import { ref } from "@vue/reactivity";
 interface IProps {
   firstText: string;
   secondText: string;
+
+  isIcon?: boolean;
 }
 
 defineProps<IProps>();
@@ -30,7 +32,12 @@ watch(isClicked, (value) => {
 </script>
 
 <template>
-  <button class="button-with-confirm" @click="onClick" @keyup.enter="onClick">
+  <button
+    class="button-with-confirm"
+    :class="{ 'button-icon': isIcon }"
+    @click="onClick"
+    @keyup.enter="onClick"
+  >
     <span class="text first-text">{{ firstText }}</span>
     <span class="text second-text" :class="{ 'clicked-second': isClicked }">{{
       secondText
@@ -48,6 +55,15 @@ watch(isClicked, (value) => {
   position: relative;
   width: 100px;
 
+  &.button-icon {
+    width: 25px;
+    height: 25px;
+
+    .text {
+      font-size: 14px;
+    }
+  }
+
   &:hover .second-text:not(.clicked-second) {
     transform: translateY(85%);
   }
@@ -64,7 +80,7 @@ watch(isClicked, (value) => {
   left: 0;
   position: absolute;
   top: 0;
-  transition: transform 0.5s;
+  transition: transform 0.2s;
   width: 100%;
 }
 

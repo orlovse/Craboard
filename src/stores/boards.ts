@@ -1,3 +1,4 @@
+import { labelsList } from "./../api/mockData";
 import {
   createColumn,
   createTask,
@@ -48,8 +49,16 @@ export type BoardsHashType = {
   [boardId: string]: BoardType;
 };
 
+export type LabelType = {
+  id: string;
+  name: string;
+  color: string;
+  isSelected: boolean;
+};
+
 export type BoardsStateType = {
   loading: boolean;
+  labelsList: LabelType[];
   boardLoading: boolean;
   boards: BoardsHashType;
   boardsList: BoardsListType;
@@ -64,6 +73,7 @@ export const useBoardsStore = defineStore({
     ({
       boards: {},
       boardsList: [],
+      labelsList,
       loading: false,
       boardLoading: false,
       boardImage: "",
@@ -77,6 +87,12 @@ export const useBoardsStore = defineStore({
           return boards[boardId]?.boardContent;
         }
       };
+    },
+    labels: (state) => {
+      return state.labelsList;
+    },
+    selectedLabels: (state) => {
+      return state.labelsList.filter((label) => label.isSelected);
     },
   },
   actions: {
@@ -188,6 +204,14 @@ export const useBoardsStore = defineStore({
       if (columnToMove) {
         columnList?.splice(toColumnIndex, 0, columnToMove);
       }
+    },
+    addLabelAction(label: LabelType) {
+      this.labelsList.push(label);
+    },
+    removeLabelAction(labelId: string) {
+      this.labelsList = this.labelsList.filter((label) => {
+        return label.id !== labelId;
+      });
     },
   },
 });
