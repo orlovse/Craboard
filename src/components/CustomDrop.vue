@@ -22,7 +22,7 @@ const onDragLeave = () => {
 </script>
 
 <template>
-  <div @drop.stop="onDrop" @dragover="onDragOver" @dragleave="onDragLeave">
+  <div @drop.stop="onDrop" @dragover.stop="onDragOver" @dragleave="onDragLeave">
     <slot></slot>
   </div>
 </template>

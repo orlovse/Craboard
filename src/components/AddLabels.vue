@@ -40,6 +40,12 @@ const toggleModal = () => {
   isModalOpen.value = !isModalOpen.value;
 };
 
+const closeModal = () => {
+  if (isModalOpen.value) {
+    isModalOpen.value = false;
+  }
+};
+
 const addNewLabel = () => {
   addLabelAction({
     id: `${labels.value.length + 1}`,
@@ -57,25 +63,30 @@ const buttonText = computed(() => {
 </script>
 
 <template>
-  <div>
-    <CustomButton @click="toggleModal" :text="buttonText" :isDefault="true" />
-  </div>
-  <div class="label-modal" v-if="isModalOpen">
+  <CustomButton
+    @click.stop="toggleModal"
+    :text="buttonText"
+    :isDefault="true"
+    class="add-labels-button"
+  />
+  <div class="label-modal" v-if="isModalOpen" v-click-outside="closeModal">
     <CustomButton
       :isCloseButton="true"
-      @click="toggleModal"
+      @click.stop="toggleModal"
       class="close-button"
     />
-    <div class="label-item">
+    <div class="label-item__left">
       <CustomCheckbox v-model="isAllLabelsChecked" />
       <span>All</span>
     </div>
     <div v-for="label in labels" :key="label.id" class="label-item">
-      <CustomCheckbox v-model="label.isSelected" />
-      <input type="color" v-model="label.color" />
-      <span @click="label.isSelected = !label.isSelected">{{
-        label.name
-      }}</span>
+      <div class="label-item__left">
+        <CustomCheckbox v-model="label.isSelected" />
+        <input type="color" v-model="label.color" />
+        <span @click="label.isSelected = !label.isSelected">{{
+          label.name
+        }}</span>
+      </div>
       <ButtonWithConfirm
         @onConfirm="removeLabelAction(label.id)"
         class="delete-button"
@@ -95,6 +106,10 @@ const buttonText = computed(() => {
 </template>
 
 <style scoped lang="scss">
+.add-labels-button {
+  margin-bottom: 15px;
+}
+
 .label-modal {
   box-shadow: var(--color-shadow);
   position: absolute;
@@ -105,13 +120,19 @@ const buttonText = computed(() => {
   right: 20px;
   background: var(--color-background-main);
   z-index: 5;
-  padding: 40px 15px;
+  padding: 60px 15px 20px;
   overflow: auto;
 }
 
 .label-item {
   display: flex;
   gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.label-item__left {
+  display: flex;
   align-items: center;
 }
 

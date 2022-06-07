@@ -26,6 +26,26 @@ const createNewTask = () => {
 
 const props = defineProps<IProps>();
 
+const isDragOver = ref(false);
+
+const isDrag = ref(false);
+
+const dragOver = () => {
+  isDragOver.value = true;
+};
+
+const dragLeave = () => {
+  isDragOver.value = false;
+};
+
+const dragStart = () => {
+  isDrag.value = true;
+};
+
+const dragEnd = () => {
+  isDrag.value = false;
+};
+
 const computedMoveTaskOrColumn = computed(() => {
   return useMoveTaskOrColumn({
     columnIndex: props.columnIndex,
@@ -35,9 +55,16 @@ const computedMoveTaskOrColumn = computed(() => {
 </script>
 
 <template>
-  <CustomDrop @drop="computedMoveTaskOrColumn">
+  <CustomDrop
+    @dragLeave="dragLeave"
+    @dragOver="dragOver"
+    @drop="computedMoveTaskOrColumn"
+  >
     <CustomDrag
       class="boardColumnCard"
+      @dragstart="dragStart"
+      @dragend="dragEnd"
+      :class="{ dragOver: isDragOver, drag: isDrag }"
       :transferData="{ type: 'column', fromColumnIndex: columnIndex }"
     >
       <div>{{ column.name }} ({{ column.tasks.length }})</div>
@@ -71,7 +98,7 @@ const computedMoveTaskOrColumn = computed(() => {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   height: 100%;
   padding: 15px;
-  transition: 1s;
+  transition: 0.2s;
   width: 280px;
 }
 
@@ -89,5 +116,13 @@ const computedMoveTaskOrColumn = computed(() => {
 
 .tasks-leave-active {
   position: absolute;
+}
+
+.dragOver {
+  border: 1px solid var(--color-primary);
+}
+
+.drag {
+  opacity: 0.9;
 }
 </style>

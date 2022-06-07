@@ -6,13 +6,13 @@
 .theme-light {
   --color-primary: #0060df;;
   --color-secondary: #dbdbdb;
-  --color-elements: #d7dfec;
+  --color-elements: hsl(217, 36%, 88%);
   --color-background-main: #e1e7f1;
   --color-background-skeleton: linear-gradient(
     90deg,
-    hsl(210, 15%, 88%),
-    hsl(210, 15%, 95%),
-    hsl(210, 15%, 88%)
+    hsl(217, 36%, 88%),
+    hsl(217, 36%, 95%),
+    hsl(217, 36%, 88%)
   );
   --color-text: rgb(15, 15, 15);
   --color-text-opposite: rgb(226, 226, 226);
@@ -25,13 +25,13 @@
 .theme-dark {
   --color-primary: #4592f7;
   --color-secondary: #1e2022;
-  --color-elements: #2d3133;
+  --color-elements: hsl(200, 6%, 19%);
   --color-background-main: #292c2d;
   --color-background-skeleton: linear-gradient(
     90deg,
-    hsl(0, 1%, 27%),
-    hsl(0, 1%, 35%),
-    hsl(0, 1%, 28%)
+    hsl(200, 6%, 27%),
+    hsl(200, 6%, 35%),
+    hsl(200, 6%, 28%)
   );
   --color-text: rgb(226, 226, 226);
   --color-text-opposite: rgb(15, 15, 15);
