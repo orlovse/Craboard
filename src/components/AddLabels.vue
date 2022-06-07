@@ -1,29 +1,35 @@
 <script setup lang="ts">
 import { useBoardsStore } from "@/stores/boards";
 import { ref } from "@vue/reactivity";
-import { computed, watch } from "vue";
+import { computed } from "vue";
 
+import ButtonWithConfirm from "@/components/ButtonWithConfirm.vue";
 import CustomButton from "./CustomButton.vue";
 import CustomCheckbox from "./CustomCheckbox.vue";
 import CustomInput from "./CustomInput.vue";
+import { storeToRefs } from "pinia";
 
-const { labels, addLabelAction } = useBoardsStore();
+const boardStore = useBoardsStore();
+
+const { addLabelAction, removeLabelAction } = boardStore;
+
+const { labels } = storeToRefs(boardStore);
 
 const isModalOpen = ref(false);
 const newLabelname = ref("");
 const isAllLabelsChecked = computed({
   get() {
-    return labels.every((label) => {
+    return labels.value.every((label) => {
       return label.isSelected;
     });
   },
   set(newValue: boolean) {
     if (newValue) {
-      labels.map((label) => {
+      labels.value.map((label) => {
         label.isSelected = true;
       });
     } else {
-      labels.map((label) => {
+      labels.value.map((label) => {
         label.isSelected = false;
       });
     }
@@ -36,7 +42,7 @@ const toggleModal = () => {
 
 const addNewLabel = () => {
   addLabelAction({
-    id: `${labels.length + 1}`,
+    id: `${labels.value.length + 1}`,
     name: newLabelname.value,
     color: "#ff0000",
     isSelected: false,
@@ -46,7 +52,7 @@ const addNewLabel = () => {
 };
 
 const buttonText = computed(() => {
-  return labels.length === 0 ? "Add label" : "Change labels";
+  return labels.value.length === 0 ? "Add label" : "Change labels";
 });
 </script>
 
@@ -70,6 +76,13 @@ const buttonText = computed(() => {
       <span @click="label.isSelected = !label.isSelected">{{
         label.name
       }}</span>
+      <ButtonWithConfirm
+        @onConfirm="removeLabelAction(label.id)"
+        class="delete-button"
+        :isIcon="true"
+        firstText="D"
+        secondText="?"
+      />
     </div>
     <CustomInput
       :isShowButton="true"

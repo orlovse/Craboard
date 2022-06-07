@@ -208,5 +208,10 @@ export const useBoardsStore = defineStore({
     addLabelAction(label: LabelType) {
       this.labelsList.push(label);
     },
+    removeLabelAction(labelId: string) {
+      this.labelsList = this.labelsList.filter((label) => {
+        return label.id !== labelId;
+      });
+    },
   },
 });
