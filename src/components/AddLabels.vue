@@ -80,7 +80,7 @@ const buttonText = computed(() => {
         @onConfirm="removeLabelAction(label.id)"
         class="delete-button"
         :isIcon="true"
-        firstText="D"
+        firstText="X"
         secondText="?"
       />
     </div>
