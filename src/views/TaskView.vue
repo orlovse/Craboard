@@ -153,13 +153,15 @@ const updateListItems = (newItem: CheckItemType) => {
       />
       <div>
         <p>Comments:</p>
-        <CommentForm
-          v-for="comment in selectedTask.comments"
-          @onRemoveComment="removeComment"
-          @onEditComment="editComment"
-          :comment="comment"
-          :key="comment.id"
-        />
+        <TransitionGroup name="list" tag="div" v-if="selectedTask.comments">
+          <CommentForm
+            v-for="comment in selectedTask.comments"
+            @onRemoveComment="removeComment"
+            @onEditComment="editComment"
+            :comment="comment"
+            :key="comment.id"
+          />
+        </TransitionGroup>
         <CustomInput
           class="comment-input"
           :isShowButton="true"

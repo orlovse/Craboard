@@ -68,7 +68,7 @@ const computedMoveTaskOrColumn = computed(() => {
       class="boardColumnCard"
     >
       <div>{{ column.name }} ({{ column.tasks.length }})</div>
-      <TransitionGroup name="tasks" tag="div">
+      <TransitionGroup name="list" tag="div">
         <ColumnTask
           v-for="(task, taskIndex) of column.tasks"
           :column="column"
@@ -100,22 +100,6 @@ const computedMoveTaskOrColumn = computed(() => {
   padding: 15px;
   transition: 0.2s;
   width: 280px;
-}
-
-.tasks-move,
-.tasks-enter-active,
-.tasks-leave-active {
-  transition: all 0.5s ease;
-}
-
-.tasks-enter-from,
-.tasks-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
-
-.tasks-leave-active {
-  position: absolute;
 }
 
 .dragOver {
