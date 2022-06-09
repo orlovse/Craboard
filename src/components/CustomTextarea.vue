@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref } from "vue";
+
 interface IProps {
   modelValue: string;
 
@@ -8,6 +10,23 @@ interface IProps {
 
 const props = defineProps<IProps>();
 const emit = defineEmits(["update:modelValue"]);
+
+const textarea = ref<HTMLTextAreaElement | null>(null);
+
+const onEnterPress = (event: KeyboardEvent) => {
+  if (props.isTitle) {
+    event.preventDefault();
+    setValue(event, false);
+  } else {
+    changeTextareaHeight();
+  }
+};
+
+const changeTextareaHeight = () => {
+  if (textarea.value) {
+    textarea.value.style.height = textarea.value?.scrollHeight + "px";
+  }
+};
 
 const setValue = (event: KeyboardEvent | FocusEvent, newValue: boolean) => {
   const target = event.target as HTMLTextAreaElement;
@@ -29,8 +48,11 @@ const setValue = (event: KeyboardEvent | FocusEvent, newValue: boolean) => {
     :placeholder="placeholder"
     :value="modelValue"
     @focusout="setValue($event, false)"
-    @keypress.prevent.enter="setValue($event, false)"
+    @keyup.enter="onEnterPress"
+    @keyup.delete="changeTextareaHeight"
     class="custom-textarea"
+    ref="textarea"
+    rows="1"
   />
 </template>
 
@@ -40,6 +62,7 @@ const setValue = (event: KeyboardEvent | FocusEvent, newValue: boolean) => {
   border: 1px solid transparent;
   color: var(--color-text);
   font-family: inherit;
+  height: auto;
   outline: none;
   resize: none;
 

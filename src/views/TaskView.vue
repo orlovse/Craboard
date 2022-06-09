@@ -175,7 +175,7 @@ const updateListItems = (newItem: CheckItemType) => {
       <div class="flex">
         <AddLabels />
         <ButtonWithInput
-          @keypress.enter="addChecklist"
+          @keyup.enter="addChecklist"
           @addChecklist="addChecklist"
           :isDisabled="!!selectedTask.checklist"
           buttonText="Add checklist"
