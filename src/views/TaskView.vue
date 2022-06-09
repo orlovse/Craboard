@@ -13,15 +13,25 @@ import {
 import AddLabels from "@/components/AddLabels.vue";
 import ButtonWithConfirm from "@/components/ButtonWithConfirm.vue";
 import ButtonWithInput from "@/components/ButtonWithInput.vue";
+import CommentForm from "@/components/CommentForm.vue";
 import ChecklistCard from "@/components/ChecklistCard.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomTextarea from "@/components/CustomTextarea.vue";
 import TaskLabels from "@/components/TaskLabels.vue";
+import CustomInput from "../components/CustomInput.vue";
 
 const route = useRoute();
 const router = useRouter();
 const boardStore = useBoardsStore();
-const { getBoardById, removeTaskAction, updateTaskAction } = boardStore;
+
+const {
+  getBoardById,
+  removeTaskAction,
+  updateTaskAction,
+  addCommentAction,
+  editCommentAction,
+  removeCommentAction,
+} = boardStore;
 
 const boardId = computed(() => {
   return route.params.boardId as string;
@@ -59,6 +69,21 @@ const updateTask = (event: KeyboardEvent, key: TaskKeyType) => {
   if (selectedTask && value) {
     updateTaskAction(selectedTask, key, value);
   }
+};
+
+const commentText = ref("");
+
+const addComment = () => {
+  addCommentAction(commentText.value, selectedTask);
+  commentText.value = "";
+};
+
+const removeComment = (commentId: string) => {
+  removeCommentAction(commentId, selectedTask);
+};
+
+const editComment = (commentId: string) => {
+  // editCommentAction(commentId, selectedTask);
 };
 
 const closeModal = () => {
@@ -126,6 +151,23 @@ const updateListItems = (newItem: CheckItemType) => {
         @updateListItems="updateListItems"
         v-if="selectedTask.checklist"
       />
+      <div>
+        <p>Comments:</p>
+        <CommentForm
+          v-for="comment in selectedTask.comments"
+          @onRemoveComment="removeComment"
+          @onEditComment="editComment"
+          :comment="comment"
+          :key="comment.id"
+        />
+        <CustomInput
+          class="comment-input"
+          :isShowButton="true"
+          placeholder="Add comment"
+          @onButtonClick="addComment"
+          v-model="commentText"
+        />
+      </div>
     </div>
     <div class="flex second-column">
       <div class="flex">
@@ -211,5 +253,10 @@ const updateListItems = (newItem: CheckItemType) => {
   flex-direction: column;
   justify-content: space-between;
   padding-top: 20px;
+}
+
+.comment-input {
+  max-width: 80%;
+  margin: 10px;
 }
 </style>

@@ -1,3 +1,12 @@
+const comments = [
+  {
+    id: "123",
+    text: "Hello",
+    dateCreated: "2020-01-01",
+    user: { id: "123", name: "John", avatar: "" },
+  },
+];
+
 export const boardColumnList = [
   {
     name: "todo",
@@ -10,6 +19,7 @@ export const boardColumnList = [
         createdDate: null,
         changedDate: null,
         checklist: null,
+        comments,
       },
       {
         description: "",

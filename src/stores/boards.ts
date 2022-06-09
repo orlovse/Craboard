@@ -22,6 +22,17 @@ export type CheckItemType = {
   usersAssigned: null;
 };
 
+export type CommentType = {
+  id: string;
+  text: string;
+  dateCreated: string;
+  user: {
+    id: string;
+    name: string;
+    avatar: string;
+  };
+};
+
 export type TaskType = {
   description: string;
   name: string;
@@ -30,6 +41,8 @@ export type TaskType = {
   createdDate: string | null;
   changedDate: string | null;
   checklist: TaskChecklistType | null;
+
+  comments?: CommentType[];
 };
 
 export type TaskKeyType = keyof TaskType;
@@ -212,6 +225,34 @@ export const useBoardsStore = defineStore({
       this.labelsList = this.labelsList.filter((label) => {
         return label.id !== labelId;
       });
+    },
+    addCommentAction(commentText: string, task: TaskType | null) {
+      if (task) {
+        const oldComments = task.comments || [];
+        task.comments = [
+          ...oldComments,
+          {
+            id: Date.now().toString(),
+            text: commentText,
+            dateCreated: new Date().toISOString(),
+            user: {
+              id: "1",
+              name: "John Doe",
+              avatar: "",
+            },
+          },
+        ];
+      }
+    },
+    editCommentAction(commentText: string, comment: CommentType) {
+      comment.text = commentText;
+    },
+    removeCommentAction(commentId: string, task: TaskType | null) {
+      if (task) {
+        task.comments = task.comments?.filter((comment) => {
+          return comment.id !== commentId;
+        });
+      }
     },
   },
 });
