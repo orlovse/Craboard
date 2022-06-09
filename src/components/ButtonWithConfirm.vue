@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { watch } from "vue";
+import checkIcon from "@/assets/svg/check.svg";
+import trashIcon from "@/assets/svg/trash.svg";
 import { ref } from "@vue/reactivity";
+import { watch } from "vue";
 
 interface IProps {
   firstText: string;
@@ -33,15 +35,19 @@ watch(isClicked, (value) => {
 
 <template>
   <button
-    class="button-with-confirm"
     :class="{ 'button-icon': isIcon }"
     @click.stop="onClick"
     @keyup.enter="onClick"
+    class="button-with-confirm"
   >
-    <span class="text first-text">{{ firstText }}</span>
-    <span class="text second-text" :class="{ 'clicked-second': isClicked }">{{
-      secondText
-    }}</span>
+    <span class="text first-text">
+      <img class="first-image" color="white" v-if="isIcon" :src="trashIcon" />
+      <span v-else> {{ firstText }}</span>
+    </span>
+    <span class="text second-text" :class="{ 'clicked-second': isClicked }">
+      <img class="first-image" v-if="isIcon" :src="checkIcon" />
+      <span v-else> {{ secondText }}</span>
+    </span>
   </button>
 </template>
 
@@ -96,5 +102,15 @@ watch(isClicked, (value) => {
 
 .clicked-second {
   transform: translateY(5%);
+}
+
+.first-image {
+  width: 14px;
+  height: 14px;
+  color: white;
+
+  path {
+    fill: white;
+  }
 }
 </style>

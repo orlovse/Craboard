@@ -61,21 +61,21 @@ const computedMoveTaskOrColumn = computed(() => {
     @drop="computedMoveTaskOrColumn"
   >
     <CustomDrag
-      class="boardColumnCard"
-      @dragstart="dragStart"
-      @dragend="dragEnd"
       :class="{ dragOver: isDragOver, drag: isDrag }"
       :transferData="{ type: 'column', fromColumnIndex: columnIndex }"
+      @dragend="dragEnd"
+      @dragstart="dragStart"
+      class="boardColumnCard"
     >
       <div>{{ column.name }} ({{ column.tasks.length }})</div>
       <TransitionGroup name="tasks" tag="div">
         <ColumnTask
+          v-for="(task, taskIndex) of column.tasks"
           :column="column"
           :columnIndex="columnIndex"
           :key="task.id"
           :task="task"
           :taskIndex="taskIndex"
-          v-for="(task, taskIndex) of column.tasks"
         />
       </TransitionGroup>
       <CustomInput
