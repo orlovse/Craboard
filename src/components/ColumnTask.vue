@@ -1,7 +1,14 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
 import { computed, ref } from "@vue/reactivity";
-import type { ColumnType, TaskType } from "@/stores/boards";
+import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+import { Icon } from "@iconify/vue";
+
+import {
+  useBoardsStore,
+  type ColumnType,
+  type TaskType,
+} from "@/stores/boards";
 
 import CustomDrag from "./CustomDrag.vue";
 import CustomDrop from "./CustomDrop.vue";
@@ -16,10 +23,12 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
+const boardStore = useBoardsStore();
+const { selectedLabels } = storeToRefs(boardStore);
+
 const router = useRouter();
 
 const isDragOver = ref(false);
-
 const isDrag = ref(false);
 
 const openTaskModal = (taskId: string) => {
@@ -31,6 +40,10 @@ const computedMoveTaskOrColumn = computed(() => {
     column: props.column,
     taskIndex: props.taskIndex || 0,
   });
+});
+
+const complitedTasksCount = computed(() => {
+  return props.task?.checklist?.list.filter((item) => item.isChecked).length;
 });
 
 const dragOver = () => {
@@ -70,6 +83,16 @@ const dragEnd = () => {
     >
       <span> {{ task.name }}</span>
       <p v-if="task.description">{{ task.description }}</p>
+      <div class="task-info">
+        <span v-if="task.checklist" class="icon-with-text"
+          ><Icon icon="uil:file-check-alt" width="18px" />
+          {{ `${complitedTasksCount} / ${task.checklist?.list.length}` }}</span
+        >
+        <span v-if="task.comments" class="icon-with-text"
+          ><Icon icon="uil:comment-lines" width="18px" />
+          {{ task.comments?.length }}</span
+        >
+      </div>
     </CustomDrag>
   </CustomDrop>
 </template>
@@ -99,5 +122,17 @@ const dragEnd = () => {
 
 .taskCard:hover {
   transform: translateY(-2%);
+}
+
+.task-info {
+  display: flex;
+  margin-top: 15px;
+  gap: 15px;
+}
+
+.icon-with-text {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 </style>
