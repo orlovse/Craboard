@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import checkIcon from "@/assets/svg/check.svg";
-import trashIcon from "@/assets/svg/trash.svg";
 import { ref } from "@vue/reactivity";
 import { watch } from "vue";
+import { Icon } from "@iconify/vue";
 
 interface IProps {
   firstText: string;
@@ -41,11 +40,11 @@ watch(isClicked, (value) => {
     class="button-with-confirm"
   >
     <span class="text first-text">
-      <img class="first-image" color="white" v-if="isIcon" :src="trashIcon" />
+      <Icon v-if="isIcon" width="18" icon="uil:trash-alt" />
       <span v-else> {{ firstText }}</span>
     </span>
     <span class="text second-text" :class="{ 'clicked-second': isClicked }">
-      <img class="first-image" v-if="isIcon" :src="checkIcon" />
+      <Icon width="18" v-if="isIcon" icon="uil:check" />
       <span v-else> {{ secondText }}</span>
     </span>
   </button>
@@ -77,18 +76,17 @@ watch(isClicked, (value) => {
 }
 
 .text {
-  align-items: center;
-  color: white;
-  display: block;
+  color: var(--color-text-opposite);
   display: flex;
-  font-size: 18px;
-  height: 100%;
   justify-content: center;
-  left: 0;
+  align-items: center;
+  font-size: 18px;
+  width: 100%;
+  height: 100%;
   position: absolute;
+  left: 0;
   top: 0;
   transition: transform 0.2s;
-  width: 100%;
 }
 
 .first-text {
@@ -102,15 +100,10 @@ watch(isClicked, (value) => {
 
 .clicked-second {
   transform: translateY(5%);
-}
 
-.first-image {
-  width: 14px;
-  height: 14px;
-  color: white;
-
-  path {
-    fill: white;
+  span,
+  svg {
+    transform: translateY(-5%);
   }
 }
 </style>
