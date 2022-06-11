@@ -1,7 +1,15 @@
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
 
-const emit = defineEmits(["uploadImage"]);
+interface IProps {
+  uploadType?: string;
+}
+
+withDefaults(defineProps<IProps>(), {
+  uploadType: "",
+});
+
+const emit = defineEmits(["uploadFile"]);
 
 const filename = ref("");
 const dragging = ref(false);
@@ -12,17 +20,17 @@ const updateValue = (event: Event) => {
   const files = target.files;
 
   if (files) {
-    const uploadedImage = files[0];
-    const imageName = uploadedImage.name.split(".")[0];
+    const uploadedFile = files[0];
+    const uploadedFileName = uploadedFile.name.split(".")[0];
 
-    filename.value = imageName;
+    filename.value = uploadedFileName;
 
     const reader = new FileReader();
-    reader.readAsDataURL(uploadedImage);
+    reader.readAsDataURL(uploadedFile);
 
     reader.onload = () => {
       if (reader.result) {
-        emit("uploadImage", reader.result);
+        emit("uploadFile", { filename: uploadedFileName, file: reader.result });
       }
     };
   }
@@ -38,8 +46,8 @@ const updateValue = (event: Event) => {
     @drop="dragging = false"
     @dragleave="dragging = false"
   >
-    <p v-if="filename">{{ filename }}</p>
-    <div v-else>
+    <!-- <p v-if="filename">{{ filename }}</p> -->
+    <div>
       <p>
         <span class="link-text">Choose a file </span>
         <span class="drag-text">or drag it here</span>
@@ -49,7 +57,7 @@ const updateValue = (event: Event) => {
       id="file"
       type="file"
       class="file"
-      accept="image/*"
+      :accept="uploadType"
       @input="updateValue"
     />
   </div>
@@ -57,12 +65,11 @@ const updateValue = (event: Event) => {
 
 <style scoped lang="scss">
 .upload-area {
-  align-items: center;
   border-radius: 10px;
   border: 2px dashed var(--color-border);
   display: flex;
+  align-items: center;
   justify-content: center;
-  margin: 0 auto;
   padding: 20px;
   position: relative;
 

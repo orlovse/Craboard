@@ -13,24 +13,27 @@ import {
 import AddLabels from "@/components/AddLabels.vue";
 import ButtonWithConfirm from "@/components/ButtonWithConfirm.vue";
 import ButtonWithInput from "@/components/ButtonWithInput.vue";
-import CommentForm from "@/components/CommentForm.vue";
 import ChecklistCard from "@/components/ChecklistCard.vue";
+import CommentForm from "@/components/CommentForm.vue";
 import CustomButton from "@/components/CustomButton.vue";
+import CustomInput from "@/components/CustomInput.vue";
 import CustomTextarea from "@/components/CustomTextarea.vue";
 import TaskLabels from "@/components/TaskLabels.vue";
-import CustomInput from "../components/CustomInput.vue";
+import UploadFile from "@/components/UploadFile.vue";
 
 const route = useRoute();
 const router = useRouter();
 const boardStore = useBoardsStore();
 
 const {
-  getBoardById,
-  removeTaskAction,
-  updateTaskAction,
+  addAttachmentAction,
   addCommentAction,
   editCommentAction,
+  getBoardById,
   removeCommentAction,
+  removeAttachmentAction,
+  removeTaskAction,
+  updateTaskAction,
 } = boardStore;
 
 const boardId = computed(() => {
@@ -122,6 +125,12 @@ const updateListItems = (newItem: CheckItemType) => {
     checklist.list.push(newItem);
   }
 };
+
+const addFile = (file: any) => {
+  if (selectedTask) {
+    addAttachmentAction(selectedTask, file);
+  }
+};
 </script>
 
 <template>
@@ -151,6 +160,21 @@ const updateListItems = (newItem: CheckItemType) => {
         @updateListItems="updateListItems"
         v-if="selectedTask.checklist"
       />
+      <div>Attachments:</div>
+      <ul v-if="selectedTask.files">
+        <li
+          v-for="file in selectedTask.files"
+          :key="file.filename"
+          class="file"
+        >
+          {{ file.filename }}
+          <ButtonWithConfirm
+            :isIcon="true"
+            @onConfirm="removeAttachmentAction(selectedTask, file.filename)"
+          />
+        </li>
+      </ul>
+      <UploadFile @uploadFile="addFile" />
       <div>
         <p>Comments:</p>
         <TransitionGroup name="list" tag="div" v-if="selectedTask.comments">
@@ -260,5 +284,11 @@ const updateListItems = (newItem: CheckItemType) => {
 .comment-input {
   max-width: 80%;
   margin: 10px;
+}
+
+.file {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 </style>

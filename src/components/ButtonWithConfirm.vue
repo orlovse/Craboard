@@ -4,9 +4,8 @@ import { watch } from "vue";
 import { Icon } from "@iconify/vue";
 
 interface IProps {
-  firstText: string;
-  secondText: string;
-
+  firstText?: string;
+  secondText?: string;
   isIcon?: boolean;
 }
 

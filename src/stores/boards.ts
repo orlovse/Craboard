@@ -43,6 +43,10 @@ export type TaskType = {
   checklist: TaskChecklistType | null;
 
   comments?: CommentType[];
+  files?: {
+    filename: string;
+    file: string;
+  }[];
 };
 
 export type TaskKeyType = keyof TaskType;
@@ -109,10 +113,8 @@ export const useBoardsStore = defineStore({
     },
   },
   actions: {
-    setBoardImage(imageLink: string) {
-      console.log("imageLink", imageLink);
-
-      this.boardImage = imageLink;
+    setBoardImage(fileObject: any) {
+      this.boardImage = fileObject.file;
     },
     getBoardsListAction() {
       this.loading = true;
@@ -251,6 +253,20 @@ export const useBoardsStore = defineStore({
       if (task) {
         task.comments = task.comments?.filter((comment) => {
           return comment.id !== commentId;
+        });
+      }
+    },
+    addAttachmentAction(task: TaskType, file: any) {
+      if (task.files) {
+        task.files?.push(file);
+      } else {
+        task.files = [file];
+      }
+    },
+    removeAttachmentAction(task: TaskType | null, filename: string) {
+      if (task) {
+        task.files = task.files?.filter((file) => {
+          return file.filename !== filename;
         });
       }
     },

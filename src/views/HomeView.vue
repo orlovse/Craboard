@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useBoardsStore } from "@/stores/boards";
-import UploadImage from "@/components/UploadImage.vue";
+import UploadFile from "@/components/UploadFile.vue";
 
 const boardStory = useBoardsStore();
 
@@ -9,7 +9,11 @@ const { setBoardImage } = boardStory;
 
 <template>
   <main>
-    <UploadImage class="upload-container" @uploadImage="setBoardImage" />
+    <UploadFile
+      class="upload-container"
+      uploadType="image/*"
+      @uploadFile="setBoardImage"
+    />
   </main>
 </template>
 

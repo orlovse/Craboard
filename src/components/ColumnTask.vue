@@ -92,6 +92,10 @@ const dragEnd = () => {
           ><Icon icon="uil:comment-lines" width="18px" />
           {{ task.comments?.length }}</span
         >
+        <span v-if="task.files" class="icon-with-text"
+          ><Icon icon="uil:cloud-upload" width="18px" />
+          {{ task.files?.length }}</span
+        >
       </div>
     </CustomDrag>
   </CustomDrop>
@@ -126,12 +130,12 @@ const dragEnd = () => {
 
 .task-info {
   display: flex;
-  margin-top: 15px;
   gap: 15px;
 }
 
 .icon-with-text {
   display: flex;
+  margin-top: 15px;
   align-items: center;
   gap: 5px;
 }

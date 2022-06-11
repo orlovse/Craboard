@@ -91,9 +91,6 @@ const buttonText = computed(() => {
       <ButtonWithConfirm
         :isIcon="true"
         @onConfirm="removeLabelAction(label.id)"
-        class="delete-button"
-        firstText="X"
-        secondText="?"
       />
     </div>
     <CustomInput
