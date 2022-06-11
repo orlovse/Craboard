@@ -59,7 +59,7 @@ const removeListItem = (index: number) => {
       <CustomTextarea
         :model-value="checklist.checklistName"
         @update:model-value="updateName"
-        placeholder="Checkbox name"
+        placeholder="Checklist name"
       />
       <CustomButton
         :isCloseButton="true"

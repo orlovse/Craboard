@@ -60,6 +60,7 @@ export type BoardType = {
   boardId: string;
   boardName: string;
   boardContent: ColumnType[];
+  boardImage: string;
 };
 
 export type BoardsHashType = {
@@ -101,7 +102,7 @@ export const useBoardsStore = defineStore({
         const { boards } = state;
 
         if (boards) {
-          return boards[boardId]?.boardContent;
+          return boards[boardId];
         }
       };
     },
@@ -113,8 +114,17 @@ export const useBoardsStore = defineStore({
     },
   },
   actions: {
-    setBoardImage(fileObject: any) {
-      this.boardImage = fileObject.file;
+    addNewBoardAction(boardName: string) {
+      this.boardsList.push({ boardId: Date.now().toString(), boardName });
+    },
+    setBoardImageAction(fileObject: any) {
+      const boardId = router.currentRoute.value.params.boardId as string;
+
+      const activeBoard = this.getBoardById(boardId);
+
+      if (activeBoard) {
+        activeBoard.boardImage = fileObject.file;
+      }
     },
     getBoardsListAction() {
       this.loading = true;
@@ -163,7 +173,7 @@ export const useBoardsStore = defineStore({
         .then((response) => {
           this.loading = false;
 
-          this.getBoardById(boardId)?.push({
+          this.getBoardById(boardId)?.boardContent.push({
             name,
             tasks: [],
           });
@@ -213,7 +223,7 @@ export const useBoardsStore = defineStore({
     moveColumnAction(fromColumnIndex: number, toColumnIndex: number) {
       const boardId = router.currentRoute.value.params.boardId as string;
 
-      const columnList = this.getBoardById(boardId);
+      const columnList = this.getBoardById(boardId)?.boardContent;
       const columnToMove = columnList?.splice(fromColumnIndex, 1)[0];
 
       if (columnToMove) {

@@ -44,7 +44,7 @@ const taskId = computed(() => {
   return route.params.taskId as string;
 });
 
-const board = getBoardById(boardId.value);
+const board = getBoardById(boardId.value)?.boardContent;
 
 let selectedTask: TaskType | null = null;
 let selectedColumn: ColumnType | null = null;
@@ -174,7 +174,7 @@ const addFile = (file: any) => {
           />
         </li>
       </ul>
-      <UploadFile @uploadFile="addFile" />
+      <UploadFile @uploadFile="addFile" :isDragAria="true" />
       <div>
         <p>Comments:</p>
         <TransitionGroup name="list" tag="div" v-if="selectedTask.comments">

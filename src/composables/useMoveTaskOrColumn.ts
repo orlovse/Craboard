@@ -22,7 +22,7 @@ export const useMoveTaskOrColumn = (props: UseMoveTaskOrColumnType) => {
     return route.params.boardId as string;
   });
 
-  const selectedBoard = getBoardById(boardId.value);
+  const selectedBoard = getBoardById(boardId.value)?.boardContent;
 
   const moveTaskOrColumn = (transferData: TransferDataType) => {
     const { type, fromColumnIndex, fromTaskIndex } = transferData;

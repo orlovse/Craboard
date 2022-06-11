@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
+import CustomButton from "./CustomButton.vue";
 
 interface IProps {
+  isDragAria?: boolean;
   uploadType?: string;
 }
 
@@ -45,6 +47,7 @@ const updateValue = (event: Event) => {
     @dragend="dragging = false"
     @drop="dragging = false"
     @dragleave="dragging = false"
+    v-if="isDragAria"
   >
     <!-- <p v-if="filename">{{ filename }}</p> -->
     <div>
@@ -61,6 +64,15 @@ const updateValue = (event: Event) => {
       @input="updateValue"
     />
   </div>
+  <CustomButton v-else :isIconButton="true" icon="uil:cloud-upload">
+    <input
+      id="file"
+      type="file"
+      class="file"
+      :accept="uploadType"
+      @input="updateValue"
+    />
+  </CustomButton>
 </template>
 
 <style scoped lang="scss">
@@ -84,15 +96,16 @@ const updateValue = (event: Event) => {
   &:hover .link-text {
     color: var(--color-primary);
   }
+}
 
-  .file {
-    cursor: pointer;
-    height: 100%;
-    left: 0;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-  }
+.file {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 0;
+  opacity: 0;
 }
 </style>
