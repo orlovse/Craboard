@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { watch } from "vue";
 import { ref } from "@vue/reactivity";
+import { watch } from "vue";
+import { Icon } from "@iconify/vue";
 
 interface IProps {
-  firstText: string;
-  secondText: string;
-
+  firstText?: string;
+  secondText?: string;
   isIcon?: boolean;
 }
 
@@ -33,15 +33,19 @@ watch(isClicked, (value) => {
 
 <template>
   <button
-    class="button-with-confirm"
     :class="{ 'button-icon': isIcon }"
     @click.stop="onClick"
     @keyup.enter="onClick"
+    class="button-with-confirm"
   >
-    <span class="text first-text">{{ firstText }}</span>
-    <span class="text second-text" :class="{ 'clicked-second': isClicked }">{{
-      secondText
-    }}</span>
+    <span class="text first-text">
+      <Icon v-if="isIcon" width="18" icon="uil:trash-alt" />
+      <span v-else> {{ firstText }}</span>
+    </span>
+    <span class="text second-text" :class="{ 'clicked-second': isClicked }">
+      <Icon width="18" v-if="isIcon" icon="uil:check" />
+      <span v-else> {{ secondText }}</span>
+    </span>
   </button>
 </template>
 
@@ -71,18 +75,17 @@ watch(isClicked, (value) => {
 }
 
 .text {
-  align-items: center;
-  color: white;
-  display: block;
+  color: var(--color-text-opposite);
   display: flex;
-  font-size: 18px;
-  height: 100%;
   justify-content: center;
-  left: 0;
+  align-items: center;
+  font-size: 18px;
+  width: 100%;
+  height: 100%;
   position: absolute;
+  left: 0;
   top: 0;
   transition: transform 0.2s;
-  width: 100%;
 }
 
 .first-text {
@@ -96,5 +99,10 @@ watch(isClicked, (value) => {
 
 .clicked-second {
   transform: translateY(5%);
+
+  span,
+  svg {
+    transform: translateY(-5%);
+  }
 }
 </style>

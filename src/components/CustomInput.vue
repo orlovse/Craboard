@@ -38,7 +38,7 @@ const handleEnter = (event: KeyboardEvent) => {
       :type="type"
       :value="modelValue"
       @input="onInput"
-      @keypress.enter="handleEnter"
+      @keyup.enter="handleEnter"
       class="custom-input"
     />
     <button

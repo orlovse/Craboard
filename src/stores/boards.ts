@@ -22,6 +22,17 @@ export type CheckItemType = {
   usersAssigned: null;
 };
 
+export type CommentType = {
+  id: string;
+  text: string;
+  dateCreated: string;
+  user: {
+    id: string;
+    name: string;
+    avatar: string;
+  };
+};
+
 export type TaskType = {
   description: string;
   name: string;
@@ -30,6 +41,12 @@ export type TaskType = {
   createdDate: string | null;
   changedDate: string | null;
   checklist: TaskChecklistType | null;
+
+  comments?: CommentType[];
+  files?: {
+    filename: string;
+    file: string;
+  }[];
 };
 
 export type TaskKeyType = keyof TaskType;
@@ -43,6 +60,7 @@ export type BoardType = {
   boardId: string;
   boardName: string;
   boardContent: ColumnType[];
+  boardImage: string;
 };
 
 export type BoardsHashType = {
@@ -84,7 +102,7 @@ export const useBoardsStore = defineStore({
         const { boards } = state;
 
         if (boards) {
-          return boards[boardId]?.boardContent;
+          return boards[boardId];
         }
       };
     },
@@ -96,10 +114,17 @@ export const useBoardsStore = defineStore({
     },
   },
   actions: {
-    setBoardImage(imageLink: string) {
-      console.log("imageLink", imageLink);
+    addNewBoardAction(boardName: string) {
+      this.boardsList.push({ boardId: Date.now().toString(), boardName });
+    },
+    setBoardImageAction(fileObject: any) {
+      const boardId = router.currentRoute.value.params.boardId as string;
 
-      this.boardImage = imageLink;
+      const activeBoard = this.getBoardById(boardId);
+
+      if (activeBoard) {
+        activeBoard.boardImage = fileObject.file;
+      }
     },
     getBoardsListAction() {
       this.loading = true;
@@ -148,7 +173,7 @@ export const useBoardsStore = defineStore({
         .then((response) => {
           this.loading = false;
 
-          this.getBoardById(boardId)?.push({
+          this.getBoardById(boardId)?.boardContent.push({
             name,
             tasks: [],
           });
@@ -198,7 +223,7 @@ export const useBoardsStore = defineStore({
     moveColumnAction(fromColumnIndex: number, toColumnIndex: number) {
       const boardId = router.currentRoute.value.params.boardId as string;
 
-      const columnList = this.getBoardById(boardId);
+      const columnList = this.getBoardById(boardId)?.boardContent;
       const columnToMove = columnList?.splice(fromColumnIndex, 1)[0];
 
       if (columnToMove) {
@@ -212,6 +237,48 @@ export const useBoardsStore = defineStore({
       this.labelsList = this.labelsList.filter((label) => {
         return label.id !== labelId;
       });
+    },
+    addCommentAction(commentText: string, task: TaskType | null) {
+      if (task) {
+        const oldComments = task.comments || [];
+        task.comments = [
+          ...oldComments,
+          {
+            id: Date.now().toString(),
+            text: commentText,
+            dateCreated: new Date().toISOString(),
+            user: {
+              id: "1",
+              name: "John Doe",
+              avatar: "",
+            },
+          },
+        ];
+      }
+    },
+    editCommentAction(commentText: string, comment: CommentType) {
+      comment.text = commentText;
+    },
+    removeCommentAction(commentId: string, task: TaskType | null) {
+      if (task) {
+        task.comments = task.comments?.filter((comment) => {
+          return comment.id !== commentId;
+        });
+      }
+    },
+    addAttachmentAction(task: TaskType, file: any) {
+      if (task.files) {
+        task.files?.push(file);
+      } else {
+        task.files = [file];
+      }
+    },
+    removeAttachmentAction(task: TaskType | null, filename: string) {
+      if (task) {
+        task.files = task.files?.filter((file) => {
+          return file.filename !== filename;
+        });
+      }
     },
   },
 });

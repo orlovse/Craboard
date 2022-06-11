@@ -1,11 +1,25 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from "vue-router";
+import { RouterLink, RouterView, useRoute } from "vue-router";
+import { computed } from "@vue/reactivity";
 import { storeToRefs } from "pinia";
+
 import { useUserStore } from "@/stores/user";
-import ThemeToggle from "./components/ThemeToggle.vue";
+import { useBoardsStore } from "@/stores/boards";
+
+import ThemeToggle from "@/components/ThemeToggle.vue";
+import UploadFile from "@/components/UploadFile.vue";
 
 const userStore = useUserStore();
 const { isDarkTheme } = storeToRefs(userStore);
+
+const boardStory = useBoardsStore();
+const { setBoardImageAction } = boardStory;
+
+const route = useRoute();
+
+const boardId = computed(() => {
+  return route.params.boardId as string;
+});
 </script>
 
 <template>
@@ -18,6 +32,12 @@ const { isDarkTheme } = storeToRefs(userStore);
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/board/123">Board</RouterLink>
       </nav>
+      <UploadFile
+        class="upload-container"
+        uploadType="image/*"
+        v-if="boardId"
+        @uploadFile="setBoardImageAction"
+      />
       <ThemeToggle />
     </header>
 

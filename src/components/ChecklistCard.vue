@@ -3,8 +3,8 @@ import { computed, ref } from "@vue/reactivity";
 
 import type { TaskChecklistType } from "@/stores/boards";
 
-import CustomButton from "./CustomButton.vue";
 import ChecklistItem from "./ChecklistItem.vue";
+import CustomButton from "./CustomButton.vue";
 import CustomInput from "./CustomInput.vue";
 import CustomTextarea from "./CustomTextarea.vue";
 import ProgressBar from "./ProgressBar.vue";
@@ -57,9 +57,9 @@ const removeListItem = (index: number) => {
   <div class="checklist-card">
     <div class="title-container">
       <CustomTextarea
-        placeholder="Checkbox name"
         :model-value="checklist.checklistName"
         @update:model-value="updateName"
+        placeholder="Checklist name"
       />
       <CustomButton
         :isCloseButton="true"
@@ -75,9 +75,9 @@ const removeListItem = (index: number) => {
     />
     <TransitionGroup name="list" tag="ul" v-if="checklist.list">
       <li
+        v-for="(listItem, index) of checklist.list"
         :key="listItem.id"
         class="list-item"
-        v-for="(listItem, index) of checklist.list"
       >
         <ChecklistItem
           :key="listItem.id"
@@ -114,21 +114,5 @@ const removeListItem = (index: number) => {
 
 .propgress-bar {
   margin-bottom: 20px;
-}
-
-.list-move,
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.5s ease;
-}
-
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
-
-.list-leave-active {
-  position: absolute;
 }
 </style>

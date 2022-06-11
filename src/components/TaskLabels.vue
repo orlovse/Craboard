@@ -18,7 +18,7 @@ const onLabelClick = (label: LabelType) => {
 <template>
   <div v-if="isShowLabels" class="task-labels">
     <span>Selected labels:</span>
-    <TransitionGroup name="labels" tag="div" class="label-wrapper">
+    <TransitionGroup name="list" tag="div" class="label-wrapper">
       <div
         v-for="label in selectedLabels"
         @click="onLabelClick(label)"
@@ -77,15 +77,5 @@ const onLabelClick = (label: LabelType) => {
   transition: 0.2s;
   left: 50%;
   top: 0;
-}
-
-.labels-enter-active,
-.labels-leave-active {
-  transition: all 0.5s ease;
-}
-.labels-enter-from,
-.labels-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
 }
 </style>

@@ -14,14 +14,27 @@ import AddLabels from "@/components/AddLabels.vue";
 import ButtonWithConfirm from "@/components/ButtonWithConfirm.vue";
 import ButtonWithInput from "@/components/ButtonWithInput.vue";
 import ChecklistCard from "@/components/ChecklistCard.vue";
+import CommentForm from "@/components/CommentForm.vue";
 import CustomButton from "@/components/CustomButton.vue";
+import CustomInput from "@/components/CustomInput.vue";
 import CustomTextarea from "@/components/CustomTextarea.vue";
 import TaskLabels from "@/components/TaskLabels.vue";
+import UploadFile from "@/components/UploadFile.vue";
 
 const route = useRoute();
 const router = useRouter();
 const boardStore = useBoardsStore();
-const { getBoardById, removeTaskAction, updateTaskAction } = boardStore;
+
+const {
+  addAttachmentAction,
+  addCommentAction,
+  editCommentAction,
+  getBoardById,
+  removeCommentAction,
+  removeAttachmentAction,
+  removeTaskAction,
+  updateTaskAction,
+} = boardStore;
 
 const boardId = computed(() => {
   return route.params.boardId as string;
@@ -31,7 +44,7 @@ const taskId = computed(() => {
   return route.params.taskId as string;
 });
 
-const board = getBoardById(boardId.value);
+const board = getBoardById(boardId.value)?.boardContent;
 
 let selectedTask: TaskType | null = null;
 let selectedColumn: ColumnType | null = null;
@@ -59,6 +72,21 @@ const updateTask = (event: KeyboardEvent, key: TaskKeyType) => {
   if (selectedTask && value) {
     updateTaskAction(selectedTask, key, value);
   }
+};
+
+const commentText = ref("");
+
+const addComment = () => {
+  addCommentAction(commentText.value, selectedTask);
+  commentText.value = "";
+};
+
+const removeComment = (commentId: string) => {
+  removeCommentAction(commentId, selectedTask);
+};
+
+const editComment = (commentId: string) => {
+  // editCommentAction(commentId, selectedTask);
 };
 
 const closeModal = () => {
@@ -97,6 +125,12 @@ const updateListItems = (newItem: CheckItemType) => {
     checklist.list.push(newItem);
   }
 };
+
+const addFile = (file: any) => {
+  if (selectedTask) {
+    addAttachmentAction(selectedTask, file);
+  }
+};
 </script>
 
 <template>
@@ -126,12 +160,46 @@ const updateListItems = (newItem: CheckItemType) => {
         @updateListItems="updateListItems"
         v-if="selectedTask.checklist"
       />
+      <div>Attachments:</div>
+      <ul v-if="selectedTask.files">
+        <li
+          v-for="file in selectedTask.files"
+          :key="file.filename"
+          class="file"
+        >
+          {{ file.filename }}
+          <ButtonWithConfirm
+            :isIcon="true"
+            @onConfirm="removeAttachmentAction(selectedTask, file.filename)"
+          />
+        </li>
+      </ul>
+      <UploadFile @uploadFile="addFile" :isDragAria="true" />
+      <div>
+        <p>Comments:</p>
+        <TransitionGroup name="list" tag="div" v-if="selectedTask.comments">
+          <CommentForm
+            v-for="comment in selectedTask.comments"
+            @onRemoveComment="removeComment"
+            @onEditComment="editComment"
+            :comment="comment"
+            :key="comment.id"
+          />
+        </TransitionGroup>
+        <CustomInput
+          class="comment-input"
+          :isShowButton="true"
+          placeholder="Add comment"
+          @onButtonClick="addComment"
+          v-model="commentText"
+        />
+      </div>
     </div>
     <div class="flex second-column">
       <div class="flex">
         <AddLabels />
         <ButtonWithInput
-          @keypress.enter="addChecklist"
+          @keyup.enter="addChecklist"
           @addChecklist="addChecklist"
           :isDisabled="!!selectedTask.checklist"
           buttonText="Add checklist"
@@ -211,5 +279,16 @@ const updateListItems = (newItem: CheckItemType) => {
   flex-direction: column;
   justify-content: space-between;
   padding-top: 20px;
+}
+
+.comment-input {
+  max-width: 80%;
+  margin: 10px;
+}
+
+.file {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 </style>

@@ -1,7 +1,17 @@
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
+import CustomButton from "./CustomButton.vue";
 
-const emit = defineEmits(["uploadImage"]);
+interface IProps {
+  isDragAria?: boolean;
+  uploadType?: string;
+}
+
+withDefaults(defineProps<IProps>(), {
+  uploadType: "",
+});
+
+const emit = defineEmits(["uploadFile"]);
 
 const filename = ref("");
 const dragging = ref(false);
@@ -12,17 +22,17 @@ const updateValue = (event: Event) => {
   const files = target.files;
 
   if (files) {
-    const uploadedImage = files[0];
-    const imageName = uploadedImage.name.split(".")[0];
+    const uploadedFile = files[0];
+    const uploadedFileName = uploadedFile.name.split(".")[0];
 
-    filename.value = imageName;
+    filename.value = uploadedFileName;
 
     const reader = new FileReader();
-    reader.readAsDataURL(uploadedImage);
+    reader.readAsDataURL(uploadedFile);
 
     reader.onload = () => {
       if (reader.result) {
-        emit("uploadImage", reader.result);
+        emit("uploadFile", { filename: uploadedFileName, file: reader.result });
       }
     };
   }
@@ -37,9 +47,10 @@ const updateValue = (event: Event) => {
     @dragend="dragging = false"
     @drop="dragging = false"
     @dragleave="dragging = false"
+    v-if="isDragAria"
   >
-    <p v-if="filename">{{ filename }}</p>
-    <div v-else>
+    <!-- <p v-if="filename">{{ filename }}</p> -->
+    <div>
       <p>
         <span class="link-text">Choose a file </span>
         <span class="drag-text">or drag it here</span>
@@ -49,20 +60,28 @@ const updateValue = (event: Event) => {
       id="file"
       type="file"
       class="file"
-      accept="image/*"
+      :accept="uploadType"
       @input="updateValue"
     />
   </div>
+  <CustomButton v-else :isIconButton="true" icon="uil:cloud-upload">
+    <input
+      id="file"
+      type="file"
+      class="file"
+      :accept="uploadType"
+      @input="updateValue"
+    />
+  </CustomButton>
 </template>
 
 <style scoped lang="scss">
 .upload-area {
-  align-items: center;
   border-radius: 10px;
   border: 2px dashed var(--color-border);
   display: flex;
+  align-items: center;
   justify-content: center;
-  margin: 0 auto;
   padding: 20px;
   position: relative;
 
@@ -77,15 +96,16 @@ const updateValue = (event: Event) => {
   &:hover .link-text {
     color: var(--color-primary);
   }
+}
 
-  .file {
-    cursor: pointer;
-    height: 100%;
-    left: 0;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-  }
+.file {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 0;
+  opacity: 0;
 }
 </style>

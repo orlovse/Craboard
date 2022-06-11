@@ -69,7 +69,7 @@ const switchAndSend = () => {
       :class="{ 'show-input': isShowInput }"
       :isBlurOnEnter="true"
       :placeholder="placeholder"
-      @keypress.enter="switchInput"
+      @keyup.enter="switchInput"
       class="input"
       v-click-outside="closeInput"
       v-model="inputValue"

@@ -18,7 +18,7 @@ const { createColumnAction, getBoardById, getBoardAction } = boardStore;
 
 getBoardAction();
 
-const { boardLoading, boardImage } = storeToRefs(boardStore);
+const { boardLoading } = storeToRefs(boardStore);
 
 const boardId = computed(() => {
   return route.params.boardId as string;
@@ -51,7 +51,7 @@ const horizontalScroll = (event: WheelEvent) => {
 <template>
   <div
     class="board-view"
-    :style="{ 'background-image': `url('${boardImage}')` }"
+    :style="{ 'background-image': `url('${selectedBoard?.boardImage}')` }"
     @wheel.passive="horizontalScroll"
   >
     <div v-if="boardLoading" class="loading-container">
@@ -66,7 +66,7 @@ const horizontalScroll = (event: WheelEvent) => {
         :column="column"
         :columnIndex="columnIndex"
         :key="column.name"
-        v-for="(column, columnIndex) of selectedBoard"
+        v-for="(column, columnIndex) of selectedBoard?.boardContent"
       />
       <div class="column">
         <CustomInput

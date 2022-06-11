@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
+
 interface IProps {
   isDisabled?: boolean;
   isDefault?: boolean;
   isIconButton?: boolean;
   isCloseButton?: boolean;
+  icon?: string;
   text?: string;
 }
 
@@ -21,9 +24,13 @@ defineProps<IProps>();
     }"
     :disabled="isDisabled"
   >
+    <slot></slot>
     <!-- <div class="button-background"></div> -->
-    <span class="button-text first"> {{ text }}</span>
-    <span class="button-text second"> {{ text }}</span>
+    <Icon v-if="isIconButton" :icon="icon" width="18" class="icon" />
+    <template v-else>
+      <span class="button-text first"> {{ text }}</span>
+      <span class="button-text second"> {{ text }}</span>
+    </template>
   </button>
 </template>
 
@@ -34,6 +41,7 @@ defineProps<IProps>();
   width: 100%;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 
   .button-text {
     display: inline-block;
@@ -79,8 +87,12 @@ defineProps<IProps>();
 .icon-button {
   background-color: var(--color-primary);
   border-radius: 100%;
-  height: 20px;
-  width: 20px;
+  height: 25px;
+  width: 25px;
+}
+
+.icon {
+  color: var(--color-text-opposite);
 }
 
 .close-button {

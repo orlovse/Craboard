@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { useBoardsStore } from "@/stores/boards";
-import { ref } from "@vue/reactivity";
 import { computed } from "vue";
+import { ref } from "@vue/reactivity";
+import { useBoardsStore } from "@/stores/boards";
+import { storeToRefs } from "pinia";
 
 import ButtonWithConfirm from "@/components/ButtonWithConfirm.vue";
 import CustomButton from "./CustomButton.vue";
 import CustomCheckbox from "./CustomCheckbox.vue";
 import CustomInput from "./CustomInput.vue";
-import { storeToRefs } from "pinia";
 
 const boardStore = useBoardsStore();
 
@@ -17,6 +17,7 @@ const { labels } = storeToRefs(boardStore);
 
 const isModalOpen = ref(false);
 const newLabelname = ref("");
+
 const isAllLabelsChecked = computed({
   get() {
     return labels.value.every((label) => {
@@ -64,9 +65,9 @@ const buttonText = computed(() => {
 
 <template>
   <CustomButton
-    @click.stop="toggleModal"
-    :text="buttonText"
     :isDefault="true"
+    :text="buttonText"
+    @click.stop="toggleModal"
     class="add-labels-button"
   />
   <div class="label-modal" v-if="isModalOpen" v-click-outside="closeModal">
@@ -88,11 +89,8 @@ const buttonText = computed(() => {
         }}</span>
       </div>
       <ButtonWithConfirm
-        @onConfirm="removeLabelAction(label.id)"
-        class="delete-button"
         :isIcon="true"
-        firstText="X"
-        secondText="?"
+        @onConfirm="removeLabelAction(label.id)"
       />
     </div>
     <CustomInput
@@ -111,24 +109,24 @@ const buttonText = computed(() => {
 }
 
 .label-modal {
-  box-shadow: var(--color-shadow);
-  position: absolute;
-  width: 300px;
-  border: 1px solid var(--color-text-opposite);
-  border-radius: var(--border-radius-card);
-  top: 100px;
-  right: 20px;
   background: var(--color-background-main);
-  z-index: 5;
-  padding: 60px 15px 20px;
+  border-radius: var(--border-radius-card);
+  border: 1px solid var(--color-text-opposite);
+  box-shadow: var(--color-shadow);
   overflow: auto;
+  padding: 60px 15px 20px;
+  position: absolute;
+  right: 20px;
+  top: 100px;
+  width: 300px;
+  z-index: 5;
 }
 
 .label-item {
   display: flex;
-  gap: 10px;
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
 }
 
 .label-item__left {

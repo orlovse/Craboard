@@ -2,10 +2,10 @@
 import { watch } from "vue";
 import { ref } from "@vue/reactivity";
 
-import CustomTextarea from "./CustomTextarea.vue";
 import CustomButton from "./CustomButton.vue";
-import type { CheckItemType } from "@/stores/boards";
 import CustomCheckbox from "./CustomCheckbox.vue";
+import CustomTextarea from "./CustomTextarea.vue";
+import type { CheckItemType } from "@/stores/boards";
 
 interface IProps {
   listItem: CheckItemType;
@@ -37,11 +37,11 @@ const switchEdit = () => {
   <div class="checklist-item">
     <CustomCheckbox v-model="selectedListItem.isChecked" />
     <div
-      for="todo"
-      class="cbx-lbl"
       :class="{ checked: selectedListItem.isChecked }"
-      v-if="!isEdit"
       @click="switchEdit"
+      class="cbx-lbl"
+      for="todo"
+      v-if="!isEdit"
     >
       {{ itemText }}
     </div>
