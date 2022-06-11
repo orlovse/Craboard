@@ -21,6 +21,7 @@ export const getBoard = (boardId: string) => {
         boardId: "1234",
         boardName: "First Board",
         boardContent: boardColumnList,
+        boardImage: "",
       });
     }, 800);
   });
