@@ -4,7 +4,7 @@ import { ref } from "@vue/reactivity";
 import { useBoardsStore } from "@/stores/boards";
 import { storeToRefs } from "pinia";
 
-import ButtonWithConfirm from "@/components/ButtonWithConfirm.vue";
+import ButtonWithConfirm from "./ButtonWithConfirm.vue";
 import CustomButton from "./CustomButton.vue";
 import CustomCheckbox from "./CustomCheckbox.vue";
 import CustomInput from "./CustomInput.vue";
