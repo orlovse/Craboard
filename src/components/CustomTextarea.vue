@@ -26,6 +26,7 @@ const onEnterPress = (event: KeyboardEvent) => {
 
 const changeTextareaHeight = () => {
   if (textarea.value) {
+    textarea.value.style.height = "auto";
     textarea.value.style.height = textarea.value?.scrollHeight + "px";
   }
 };

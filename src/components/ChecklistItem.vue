@@ -2,7 +2,7 @@
 import { watch } from "vue";
 import { ref } from "@vue/reactivity";
 
-import CustomButton from "./CustomButton.vue";
+import ButtonWithConfirm from "./ButtonWithConfirm.vue";
 import CustomCheckbox from "./CustomCheckbox.vue";
 import CustomTextarea from "./CustomTextarea.vue";
 import type { CheckItemType } from "@/stores/boards";
@@ -53,9 +53,9 @@ const switchEdit = () => {
       v-model="itemText"
       for="todo"
     />
-    <CustomButton
-      :isCloseButton="true"
-      @click="emit('remove')"
+    <ButtonWithConfirm
+      :isIcon="true"
+      @onConfirm="emit('remove')"
       class="remove-button"
     />
   </div>

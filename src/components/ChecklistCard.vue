@@ -3,8 +3,8 @@ import { computed, ref } from "@vue/reactivity";
 
 import type { TaskChecklistType } from "@/stores/boards";
 
+import ButtonWithConfirm from "./ButtonWithConfirm.vue";
 import ChecklistItem from "./ChecklistItem.vue";
-import CustomButton from "./CustomButton.vue";
 import CustomInput from "./CustomInput.vue";
 import CustomTextarea from "./CustomTextarea.vue";
 import ProgressBar from "./ProgressBar.vue";
@@ -61,9 +61,9 @@ const removeListItem = (index: number) => {
         @update:model-value="updateName"
         placeholder="Checklist name"
       />
-      <CustomButton
-        :isCloseButton="true"
-        @click="emit('removeChecklist')"
+      <ButtonWithConfirm
+        :isIcon="true"
+        @onConfirm="emit('removeChecklist')"
         class="remove-button"
       />
     </div>
