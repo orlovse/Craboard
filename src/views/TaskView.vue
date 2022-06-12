@@ -6,6 +6,7 @@ import {
   useBoardsStore,
   type CheckItemType,
   type ColumnType,
+  type CommentType,
   type TaskKeyType,
   type TaskType,
 } from "@/stores/boards";
@@ -85,8 +86,8 @@ const removeComment = (commentId: string) => {
   removeCommentAction(commentId, selectedTask);
 };
 
-const editComment = (commentId: string) => {
-  // editCommentAction(commentId, selectedTask);
+const editComment = (comment: CommentType, newCommentText: string) => {
+  editCommentAction(comment, newCommentText);
 };
 
 const closeModal = () => {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 interface IProps {
   modelValue: string;
@@ -28,6 +28,10 @@ const changeTextareaHeight = () => {
   }
 };
 
+onMounted(() => {
+  changeTextareaHeight();
+});
+
 const setValue = (event: KeyboardEvent | FocusEvent, newValue: boolean) => {
   const target = event.target as HTMLTextAreaElement;
 
@@ -52,7 +56,6 @@ const setValue = (event: KeyboardEvent | FocusEvent, newValue: boolean) => {
     @keyup.delete="changeTextareaHeight"
     class="custom-textarea"
     ref="textarea"
-    rows="1"
   />
 </template>
 
@@ -65,6 +68,7 @@ const setValue = (event: KeyboardEvent | FocusEvent, newValue: boolean) => {
   height: auto;
   outline: none;
   resize: none;
+  overflow: hidden;
 
   &:focus {
     background-color: var(--color-elements);

@@ -256,7 +256,7 @@ export const useBoardsStore = defineStore({
         ];
       }
     },
-    editCommentAction(commentText: string, comment: CommentType) {
+    editCommentAction(comment: CommentType, commentText: string) {
       comment.text = commentText;
     },
     removeCommentAction(commentId: string, task: TaskType | null) {
