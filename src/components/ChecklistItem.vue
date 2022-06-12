@@ -45,7 +45,14 @@ const switchEdit = () => {
     >
       {{ itemText }}
     </div>
-    <CustomTextarea v-else :isTitle="true" v-model="itemText" for="todo" />
+    <CustomTextarea
+      v-else
+      :isAutofocus="true"
+      :isTitle="true"
+      @onBlur="switchEdit"
+      v-model="itemText"
+      for="todo"
+    />
     <CustomButton
       :isCloseButton="true"
       @click="emit('remove')"

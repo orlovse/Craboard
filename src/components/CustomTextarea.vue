@@ -4,12 +4,13 @@ import { onMounted, ref } from "vue";
 interface IProps {
   modelValue: string;
 
+  isAutofocus?: boolean;
   isTitle?: boolean;
   placeholder?: string;
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "onBlur"]);
 
 const textarea = ref<HTMLTextAreaElement | null>(null);
 
@@ -17,6 +18,7 @@ const onEnterPress = (event: KeyboardEvent) => {
   if (props.isTitle) {
     event.preventDefault();
     setValue(event, false);
+    emit("onBlur");
   } else {
     changeTextareaHeight();
   }
@@ -30,6 +32,10 @@ const changeTextareaHeight = () => {
 
 onMounted(() => {
   changeTextareaHeight();
+
+  if (props.isAutofocus && textarea.value) {
+    textarea.value.focus();
+  }
 });
 
 const setValue = (event: KeyboardEvent | FocusEvent, newValue: boolean) => {
@@ -45,13 +51,18 @@ const setValue = (event: KeyboardEvent | FocusEvent, newValue: boolean) => {
     emit("update:modelValue", value);
   }
 };
+
+const onBlur = (event: FocusEvent) => {
+  setValue(event, false);
+  emit("onBlur");
+};
 </script>
 
 <template>
   <textarea
     :placeholder="placeholder"
     :value="modelValue"
-    @focusout="setValue($event, false)"
+    @blur="onBlur"
     @keyup.enter="onEnterPress"
     @keyup.delete="changeTextareaHeight"
     class="custom-textarea"
