@@ -65,9 +65,10 @@ const onBlur = (event: FocusEvent) => {
     :value="modelValue"
     @blur="onBlur"
     @keyup.enter="onEnterPress"
-    @keyup.delete="changeTextareaHeight"
+    @keyup="changeTextareaHeight"
     class="custom-textarea"
     ref="textarea"
+    rows="1"
   />
 </template>
 
@@ -81,6 +82,7 @@ const onBlur = (event: FocusEvent) => {
   outline: none;
   resize: none;
   overflow: hidden;
+  padding: 10px;
 
   &:focus {
     background-color: var(--color-elements);
