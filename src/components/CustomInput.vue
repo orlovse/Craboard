@@ -39,6 +39,7 @@ const handleEnter = (event: KeyboardEvent) => {
       :value="modelValue"
       @input="onInput"
       @keyup.enter="handleEnter"
+      :class="{ 'button-padding': isShowButton }"
       class="custom-input"
     />
     <button
@@ -97,5 +98,9 @@ const handleEnter = (event: KeyboardEvent) => {
     color: var(--color-text-opposite);
     font-size: 30px;
   }
+}
+
+.button-padding {
+  padding-inline-end: 40px;
 }
 </style>
