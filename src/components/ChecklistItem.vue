@@ -23,13 +23,17 @@ watch(itemText, (newValue) => {
   const listItem = props.listItem;
   listItem.name = newValue;
 
-  switchEdit();
+  closeEdit();
 });
 
 const selectedListItem = ref(props.listItem);
 
 const switchEdit = () => {
   isEdit.value = !isEdit.value;
+};
+
+const closeEdit = () => {
+  isEdit.value = false;
 };
 </script>
 
@@ -49,7 +53,7 @@ const switchEdit = () => {
       v-else
       :isAutofocus="true"
       :isTitle="true"
-      @onBlur="switchEdit"
+      @onBlur="closeEdit"
       v-model="itemText"
       for="todo"
     />

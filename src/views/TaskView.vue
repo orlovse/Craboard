@@ -272,6 +272,7 @@ const addFile = (file: any) => {
   overflow-x: hidden;
   overflow-y: auto;
   width: 100%;
+  padding-inline-end: 20px;
 }
 
 .second-column {
@@ -284,7 +285,7 @@ const addFile = (file: any) => {
 
 .comment-input {
   max-width: 80%;
-  margin: 10px;
+  margin: 10px auto;
 }
 
 .file {

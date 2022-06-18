@@ -2,8 +2,10 @@
 import { computed } from "vue";
 import { ref } from "@vue/reactivity";
 
+import { convertDate } from "@/utils/convertDate";
 import type { CommentType } from "@/stores/boards";
 import CustomTextarea from "./CustomTextarea.vue";
+import ButtonWithConfirm from "./ButtonWithConfirm.vue";
 
 interface IProps {
   comment?: CommentType;
@@ -12,15 +14,9 @@ interface IProps {
 const props = defineProps<IProps>();
 const emit = defineEmits(["onRemoveComment", "onEditComment"]);
 
-const isEdit = ref(false);
-
 const isAuthor = computed(() => {
   return true;
 });
-
-const toggleEdit = () => {
-  isEdit.value = !isEdit.value;
-};
 
 const newCommentText = ref(props.comment?.text || "");
 
@@ -30,29 +26,63 @@ const updateComment = () => {
 </script>
 
 <template>
-  <div>
-    <span>{{ comment?.user.name }}</span>
-    <span>{{ comment?.dateCreated }}</span>
-    <p v-if="!isAuthor">{{ comment?.text }}</p>
+  <div class="comment-form">
+    <div class="comment-header">
+      <span class="username">
+        {{ comment?.user.name }}
+        <span class="date">{{ convertDate(comment?.dateCreated) }}</span>
+      </span>
+      <ButtonWithConfirm
+        v-if="isAuthor"
+        :isIcon="true"
+        @onConfirm="emit('onRemoveComment', comment?.id)"
+        class="remove-button"
+      />
+    </div>
+
+    <p v-if="!isAuthor" class="comment-text">{{ comment?.text }}</p>
     <CustomTextarea
       v-else
       v-model="newCommentText"
-      class="comment-textarea"
+      class="comment-text"
       @blur="updateComment"
     />
-    <div v-if="isAuthor" class="buttons">
-      <span @click="emit('onRemoveComment', comment?.id)">Remove</span>
-      <span @click="emit('onEditComment', comment, newCommentText)">Edit</span>
-    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.buttons {
+.comment-form {
+  margin-bottom: 15px;
 }
 
-.comment-textarea {
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-text {
   display: block;
   font-size: 16px;
+  background-color: var(--color-elements);
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.username {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.date {
+  margin-inline-start: 5px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: #999;
+}
+
+.remove-button {
+  margin-bottom: 10px;
 }
 </style>
