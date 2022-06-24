@@ -241,6 +241,11 @@ const addFile = (file: any) => {
   position: absolute;
   right: 10px;
   top: 10px;
+
+  [dir="rtl"] & {
+    left: 10px;
+    right: unset;
+  }
 }
 
 .delete-button {
