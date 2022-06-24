@@ -1,21 +1,15 @@
 import { createI18n } from "vue-i18n";
 import { en } from "./en";
-
-const rtlLocales = ["ar", "he"];
-
-const browserLocale = navigator.language.split("-")[0];
-
-const selectedLocale = browserLocale || "en";
-
-if (rtlLocales.includes(selectedLocale)) {
-  document.dir = "rtl";
-}
+import { he } from "./he";
+import { ru } from "./ru";
 
 export const i18n = createI18n({
   allowComposition: true,
-  locale: selectedLocale,
+  locale: "en",
   fallbackLocale: "en",
   messages: {
     en,
+    he,
+    ru,
   },
 });
