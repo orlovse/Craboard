@@ -123,6 +123,11 @@ const buttonText = computed(() => {
   top: 100px;
   width: 300px;
   z-index: 5;
+
+  [dir="rtl"] & {
+    left: 20px;
+    right: unset;
+  }
 }
 
 .label-item {
@@ -145,5 +150,10 @@ const buttonText = computed(() => {
   position: absolute;
   top: 20px;
   right: 20px;
+
+  [dir="rtl"] & {
+    left: 20px;
+    right: unset;
+  }
 }
 </style>
