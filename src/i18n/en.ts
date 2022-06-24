@@ -2,6 +2,11 @@ export const en = {
   navigation: {
     home: "Home",
   },
+  languages: {
+    en: "English",
+    ru: "Russian",
+    he: "Hebrew",
+  },
   addChecklist: "Add checklist",
   addColumn: "Add new column",
   addComment: "Add new comment",
