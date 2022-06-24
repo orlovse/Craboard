@@ -17,7 +17,7 @@ const onLabelClick = (label: LabelType) => {
 
 <template>
   <div v-if="isShowLabels" class="task-labels">
-    <span>Selected labels:</span>
+    <span>{{ $t("selectLabels") }}:</span>
     <TransitionGroup name="list" tag="div" class="label-wrapper">
       <div
         v-for="label in selectedLabels"
@@ -27,7 +27,7 @@ const onLabelClick = (label: LabelType) => {
         class="label-item"
       >
         <span class="label-text"> {{ label.name }}</span>
-        <span class="remove-text">remove?</span>
+        <span class="remove-text">{{ $t("delete") }}?</span>
       </div>
     </TransitionGroup>
   </div>

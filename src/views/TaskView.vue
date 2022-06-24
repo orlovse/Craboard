@@ -144,14 +144,14 @@ const addFile = (file: any) => {
     <div class="flex first-column">
       <CustomTextarea
         :isTitle="true"
+        :placeholder="$t('title')"
         class="title"
-        placeholder="Title"
         v-model="selectedTask.name"
       />
       <TaskLabels />
       <CustomTextarea
+        :placeholder="$t('description')"
         class="description"
-        placeholder="Description"
         v-model="selectedTask.description"
       />
       <ChecklistCard
@@ -161,7 +161,7 @@ const addFile = (file: any) => {
         @updateListItems="updateListItems"
         v-if="selectedTask.checklist"
       />
-      <div>Attachments:</div>
+      <div>{{ `${$t("attachments")}:` }}</div>
       <ul v-if="selectedTask.files">
         <li
           v-for="file in selectedTask.files"
@@ -177,7 +177,7 @@ const addFile = (file: any) => {
       </ul>
       <UploadFile @uploadFile="addFile" :isDragAria="true" />
       <div>
-        <p>Comments:</p>
+        <p>{{ `${$t("comments")}:` }}</p>
         <TransitionGroup name="list" tag="div" v-if="selectedTask.comments">
           <CommentForm
             v-for="comment in selectedTask.comments"
@@ -188,10 +188,10 @@ const addFile = (file: any) => {
           />
         </TransitionGroup>
         <CustomInput
-          class="comment-input"
           :isShowButton="true"
-          placeholder="Add comment"
+          :placeholder="$t('addComment')"
           @onButtonClick="addComment"
+          class="comment-input"
           v-model="commentText"
         />
       </div>
@@ -200,20 +200,20 @@ const addFile = (file: any) => {
       <div class="flex">
         <AddLabels />
         <ButtonWithInput
-          @keyup.enter="addChecklist"
-          @addChecklist="addChecklist"
+          :buttonText="$t('addChecklist')"
+          :confirmButtontext="$t('confirm')"
           :isDisabled="!!selectedTask.checklist"
-          buttonText="Add checklist"
-          confirmButtontext="Confirm?"
-          placeholder="Checklist name"
+          :placeholder="$t('checklistName')"
+          @addChecklist="addChecklist"
+          @keyup.enter="addChecklist"
           v-model="newChecklistName"
         />
       </div>
       <ButtonWithConfirm
         @onConfirm="deleteTask"
         class="delete-button"
-        firstText="Delete"
-        secondText="Confirm?"
+        :firstText="$t('delete')"
+        :secondText="$t('confirm')"
       />
     </div>
   </div>

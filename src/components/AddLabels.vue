@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+
 import { ref } from "@vue/reactivity";
 import { useBoardsStore } from "@/stores/boards";
 import { storeToRefs } from "pinia";
@@ -10,6 +12,7 @@ import CustomCheckbox from "./CustomCheckbox.vue";
 import CustomInput from "./CustomInput.vue";
 
 const boardStore = useBoardsStore();
+const { t } = useI18n();
 
 const { addLabelAction, removeLabelAction } = boardStore;
 
@@ -59,7 +62,7 @@ const addNewLabel = () => {
 };
 
 const buttonText = computed(() => {
-  return labels.value.length === 0 ? "Add label" : "Change labels";
+  return labels.value.length === 0 ? t("addLabel") : t("changeLabels");
 });
 </script>
 
@@ -78,7 +81,7 @@ const buttonText = computed(() => {
     />
     <div class="label-item__left">
       <CustomCheckbox v-model="isAllLabelsChecked" />
-      <span>All</span>
+      <span>{{ $t("all") }}</span>
     </div>
     <div v-for="label in labels" :key="label.id" class="label-item">
       <div class="label-item__left">
@@ -95,9 +98,9 @@ const buttonText = computed(() => {
     </div>
     <CustomInput
       :isShowButton="true"
+      :placeholder="$t('addLabel')"
       @onButtonClick="addNewLabel"
       class="input-container"
-      placeholder="Add new label"
       v-model="newLabelname"
     />
   </div>

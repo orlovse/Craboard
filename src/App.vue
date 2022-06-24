@@ -29,8 +29,7 @@ const boardId = computed(() => {
   >
     <header class="header">
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/board/123">Board</RouterLink>
+        <RouterLink to="/">{{ $t("navigation.home") }}</RouterLink>
       </nav>
       <UploadFile
         class="upload-container"
