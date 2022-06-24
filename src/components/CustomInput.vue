@@ -90,6 +90,11 @@ const handleEnter = (event: KeyboardEvent) => {
   transition: 0.3s;
   width: 32px;
 
+  [dir="rtl"] & {
+    left: 4px;
+    right: unset;
+  }
+
   &:hover {
     background-color: #0fb9b1;
   }

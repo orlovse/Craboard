@@ -41,19 +41,19 @@ const updateValue = (event: Event) => {
 
 <template>
   <div
-    class="upload-area"
     :class="{ drag: dragging }"
-    @dragenter="dragging = true"
     @dragend="dragging = false"
-    @drop="dragging = false"
+    @dragenter="dragging = true"
     @dragleave="dragging = false"
+    @drop="dragging = false"
+    class="upload-area"
     v-if="isDragAria"
   >
     <!-- <p v-if="filename">{{ filename }}</p> -->
     <div>
       <p>
-        <span class="link-text">Choose a file </span>
-        <span class="drag-text">or drag it here</span>
+        <span class="link-text">{{ $t("chooseFile") }}</span>
+        <span class="drag-text">{{ $t("dragHere") }}</span>
       </p>
     </div>
     <input

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView, useRoute } from "vue-router";
+import { useI18n } from "vue-i18n";
+
 import { computed } from "@vue/reactivity";
 import { storeToRefs } from "pinia";
 
@@ -8,9 +10,22 @@ import { useBoardsStore } from "@/stores/boards";
 
 import ThemeToggle from "@/components/ThemeToggle.vue";
 import UploadFile from "@/components/UploadFile.vue";
+import { watch } from "vue";
+
+const rtlLocales = ["ar", "he"];
+
+const { locale } = useI18n();
 
 const userStore = useUserStore();
 const { isDarkTheme } = storeToRefs(userStore);
+
+watch(locale, (newValue) => {
+  if (rtlLocales.includes(newValue)) {
+    document.dir = "rtl";
+  } else {
+    document.dir = "ltr";
+  }
+});
 
 const boardStory = useBoardsStore();
 const { setBoardImageAction } = boardStory;
@@ -29,9 +44,19 @@ const boardId = computed(() => {
   >
     <header class="header">
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/board/123">Board</RouterLink>
+        <RouterLink to="/">{{ $t("navigation.home") }}</RouterLink>
       </nav>
+      <div>
+        <span
+          v-for="locale in $i18n.availableLocales"
+          :key="`locale-${locale}`"
+          @click="() => ($i18n.locale = locale)"
+          class="language"
+        >
+          {{ locale }}
+        </span>
+      </div>
+
       <UploadFile
         class="upload-container"
         uploadType="image/*"
@@ -58,5 +83,10 @@ const boardId = computed(() => {
 .main-container {
   height: 100vh;
   width: 100vw;
+}
+
+.language {
+  cursor: pointer;
+  margin-inline-end: 5px;
 }
 </style>

@@ -80,8 +80,8 @@ const computedMoveTaskOrColumn = computed(() => {
       </TransitionGroup>
       <CustomInput
         :isShowButton="true"
+        :placeholder="$t('addTask')"
         @onButtonClick="createNewTask"
-        placeholder="Add new task"
         v-model="inputValue"
       />
     </CustomDrag>

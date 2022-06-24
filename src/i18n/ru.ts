@@ -1,0 +1,23 @@
+export const ru = {
+  navigation: {
+    home: "Главная",
+  },
+  addChecklist: "Добавить чеклист",
+  addColumn: "Добавить колонку",
+  addComment: "Добавить комментарий",
+  addItem: "Добавить элемент",
+  addLabel: "Добавить метку",
+  addTask: "Добавить задание",
+  all: "Все",
+  attachments: "Файлы",
+  changeLabels: "Изменить метку",
+  checklistName: "Имя чеклиста",
+  comments: "Комментарии",
+  confirm: "Уверены?",
+  delete: "Удалить",
+  description: "Описание",
+  selectLabels: "Выбранные метки",
+  title: "Заголовок",
+  chooseFile: "Выберете файл ",
+  dragHere: "или перетащите сюда",
+};

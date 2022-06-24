@@ -50,15 +50,15 @@ const horizontalScroll = (event: WheelEvent) => {
 
 <template>
   <div
-    class="board-view"
     :style="{ 'background-image': `url('${selectedBoard?.boardImage}')` }"
     @wheel.passive="horizontalScroll"
+    class="board-view"
   >
     <div v-if="boardLoading" class="loading-container">
       <CustomSkeleton
+        :key="index"
         class="skeleton-wrapper"
         v-for="index in 4"
-        :key="index"
       />
     </div>
     <div class="board-container" v-else>
@@ -72,7 +72,7 @@ const horizontalScroll = (event: WheelEvent) => {
         <CustomInput
           @keyup.enter="addNewColumn"
           class="column-input"
-          placeholder="Add new column"
+          :placeholder="$t('addColumn')"
           type="text"
           v-model="newColumnName"
         />

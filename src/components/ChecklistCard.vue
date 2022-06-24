@@ -59,7 +59,7 @@ const removeListItem = (index: number) => {
       <CustomTextarea
         :model-value="checklist.checklistName"
         @update:model-value="updateName"
-        placeholder="Checklist name"
+        :placeholder="$t('checklistName')"
       />
       <ButtonWithConfirm
         :isIcon="true"
@@ -88,9 +88,9 @@ const removeListItem = (index: number) => {
     </TransitionGroup>
     <CustomInput
       :isShowButton="true"
+      :placeholder="$t('addItem')"
       @onButtonClick="addNewItem"
       class="add-input"
-      placeholder="Add new item"
       v-model="newItemName"
     />
   </div>

@@ -102,6 +102,10 @@ const switchAndSend = () => {
   border-radius: 0 50px 50px 0;
   background-color: var(--color-error);
   padding-inline-start: 10px;
+
+  [dir="rtl"] & {
+    border-radius: 50px 0 0 50px;
+  }
 }
 
 .input {
@@ -109,10 +113,20 @@ const switchAndSend = () => {
   right: 0;
   transition: 0.5s;
   width: 120px;
+
+  [dir="rtl"] & {
+    left: 0px;
+    right: unset;
+  }
 }
 
 .show-confirm-button {
   right: -30px;
+
+  [dir="rtl"] & {
+    left: -30px;
+    right: unset;
+  }
 }
 
 .show-input {
