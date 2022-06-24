@@ -1,20 +1,20 @@
 <script setup lang="ts">
+import { watch } from "vue";
+import { computed } from "@vue/reactivity";
 import { RouterLink, RouterView, useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
-
-import { computed } from "@vue/reactivity";
 import { storeToRefs } from "pinia";
 
 import { useUserStore } from "@/stores/user";
 import { useBoardsStore } from "@/stores/boards";
 
+import CustomDropdown from "@/components/CustomDropdown.vue";
 import ThemeToggle from "@/components/ThemeToggle.vue";
 import UploadFile from "@/components/UploadFile.vue";
-import { watch } from "vue";
 
 const rtlLocales = ["ar", "he"];
 
-const { locale } = useI18n();
+const { availableLocales, locale, t } = useI18n();
 
 const userStore = useUserStore();
 const { isDarkTheme } = storeToRefs(userStore);
@@ -35,6 +35,15 @@ const route = useRoute();
 const boardId = computed(() => {
   return route.params.boardId as string;
 });
+
+const languagesList = computed(() => {
+  return availableLocales.map((language) => {
+    return {
+      value: language,
+      label: `${language} - ${t("languages." + language)}`,
+    };
+  });
+});
 </script>
 
 <template>
@@ -46,24 +55,20 @@ const boardId = computed(() => {
       <nav>
         <RouterLink to="/">{{ $t("navigation.home") }}</RouterLink>
       </nav>
-      <div>
-        <span
-          v-for="locale in $i18n.availableLocales"
-          :key="`locale-${locale}`"
-          @click="() => ($i18n.locale = locale)"
-          class="language"
-        >
-          {{ locale }}
-        </span>
+      <div class="settings">
+        <CustomDropdown
+          :dropdownList="languagesList"
+          :selectedValue="$i18n.locale"
+          @onSelectItem="(newLocale: string) => ($i18n.locale = newLocale)"
+        />
+        <UploadFile
+          class="upload-container"
+          uploadType="image/*"
+          v-if="boardId"
+          @uploadFile="setBoardImageAction"
+        />
+        <ThemeToggle />
       </div>
-
-      <UploadFile
-        class="upload-container"
-        uploadType="image/*"
-        v-if="boardId"
-        @uploadFile="setBoardImageAction"
-      />
-      <ThemeToggle />
     </header>
 
     <RouterView />
@@ -88,5 +93,12 @@ const boardId = computed(() => {
 .language {
   cursor: pointer;
   margin-inline-end: 5px;
+}
+
+.settings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 </style>
