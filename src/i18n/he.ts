@@ -2,6 +2,11 @@ export const he = {
   navigation: {
     home: "דף הבית",
   },
+  languages: {
+    en: "אנגלית",
+    ru: "רוסית",
+    he: "עברית",
+  },
   addChecklist: "הוסף רשימת בדיקה",
   addColumn: "הוסף עמודה",
   addComment: "הוסף תגובה",

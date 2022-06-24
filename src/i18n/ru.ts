@@ -2,6 +2,11 @@ export const ru = {
   navigation: {
     home: "Главная",
   },
+  languages: {
+    en: "Английский",
+    ru: "Русский",
+    he: "Иврит",
+  },
   addChecklist: "Добавить чеклист",
   addColumn: "Добавить колонку",
   addComment: "Добавить комментарий",
