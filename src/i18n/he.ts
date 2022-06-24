@@ -1,0 +1,23 @@
+export const he = {
+  navigation: {
+    home: "דף הבית",
+  },
+  addChecklist: "הוסף רשימת בדיקה",
+  addColumn: "הוסף עמודה",
+  addComment: "הוסף תגובה",
+  addItem: "הוסף פריט",
+  addLabel: "הוסף תווית",
+  addTask: "הוסף משימה",
+  all: "הכל",
+  attachments: "קבצים מצורפים",
+  changeLabels: "שנה תוויות",
+  checklistName: "שם רשימת בדיקה",
+  comments: "הערות",
+  confirm: "לאשר?",
+  delete: "למחוק",
+  description: "תיאור",
+  selectLabels: "תוויות נבחרות",
+  title: "כותרת",
+  chooseFile: "בחר קובץ ",
+  dragHere: "או גרור אותו לכאן",
+};

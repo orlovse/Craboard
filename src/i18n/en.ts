@@ -13,7 +13,7 @@ export const en = {
   changeLabels: "Change labels",
   checklistName: "Checklist name",
   comments: "Comments",
-  confirm: "Confirm",
+  confirm: "Confirm?",
   delete: "Delete",
   description: "Description",
   selectLabels: "Selected labels",
