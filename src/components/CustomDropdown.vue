@@ -50,8 +50,10 @@ const onItemClick = (newValue: string) => {
         <li
           v-for="item in filteredList"
           class="dropdown-item"
+          tabindex="0"
           :key="item.value"
           @click="onItemClick(item.value)"
+          @keyup.enter="onItemClick(item.value)"
         >
           {{ item.label }}
         </li>
@@ -74,6 +76,11 @@ const onItemClick = (newValue: string) => {
   z-index: 20;
   right: 0;
   width: max-content;
+
+  [dir="rtl"] & {
+    left: 0;
+    right: unset;
+  }
 }
 
 .dropdown-button {

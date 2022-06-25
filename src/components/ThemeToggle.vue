@@ -9,7 +9,12 @@ const { switchThemeAction } = userStore;
 </script>
 
 <template>
-  <label class="dayNight" :class="[isDarkTheme && 'day']">
+  <label
+    class="dayNight"
+    :class="[isDarkTheme && 'day']"
+    tabindex="0"
+    @keyup.enter="switchThemeAction"
+  >
     <input type="checkbox" @change="switchThemeAction" />
     <div></div>
   </label>
